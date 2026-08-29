@@ -100,9 +100,9 @@ export const Footer: React.FC = () => {
               <li><a href="#shop" className="text-neutral-600 hover:text-gold transition-colors">Shop Online</a></li>
               <li><a href="#prima-dopo" className="text-neutral-600 hover:text-gold transition-colors">Prima & Dopo</a></li>
               <li><a href="#spose" className="text-neutral-600 hover:text-gold transition-colors">My Wedding Page</a></li>
-              <li><a href="#awards" className="text-neutral-600 hover:text-gold transition-colors">Awards</a></li>
+              <li><a href="#lavora-con-noi" className="text-neutral-600 hover:text-gold transition-colors">Lavora con Noi</a></li>
               <li><a href="#photos" className="text-neutral-600 hover:text-gold transition-colors">Photos</a></li>
-              <li><a href="#contatti" className="text-neutral-600 hover:text-gold transition-colors">Contatti</a></li>
+              <li><a href="#/contatti" className="text-neutral-600 hover:text-gold transition-colors">Contatti</a></li>
             </ul>
           </div>
 

@@ -3,16 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { productsData } from '../../data/productsData';
 import { ProductCard } from './ProductCard';
 import { 
-  Sparkles, 
   Leaf, 
   Truck, 
   ShieldCheck, 
   HeartHandshake,
-  ShoppingBag
+  ShoppingBag,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
+
+/** The home only previews a few products; the rest unfold on demand. */
+const HOME_PRODUCT_COUNT = 3;
 
 export const ShopSection: React.FC = () => {
   const [activeCollection, setActiveCollection] = useState<string>('all');
+  const [showAll, setShowAll] = useState(false);
 
   const collections = [
     { id: 'all', label: 'Tutti i Prodotti' },
@@ -25,6 +30,11 @@ export const ShopSection: React.FC = () => {
   const filteredProducts = activeCollection === 'all'
     ? productsData
     : productsData.filter(p => p.collection === activeCollection);
+
+  const visibleProducts = showAll
+    ? filteredProducts
+    : filteredProducts.slice(0, HOME_PRODUCT_COUNT);
+  const hiddenCount = filteredProducts.length - visibleProducts.length;
 
   return (
     <section id="shop" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
@@ -80,7 +90,7 @@ export const ShopSection: React.FC = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             type="button"
-            onClick={() => setActiveCollection('bee-it')}
+            onClick={() => { setActiveCollection('bee-it'); setShowAll(false); }}
             className="flex-shrink-0 px-6 py-3 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase tracking-wider font-bold transition-colors shadow-xs"
           >
             Vedi Linea BEE IT
@@ -96,7 +106,7 @@ export const ShopSection: React.FC = () => {
                 key={col.id}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setActiveCollection(col.id)}
+                onClick={() => { setActiveCollection(col.id); setShowAll(false); }}
                 className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 shadow-2xs ${
                   isActive
                     ? 'bg-neutral-950 text-white shadow-md'
@@ -112,11 +122,36 @@ export const ShopSection: React.FC = () => {
         {/* Products Grid with Framer Motion AnimatePresence */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
-            {filteredProducts.map((product, i) => (
+            {visibleProducts.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Show-all toggle */}
+        {(hiddenCount > 0 || showAll) && (
+          <div className="mt-10 flex justify-center">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              type="button"
+              onClick={() => setShowAll(!showAll)}
+              className="px-7 py-3.5 rounded-md border border-neutral-300 bg-white hover:border-gold hover:text-gold text-neutral-800 text-xs uppercase font-bold tracking-wider transition-colors shadow-2xs flex items-center gap-2"
+            >
+              {showAll ? (
+                <>
+                  <ChevronUp className="w-4 h-4 text-gold" />
+                  <span>Mostra solo i preferiti</span>
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 text-gold" />
+                  <span>Vedi tutti i prodotti ({filteredProducts.length})</span>
+                </>
+              )}
+            </motion.button>
+          </div>
+        )}
 
         {/* Guarantees Bar */}
         <div className="mt-16 pt-10 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-xs text-neutral-600">

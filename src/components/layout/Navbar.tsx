@@ -33,9 +33,9 @@ export const Navbar: React.FC = () => {
     { name: 'Shop Online', href: '#shop' },
     { name: 'Prima & Dopo', href: '#prima-dopo' },
     { name: 'My Wedding Page', href: '#spose' },
-    { name: 'Awards', href: '#awards' },
+    { name: 'Lavora con Noi', href: '#lavora-con-noi' },
     { name: 'Photos', href: '#photos' },
-    { name: 'Contatti', href: '#contatti' },
+    { name: 'Contatti', href: '#/contatti' },
   ];
 
   return (

@@ -4,7 +4,6 @@ import { beforeAfterData } from '../../data/beforeAfterData';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { useBooking } from '../../context/BookingContext';
 import { Reveal } from '../common/Reveal';
-import { HorizontalScroller } from '../common/HorizontalScroller';
 import {
   Sparkles,
   Maximize2,
@@ -24,10 +23,7 @@ export const BeforeAfterSection: React.FC = () => {
   const activeCase = beforeAfterData.find(c => c.id === activeCaseId) || beforeAfterData[0];
 
   return (
-    <section
-      id="prima-dopo"
-      className="py-24 bg-white relative overflow-hidden border-b border-neutral-200 [--scroller-fade:#ffffff]"
-    >
+    <section id="prima-dopo" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <Reveal className="text-center max-w-3xl mx-auto mb-10 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
@@ -39,81 +35,51 @@ export const BeforeAfterSection: React.FC = () => {
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
             Guarda i risultati reali eseguiti nel salone di Tony Musto: sfumature armocromatiche,
-            definizione ricci e tagli sartoriali.
+            definizione ricci e tagli sartoriali. Trascina la maniglia per confrontare.
           </p>
         </Reveal>
-      </div>
 
-      {/* Full-bleed horizontal case switcher with real thumbnails */}
-      <div className="relative z-10 w-full mb-12">
-        <HorizontalScroller
-          ariaLabel="Carosello dei casi studio"
-          hint="Scorri e scegli un caso studio"
-          className="px-[max(1rem,calc((100vw-80rem)/2+1rem))] sm:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
-          controlsClassName="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        >
-          {beforeAfterData.map((item, index) => {
+        {/* Case switcher */}
+        <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
+          {beforeAfterData.map((item, i) => {
             const isActive = item.id === activeCaseId;
             return (
               <motion.button
                 key={item.id}
-                type="button"
-                onClick={() => setActiveCaseId(item.id)}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: Math.min(index, 5) * 0.06 }}
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.98 }}
+                viewport={{ once: false }}
+                transition={{ delay: i * 0.06 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setActiveCaseId(item.id)}
                 aria-pressed={isActive}
-                className={`group relative snap-start shrink-0 w-[64vw] sm:w-[280px] rounded-3xl overflow-hidden border text-left transition-colors duration-300 ${
+                className={`relative px-5 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-300 flex items-center gap-2 shadow-2xs ${
                   isActive
-                    ? 'border-gold bg-white shadow-luxury-card'
-                    : 'border-neutral-200 bg-white shadow-luxury-white hover:border-gold/50'
+                    ? 'text-white'
+                    : 'bg-pearl-100 text-neutral-700 hover:text-gold border border-neutral-200 hover:border-gold/50'
                 }`}
               >
-                <div className="relative h-40 overflow-hidden bg-pearl-200">
-                  <img
-                    src={item.afterImage}
-                    alt={item.title}
-                    draggable={false}
-                    className={`w-full h-full object-cover transition-all duration-700 ${
-                      isActive ? 'scale-105' : 'grayscale group-hover:grayscale-0'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-[10px] font-mono font-bold uppercase tracking-wider text-gold border border-gold/40">
-                    {item.tag}
-                  </span>
-                  {isActive && (
-                    <motion.span
-                      layoutId="ba-active-dot"
-                      className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gold shadow-[0_0_0_4px_rgba(212,175,55,0.25)]"
-                    />
-                  )}
-                </div>
-
-                <div className="p-4 space-y-1">
-                  <h3 className="font-serif text-base font-bold text-neutral-950 leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-[11px] text-gold font-semibold">{item.treatmentName}</p>
-                  <p className="text-[11px] text-neutral-500">Stylist: {item.stylist}</p>
-                </div>
-
                 {isActive && (
                   <motion.span
-                    layoutId="ba-active-bar"
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gold"
+                    layoutId="ba-tab-pill"
+                    className="absolute inset-0 rounded-full bg-neutral-950 shadow-md"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                   />
                 )}
+                <span className="relative z-10">{item.title}</span>
+                <span
+                  className={`relative z-10 text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                    isActive ? 'bg-white/20 text-white' : 'bg-white text-gold border border-neutral-200'
+                  }`}
+                >
+                  {item.tag}
+                </span>
               </motion.button>
             );
           })}
-        </HorizontalScroller>
-      </div>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <motion.div
@@ -159,6 +125,7 @@ export const BeforeAfterSection: React.FC = () => {
                 <p className="text-xs text-gold font-bold mt-1">
                   Trattamento: {activeCase.treatmentName}
                 </p>
+                <p className="text-[11px] text-neutral-500 mt-0.5">Stylist: {activeCase.stylist}</p>
               </div>
 
               <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-light">

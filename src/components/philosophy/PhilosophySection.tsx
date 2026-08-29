@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal, useParallax, useTilt } from '../common/Reveal';
-import { HorizontalScroller } from '../common/HorizontalScroller';
 import { useBooking } from '../../context/BookingContext';
 import {
   Scissors,
@@ -33,7 +32,7 @@ const pillars: Pillar[] = [
     subtitle: 'Arte Sartoriale del Taglio',
     description:
       "Il taglio viene definito come un'arte sartoriale, grazie alla quale il parrucchiere riesce a trovare la forma adatta per il vostro viso e i vostri lineamenti.",
-    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-scaled.jpeg',
+    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6535-1-768x768.jpg',
     points: [
       'Studio della morfologia del viso e del collo',
       'Linee costruite sulla caduta naturale del capello',
@@ -48,7 +47,7 @@ const pillars: Pillar[] = [
     subtitle: 'Tecnica & Armocromia',
     description:
       "Il colore mostra le tecniche del parrucchiere e la sua creatività, grazie alle quale esprime il suo giudizio riguardante l'armocromia del cliente.",
-    image: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2054.jpeg',
+    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_8897-768x768.jpeg',
     points: [
       'Analisi del sottotono di pelle, occhi e capelli',
       'Schiariture progressive che rispettano la fibra',
@@ -63,7 +62,7 @@ const pillars: Pillar[] = [
     subtitle: 'Ripristino & Luminosità',
     description:
       'I trattamenti sono dei processi che hanno la funzione di ripristinare il capello, rendendolo più forte e più lucente.',
-    image: 'https://tonymusto.it/wp-content/uploads/2022/05/IMG_8124-1-1024x1024.jpg',
+    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-768x768.jpeg',
     points: [
       'Diagnosi del capello prima di ogni rituale',
       'Linee botaniche BEE IT e Bio Organic Curl Up',
@@ -73,12 +72,12 @@ const pillars: Pillar[] = [
   },
 ];
 
-const PillarCard: React.FC<{ pillar: Pillar; index: number; isOpen: boolean; onToggle: () => void }> = ({
-  pillar,
-  index,
-  isOpen,
-  onToggle,
-}) => {
+const PillarCard: React.FC<{
+  pillar: Pillar;
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}> = ({ pillar, index, isOpen, onToggle }) => {
   const Icon = pillar.icon;
   const tilt = useTilt(9);
 
@@ -88,26 +87,28 @@ const PillarCard: React.FC<{ pillar: Pillar; index: number; isOpen: boolean; onT
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      viewport={{ once: false, margin: '-50px' }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: false, margin: '-60px' }}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={tilt.onMouseLeave}
       style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: 'preserve-3d' }}
-      className={`group relative snap-start shrink-0 w-[82vw] sm:w-[400px] lg:w-[420px] [perspective:1200px] rounded-3xl overflow-hidden border transition-colors duration-300 ${
-        isOpen ? 'border-gold bg-white shadow-luxury-card' : 'border-neutral-200 bg-white shadow-luxury-white hover:border-gold/50'
+      className={`group relative [perspective:1200px] rounded-3xl overflow-hidden border bg-white transition-colors duration-300 ${
+        isOpen
+          ? 'border-gold shadow-luxury-card'
+          : 'border-neutral-200 shadow-luxury-white hover:border-gold/50'
       }`}
     >
-      {/* Image head with gold wash on hover */}
-      <div className="relative h-44 overflow-hidden bg-pearl-200">
+      <div className="relative h-48 overflow-hidden bg-pearl-200">
         <img
           src={pillar.image}
           alt={pillar.title}
           draggable={false}
           className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-100 transition-all duration-[900ms] ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/25 to-transparent" />
 
         <motion.div
+          style={{ z: 60 }}
           animate={{ rotate: isOpen ? 0 : -45, scale: isOpen ? 1.08 : 1 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
           className="absolute bottom-4 left-6 w-14 h-14 rounded-2xl bg-white border border-gold/50 flex items-center justify-center text-gold shadow-md"
@@ -132,7 +133,6 @@ const PillarCard: React.FC<{ pillar: Pillar; index: number; isOpen: boolean; onT
 
         <p className="text-sm text-neutral-600 leading-relaxed font-light">{pillar.description}</p>
 
-        {/* Expandable detail */}
         <button
           type="button"
           onClick={onToggle}
@@ -191,10 +191,7 @@ export const PhilosophySection: React.FC = () => {
   const { openBooking } = useBooking();
 
   return (
-    <section
-      id="filosofia"
-      className="py-24 bg-white relative overflow-hidden border-b border-neutral-200 [--scroller-fade:#ffffff]"
-    >
+    <section id="filosofia" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
       {/* Decorative warm accents that drift on scroll */}
       <motion.div
         style={{ y: parallaxY }}
@@ -220,16 +217,8 @@ export const PhilosophySection: React.FC = () => {
             adatta a te.
           </p>
         </Reveal>
-      </div>
 
-      {/* Full-bleed horizontal pillars carousel */}
-      <div className="relative z-10 w-full mb-16">
-        <HorizontalScroller
-          ariaLabel="Carosello dei valori"
-          hint="Apri ogni pilastro per i dettagli"
-          className="px-[max(1rem,calc((100vw-80rem)/2+1rem))] sm:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
-          controlsClassName="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mb-16 items-start">
           {pillars.map((pillar, index) => (
             <PillarCard
               key={pillar.id}
@@ -239,10 +228,8 @@ export const PhilosophySection: React.FC = () => {
               onToggle={() => setOpenId(openId === pillar.id ? null : pillar.id)}
             />
           ))}
-        </HorizontalScroller>
-      </div>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Salon banner with scroll parallax on the photo */}
         <Reveal direction="scale">
           <div
