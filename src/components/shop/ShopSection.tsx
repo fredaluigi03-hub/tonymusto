@@ -112,8 +112,8 @@ export const ShopSection: React.FC = () => {
         {/* Products Grid with Framer Motion AnimatePresence */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
-            {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+            {filteredProducts.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
             ))}
           </AnimatePresence>
         </motion.div>
