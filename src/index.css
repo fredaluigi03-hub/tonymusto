@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian-950: #111116;
+  --color-obsidian-900: #1a1a24;
+  --color-obsidian-850: #242432;
+  --color-obsidian-800: #2f2f42;
+  --color-obsidian-700: #42425c;
+
+  --color-gold: #B8860B;
+  --color-gold-bright: #D4AF37;
+  --color-gold-light: #F7E7B4;
+  --color-gold-muted: #9E7409;
+  --color-gold-champagne: #F5ECD0;
+
+  --color-pearl-50: #FFFFFF;
+  --color-pearl-100: #FAF9F6;
+  --color-pearl-200: #F4F2EB;
+  --color-pearl-300: #EAE6DB;
+  --color-pearl-400: #D8D2C2;
+
+  --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-display: "Cormorant Garamond", "Playfair Display", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: #FAF9F6;
+  color: #1A1A24;
+  font-family: var(--font-sans);
+  letter-spacing: 0.015em;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: #111116;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4F2EB;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8860B;
+}
+
+/* White & Gold Luxury Shadows */
+.shadow-luxury-white {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(184, 134, 11, 0.15);
+}
+
+.shadow-luxury-card {
+  box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(184, 134, 11, 0.2);
+}
+
+.shadow-luxury-hover {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shadow-luxury-hover:hover {
+  box-shadow: 0 25px 50px -12px rgba(184, 134, 11, 0.22), 0 0 0 1.5px #D4AF37;
+  transform: translateY(-4px);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #8C6507 0%, #B8860B 40%, #D4AF37 70%, #946E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
