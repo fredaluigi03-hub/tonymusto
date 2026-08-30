@@ -178,7 +178,8 @@ export const BeforeAfterSection: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+            onClick={e => { if (e.target === e.currentTarget) setFullscreenOpen(false); }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md overflow-y-auto overscroll-contain flex min-h-full items-center justify-center p-4 sm:p-8"
           >
             <motion.div
               initial={{ scale: 0.95, y: 20 }}

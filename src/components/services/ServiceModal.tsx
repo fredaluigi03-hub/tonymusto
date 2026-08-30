@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBodyScrollLock } from '../common/useBodyScrollLock';
+import { ModalOverlay } from '../common/ModalOverlay';
 import { ServiceItem } from '../../types';
 import { useBooking } from '../../context/BookingContext';
 import { 
@@ -19,8 +19,6 @@ interface ServiceModalProps {
 export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) => {
   const { openBooking } = useBooking();
 
-  useBodyScrollLock(!!service);
-
   if (!service) return null;
 
   const handleBook = () => {
@@ -29,11 +27,23 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-fadeIn">
-      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl overflow-hidden text-neutral-900 my-6">
-        
+    <ModalOverlay onClose={onClose} className="bg-black/60 backdrop-blur-xs" label={service.name}>
+      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
+
+        {/* Close stays pinned while the panel scrolls: on a phone the panel is
+            taller than the screen and no backdrop is left to tap. */}
+        <div className="sticky top-0 z-40 h-0">
+          <button
+            onClick={onClose}
+            aria-label="Chiudi"
+            className="absolute right-4 top-4 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-800 hover:text-gold transition-colors shadow-lg"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
         {/* Modal Banner Image */}
-        <div className="relative h-60 sm:h-72 w-full overflow-hidden bg-neutral-100">
+        <div className="relative h-60 sm:h-72 w-full overflow-hidden rounded-t-3xl bg-neutral-100">
           <img
             src={service.image}
             alt={service.name}
@@ -41,12 +51,6 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent" />
           
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/90 text-neutral-800 hover:text-gold transition-colors shadow-md"
-          >
-            <X className="w-5 h-5" />
-          </button>
 
           <div className="absolute bottom-4 left-6 right-6">
             <span className="text-[11px] font-mono uppercase tracking-widest text-gold bg-neutral-950/80 px-2.5 py-1 rounded-md font-bold">
@@ -59,7 +63,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 sm:p-8 space-y-6">
+        <div className="p-5 sm:p-8 space-y-6">
           
           <p className="text-sm text-neutral-600 font-light leading-relaxed">
             {service.description}
@@ -104,7 +108,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
           </div>
 
           {/* Price & Action */}
-          <div className="pt-4 border-t border-neutral-100 flex items-center justify-between gap-4">
+          <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-1 text-xs text-neutral-500 font-medium">
                 <Clock className="w-3.5 h-3.5 text-gold" />
@@ -117,7 +121,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
 
             <button
               onClick={handleBook}
-              className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto px-7 py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
             >
               <Calendar className="w-4 h-4 text-gold group-hover:text-neutral-950" />
               <span>Prenota Questo Servizio</span>
@@ -127,6 +131,6 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
         </div>
 
       </div>
-    </div>
+    </ModalOverlay>
   );
 };

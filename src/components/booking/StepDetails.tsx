@@ -151,7 +151,7 @@ export const StepDetails: React.FC = () => {
         <button
           type="button"
           onClick={() => setStep(3)}
-          className="text-xs uppercase tracking-wider text-neutral-600 hover:text-gold font-bold flex items-center gap-1.5 transition-colors"
+          className="py-2.5 -my-1 text-xs uppercase tracking-wider text-neutral-600 hover:text-gold font-bold flex items-center gap-1.5 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Indietro</span>

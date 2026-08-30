@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useBodyScrollLock } from '../common/useBodyScrollLock';
+import { ModalOverlay } from '../common/ModalOverlay';
 import { useCart } from '../../context/CartContext';
 import { 
   X, 
@@ -35,8 +35,6 @@ export const CheckoutSummaryModal: React.FC = () => {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderCode, setOrderCode] = useState('');
 
-  useBodyScrollLock(isCheckoutOpen);
-
   if (!isCheckoutOpen) return null;
 
   const shippingCost = fulfillmentType === 'delivery' ? (subtotal >= 65 ? 0 : 6.50) : 0;
@@ -68,11 +66,11 @@ export const CheckoutSummaryModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-fadeIn">
-      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl overflow-hidden text-neutral-900 my-8">
+    <ModalOverlay onClose={handleClose} className="bg-black/60 backdrop-blur-xs" label="Riepilogo ordine">
+      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
         
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between">
+        <div className="sticky top-0 z-30 rounded-t-3xl p-5 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full border border-gold/40 bg-white text-gold shadow-xs">
               <ShoppingBag className="w-5 h-5" />
@@ -187,7 +185,7 @@ export const CheckoutSummaryModal: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:border-gold"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
                 />
               </div>
 
@@ -198,7 +196,7 @@ export const CheckoutSummaryModal: React.FC = () => {
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:border-gold"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
                 />
               </div>
 
@@ -211,7 +209,7 @@ export const CheckoutSummaryModal: React.FC = () => {
                       required
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:border-gold"
+                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
                     />
                   </div>
                   <div>
@@ -221,7 +219,7 @@ export const CheckoutSummaryModal: React.FC = () => {
                       required
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:border-gold"
+                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
                     />
                   </div>
                 </>
@@ -265,6 +263,6 @@ export const CheckoutSummaryModal: React.FC = () => {
         )}
 
       </div>
-    </div>
+    </ModalOverlay>
   );
 };

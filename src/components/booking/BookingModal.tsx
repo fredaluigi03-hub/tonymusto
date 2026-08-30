@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBodyScrollLock } from '../common/useBodyScrollLock';
+import { ModalOverlay } from '../common/ModalOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
 import { StepService } from './StepService';
@@ -12,25 +12,22 @@ import { X, Scissors } from 'lucide-react';
 export const BookingModal: React.FC = () => {
   const { isModalOpen, closeBooking, currentStep, setStep } = useBooking();
 
-  useBodyScrollLock(isModalOpen);
-
   if (!isModalOpen) return null;
 
   const stepTitles = ['Servizio', 'Stylist', 'Data & Ora', 'I Tuoi Dati'];
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-md">
+    <ModalOverlay onClose={closeBooking} label="Prenota il tuo appuntamento">
         <motion.div 
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
           transition={{ duration: 0.3 }}
-          className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl overflow-hidden text-neutral-900 my-6"
+          className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900"
         >
           
           {/* Top Header with Progress Bar */}
-          <div className="p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
+          <div className="sticky top-0 z-30 rounded-t-3xl p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
                 <Scissors className="w-5 h-5 -rotate-45" />
@@ -110,7 +107,6 @@ export const BookingModal: React.FC = () => {
           </div>
 
         </motion.div>
-      </div>
-    </AnimatePresence>
+    </ModalOverlay>
   );
 };

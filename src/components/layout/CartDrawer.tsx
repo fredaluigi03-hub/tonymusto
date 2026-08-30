@@ -143,7 +143,7 @@ export const CartDrawer: React.FC = () => {
                             </h4>
                             <button
                               onClick={() => removeFromCart(product.id)}
-                              className="text-neutral-400 hover:text-red-500 transition-colors p-1"
+                              className="text-neutral-400 hover:text-red-500 transition-colors p-2 -m-1"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -156,14 +156,14 @@ export const CartDrawer: React.FC = () => {
                           <div className="flex items-center border border-neutral-300 rounded-lg bg-white px-2 py-0.5 shadow-2xs">
                             <button
                               onClick={() => updateQuantity(product.id, quantity - 1)}
-                              className="p-1 text-neutral-600 hover:text-gold transition-colors"
+                              className="p-2 text-neutral-600 hover:text-gold transition-colors"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
                             <span className="text-xs font-mono px-2 text-neutral-900 font-bold">{quantity}</span>
                             <button
                               onClick={() => updateQuantity(product.id, quantity + 1)}
-                              className="p-1 text-neutral-600 hover:text-gold transition-colors"
+                              className="p-2 text-neutral-600 hover:text-gold transition-colors"
                             >
                               <Plus className="w-3 h-3" />
                             </button>
