@@ -1,4 +1,5 @@
 import React from 'react';
+import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { ServiceItem } from '../../types';
 import { useBooking } from '../../context/BookingContext';
 import { 
@@ -17,6 +18,8 @@ interface ServiceModalProps {
 
 export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) => {
   const { openBooking } = useBooking();
+
+  useBodyScrollLock(!!service);
 
   if (!service) return null;
 

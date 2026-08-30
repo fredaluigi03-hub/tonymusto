@@ -1,4 +1,5 @@
 import React from 'react';
+import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
 import { StepService } from './StepService';
@@ -10,6 +11,8 @@ import { X, Scissors } from 'lucide-react';
 
 export const BookingModal: React.FC = () => {
   const { isModalOpen, closeBooking, currentStep, setStep } = useBooking();
+
+  useBodyScrollLock(isModalOpen);
 
   if (!isModalOpen) return null;
 
@@ -27,13 +30,13 @@ export const BookingModal: React.FC = () => {
         >
           
           {/* Top Header with Progress Bar */}
-          <div className="p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between">
+          <div className="p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
                 <Scissors className="w-5 h-5 -rotate-45" />
               </div>
               <div>
-                <h2 className="font-serif text-xl sm:text-2xl text-neutral-950 font-bold tracking-wide">
+                <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
                   Prenota il tuo Appuntamento
                 </h2>
                 <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
@@ -44,7 +47,7 @@ export const BookingModal: React.FC = () => {
 
             <button
               onClick={closeBooking}
-              className="p-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
+              className="p-2 shrink-0 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -52,7 +55,7 @@ export const BookingModal: React.FC = () => {
 
           {/* Step Progress Line (Steps 1-4) */}
           {currentStep <= 4 && (
-            <div className="bg-white px-6 py-3.5 border-b border-neutral-100">
+            <div className="bg-white px-4 sm:px-6 py-3.5 border-b border-neutral-100">
               <div className="flex items-center justify-between max-w-xl mx-auto">
                 {stepTitles.map((title, index) => {
                   const stepNum = index + 1;
@@ -88,7 +91,7 @@ export const BookingModal: React.FC = () => {
           )}
 
           {/* Body Content with AnimatePresence step transition */}
-          <div className="p-6 sm:p-8 bg-white">
+          <div className="p-4 sm:p-8 bg-white">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}

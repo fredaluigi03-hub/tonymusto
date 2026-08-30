@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { servicesData } from '../../data/servicesData';
 import { ServiceItem } from '../../types';
@@ -16,9 +16,35 @@ const galleryItems: CircularGalleryItem[] = servicesData.map(s => ({
   image: s.image,
 }));
 
+/**
+ * The cylinder's radius is in px, so it has to shrink with the viewport or the
+ * cards sit off-screen on a phone. Rule of thumb from the component's README:
+ * with n cards of width w, radius >= (w / 2) / tan(180° / n).
+ */
+const galleryDims = (width: number) => {
+  if (width < 480) return { radius: 215, cardWidth: 190, cardHeight: 260 };
+  if (width < 768) return { radius: 270, cardWidth: 230, cardHeight: 310 };
+  if (width < 1024) return { radius: 340, cardWidth: 260, cardHeight: 350 };
+  return { radius: 400, cardWidth: 290, cardHeight: 400 };
+};
+
+const useGalleryDims = () => {
+  const [dims, setDims] = useState(() =>
+    galleryDims(typeof window === 'undefined' ? 1280 : window.innerWidth)
+  );
+  useEffect(() => {
+    const onResize = () => setDims(galleryDims(window.innerWidth));
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return dims;
+};
+
 export const ServicesSection: React.FC = () => {
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const { openBooking } = useBooking();
+  const dims = useGalleryDims();
 
   return (
     <section
@@ -40,7 +66,7 @@ export const ServicesSection: React.FC = () => {
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight">
             I Servizi del Nostro Salone
           </h2>
-          <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto px-2">
             Esperienze personalizzate di taglio sartoriale, colore armocromatico e cura botanica
             profonda. Ruota il carosello e apri il trattamento che ti interessa.
           </p>
@@ -48,15 +74,15 @@ export const ServicesSection: React.FC = () => {
       </div>
 
       {/* 3D cylinder of treatments */}
-      <div className="relative z-10 h-[560px] sm:h-[640px] lg:h-[720px] -mx-4 sm:mx-0">
+      <div className="relative z-10 h-[380px] sm:h-[520px] lg:h-[720px]">
         <CircularGallery
           items={galleryItems}
-          radius={400}
-          cardWidth={290}
-          cardHeight={400}
+          radius={dims.radius}
+          cardWidth={dims.cardWidth}
+          cardHeight={dims.cardHeight}
           autoRotateSpeed={0.025}
           cardClassName="border border-white/15 bg-white/5 rounded-2xl"
-          captionClassName="p-5"
+          captionClassName="p-3 sm:p-5 [&>h3]:text-sm [&>h3]:sm:text-lg [&>em]:text-[11px] [&>em]:sm:text-sm [&>p]:text-[10px] [&>p]:sm:text-xs"
           onItemSelect={id => {
             const service = servicesData.find(s => s.id === id);
             if (service) setSelectedService(service);
@@ -65,7 +91,7 @@ export const ServicesSection: React.FC = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
-        <span className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
+        <span className="flex items-center gap-2 text-center text-[10px] sm:text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
           <MoveHorizontal className="w-4 h-4 text-gold" />
           Trascina per ruotare · clicca una card per i dettagli
         </span>
@@ -74,7 +100,7 @@ export const ServicesSection: React.FC = () => {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => openBooking()}
-          className="px-7 py-3.5 rounded-md bg-gold hover:bg-gold-bright text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors shadow-md flex items-center gap-2"
+          className="w-full sm:w-auto px-7 py-3.5 rounded-md bg-gold hover:bg-gold-bright text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors shadow-md flex items-center justify-center gap-2"
         >
           <Calendar className="w-4 h-4" />
           <span>Prenota il Tuo Appuntamento</span>

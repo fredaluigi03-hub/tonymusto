@@ -96,13 +96,13 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Navigazione</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#servizi" className="text-neutral-600 hover:text-gold transition-colors">Hair Boutique</a></li>
-              <li><a href="#shop" className="text-neutral-600 hover:text-gold transition-colors">Shop Online</a></li>
-              <li><a href="#prima-dopo" className="text-neutral-600 hover:text-gold transition-colors">Prima & Dopo</a></li>
-              <li><a href="#spose" className="text-neutral-600 hover:text-gold transition-colors">My Wedding Page</a></li>
-              <li><a href="#lavora-con-noi" className="text-neutral-600 hover:text-gold transition-colors">Lavora con Noi</a></li>
-              <li><a href="#photos" className="text-neutral-600 hover:text-gold transition-colors">Photos</a></li>
-              <li><a href="#/contatti" className="text-neutral-600 hover:text-gold transition-colors">Contatti</a></li>
+              <li><a href="#servizi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Hair Boutique</a></li>
+              <li><a href="#shop" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Shop Online</a></li>
+              <li><a href="#prima-dopo" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Prima & Dopo</a></li>
+              <li><a href="#spose" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">My Wedding Page</a></li>
+              <li><a href="#lavora-con-noi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Lavora con Noi</a></li>
+              <li><a href="#photos" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Photos</a></li>
+              <li><a href="#/contatti" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Contatti</a></li>
             </ul>
           </div>
 
@@ -131,11 +131,11 @@ export const Footer: React.FC = () => {
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gold flex-shrink-0" />
-                <a href="tel:0825968391" className="hover:text-gold font-semibold">0825 968391</a> · <a href="tel:3770293092" className="hover:text-gold">377 0293092</a>
+                <a href="tel:0825968391" className="inline-block py-1 hover:text-gold font-semibold">0825 968391</a> · <a href="tel:3770293092" className="inline-block py-1 hover:text-gold">377 0293092</a>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gold flex-shrink-0" />
-                <a href="mailto:mustohairdresser@gmail.com" className="hover:text-gold">mustohairdresser@gmail.com</a>
+                <a href="mailto:mustohairdresser@gmail.com" className="inline-block py-1 hover:text-gold break-all">mustohairdresser@gmail.com</a>
               </p>
               <p className="flex items-start gap-2 pt-1">
                 <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
@@ -156,7 +156,7 @@ export const Footer: React.FC = () => {
             <span>P.IVA 02996910649</span>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-1.5 text-neutral-700 hover:text-gold font-bold transition-colors"
+              className="flex items-center gap-1.5 py-2 text-neutral-700 hover:text-gold font-bold transition-colors"
             >
               <span>Torna su</span>
               <ArrowUp className="w-3.5 h-3.5" />

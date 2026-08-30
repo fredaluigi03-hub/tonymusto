@@ -95,7 +95,7 @@ export const BridalSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Real bride gallery */}
           <Reveal direction="right" className="lg:col-span-6">
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-white/70 shadow-luxury-card relative bg-white/80 backdrop-blur-sm group p-2.5">
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-white/70 shadow-luxury-card relative bg-white/80 backdrop-blur-sm group p-2 sm:p-2.5">
               <div className="w-full h-full rounded-2xl overflow-hidden relative bg-pearl-200">
                 <AnimatePresence mode="wait">
                   <motion.img
@@ -118,7 +118,7 @@ export const BridalSection: React.FC = () => {
                   type="button"
                   onClick={() => go(-1)}
                   aria-label="Foto precedente"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-colors shadow-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-opacity shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -126,13 +126,13 @@ export const BridalSection: React.FC = () => {
                   type="button"
                   onClick={() => go(1)}
                   aria-label="Foto successiva"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-colors shadow-md opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-opacity shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
 
                 {/* Caption card */}
-                <div className="absolute bottom-4 left-4 right-4 p-5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md space-y-1">
+                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3.5 sm:p-5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md space-y-1">
                   <span className="text-[11px] uppercase font-mono tracking-widest text-gold font-bold">
                     Spose Tony Musto · {photoIndex + 1}/{bridePhotos.length}
                   </span>
@@ -159,10 +159,16 @@ export const BridalSection: React.FC = () => {
                         type="button"
                         onClick={() => setPhotoIndex(i)}
                         aria-label={`Vai alla foto ${i + 1}`}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                          i === photoIndex ? 'w-7 bg-gold' : 'w-1.5 bg-neutral-300 hover:bg-gold/50'
-                        }`}
-                      />
+                        className="py-2.5 -my-2.5 px-2.5 -mx-1 flex items-center group/dot"
+                      >
+                        <span
+                          className={`block h-1.5 rounded-full transition-all duration-300 ${
+                            i === photoIndex
+                              ? 'w-7 bg-gold'
+                              : 'w-1.5 bg-neutral-300 group-hover/dot:bg-gold/50'
+                          }`}
+                        />
+                      </button>
                     ))}
                   </div>
                 </div>

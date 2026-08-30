@@ -100,7 +100,7 @@ export const ContactPage: React.FC = () => {
   };
 
   const field =
-    'w-full px-4 py-3 rounded-md bg-white border border-neutral-300 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all';
+    'w-full px-4 py-3 rounded-md bg-white border border-neutral-300 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all';
 
   return (
     <main className="bg-pearl-100">
@@ -118,7 +118,7 @@ export const ContactPage: React.FC = () => {
           <Reveal>
             <a
               href="#"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-neutral-600 hover:text-gold transition-colors mb-4"
+              className="inline-flex items-center gap-2 py-2 text-xs uppercase tracking-widest font-bold text-neutral-600 hover:text-gold transition-colors mb-2"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Torna alla Home
             </a>

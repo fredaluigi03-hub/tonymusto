@@ -1,4 +1,5 @@
 import React from 'react';
+import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { 
@@ -25,6 +26,8 @@ export const CartDrawer: React.FC = () => {
     remainingForFreeShipping,
     setIsCheckoutOpen
   } = useCart();
+
+  useBodyScrollLock(isOpen);
 
   const freeShippingPercentage = Math.min(100, (subtotal / freeShippingThreshold) * 100);
 

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCareers, careerRoles, CareerRole } from '../../context/CareersContext';
 import {
@@ -21,7 +22,7 @@ const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 const phoneOk = (v: string) => v.replace(/\D/g, '').length >= 8;
 
 const inputBase =
-  'w-full px-4 py-3 rounded-md bg-white border border-neutral-300 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all';
+  'w-full px-4 py-3 rounded-md bg-white border border-neutral-300 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all';
 
 const RoleCard: React.FC<{ role: CareerRole; onPick: () => void }> = ({ role, onPick }) => (
   <motion.button
@@ -66,6 +67,8 @@ export const CareersModal: React.FC = () => {
   const [touched, setTouched] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  useBodyScrollLock(isModalOpen);
+
   if (!isModalOpen) return null;
 
   const detailsValid =
@@ -108,13 +111,13 @@ export const CareersModal: React.FC = () => {
           className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl overflow-hidden text-neutral-900 my-6"
         >
           {/* Header */}
-          <div className="p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between">
+          <div className="p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-serif text-xl sm:text-2xl text-neutral-950 font-bold tracking-wide">
+                <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
                   Candidati: Join Our Team
                 </h2>
                 <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
@@ -125,7 +128,7 @@ export const CareersModal: React.FC = () => {
             <button
               onClick={closeCareers}
               aria-label="Chiudi"
-              className="p-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
+              className="p-2 shrink-0 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -133,7 +136,7 @@ export const CareersModal: React.FC = () => {
 
           {/* Progress */}
           {currentStep <= 3 && (
-            <div className="bg-white px-6 py-3.5 border-b border-neutral-100">
+            <div className="bg-white px-4 sm:px-6 py-3.5 border-b border-neutral-100">
               <div className="flex items-center justify-between max-w-lg mx-auto">
                 {stepTitles.map((title, index) => {
                   const stepNum = index + 1;
@@ -173,7 +176,7 @@ export const CareersModal: React.FC = () => {
           )}
 
           {/* Body */}
-          <div className="p-6 sm:p-8 bg-white">
+          <div className="p-4 sm:p-8 bg-white">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}

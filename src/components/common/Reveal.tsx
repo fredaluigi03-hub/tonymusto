@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform, useMotionValue, MotionValue } from 'framer-motion';
 
 type Direction = 'up' | 'down' | 'left' | 'right' | 'scale' | 'none';
+
+/**
+ * Sideways reveals only make sense next to the two-column layouts, which exist
+ * from `lg` up. Below that a 50px horizontal slide pushes the element past the
+ * viewport edge and gets clipped, so it falls back to a vertical reveal.
+ * Reduced-motion users get no offset at all.
+ */
+const matches = (query: string) =>
+  typeof window !== 'undefined' && window.matchMedia(query).matches;
+
+const useRevealDirection = (direction: Direction): Direction => {
+  // Read synchronously on the first render: framer captures `initial` at mount,
+  // so a value that only arrives in an effect would leave the wrong offset stuck.
+  const [narrow, setNarrow] = useState(() => matches('(max-width: 1023px)'));
+  const [reduced, setReduced] = useState(() => matches('(prefers-reduced-motion: reduce)'));
+
+  useEffect(() => {
+    const narrowMq = window.matchMedia('(max-width: 1023px)');
+    const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      setNarrow(narrowMq.matches);
+      setReduced(motionMq.matches);
+    };
+    sync();
+    narrowMq.addEventListener('change', sync);
+    motionMq.addEventListener('change', sync);
+    return () => {
+      narrowMq.removeEventListener('change', sync);
+      motionMq.removeEventListener('change', sync);
+    };
+  }, []);
+
+  if (reduced) return 'none';
+  if (narrow && (direction === 'left' || direction === 'right')) return 'up';
+  return direction;
+};
 
 const offsets: Record<Direction, { x?: number; y?: number; scale?: number }> = {
   up: { y: 40 },
@@ -34,7 +70,7 @@ export const Reveal: React.FC<RevealProps> = ({
   as = 'div',
 }) => {
   const Tag = motion[as];
-  const from = offsets[direction];
+  const from = offsets[useRevealDirection(direction)];
   return (
     <Tag
       initial={{ opacity: 0, ...from }}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { useCart } from '../../context/CartContext';
 import { 
   X, 
@@ -33,6 +34,8 @@ export const CheckoutSummaryModal: React.FC = () => {
 
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderCode, setOrderCode] = useState('');
+
+  useBodyScrollLock(isCheckoutOpen);
 
   if (!isCheckoutOpen) return null;
 
