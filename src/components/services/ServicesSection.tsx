@@ -28,6 +28,23 @@ const galleryDims = (width: number) => {
   return { radius: 400, cardWidth: 290, cardHeight: 400 };
 };
 
+/**
+ * Il raggio cambia col breakpoint, quindi una velocita' angolare fissa dava
+ * velocita' apparenti diverse: a 0.12 gradi/frame la card frontale faceva
+ * 27px/s sul telefono e 50px/s su desktop. Qui si fissa la velocita' LINEARE
+ * della card davanti e si ricava l'angolare, cosi' il carosello va allo stesso
+ * ritmo ovunque.
+ *
+ * 60px/s sta sopra il nastro delle foto (34px/s su mobile, 46 su desktop):
+ * una rotazione sembra piu' lenta di una traslazione a parita' di px/s, perche'
+ * la prospettiva accorcia il movimento della card frontale.
+ */
+const AUTO_ROTATE_PX_PER_SEC = 60;
+
+/** Gradi per frame (a 60fps) per ottenere la velocita' lineare voluta. */
+const autoRotateFor = (radius: number) =>
+  AUTO_ROTATE_PX_PER_SEC / (radius * (Math.PI / 180)) / 60;
+
 const useGalleryDims = () => {
   const [dims, setDims] = useState(() =>
     galleryDims(typeof window === 'undefined' ? 1280 : window.innerWidth)
@@ -80,7 +97,7 @@ export const ServicesSection: React.FC = () => {
           radius={dims.radius}
           cardWidth={dims.cardWidth}
           cardHeight={dims.cardHeight}
-          autoRotateSpeed={0.12}
+          autoRotateSpeed={autoRotateFor(dims.radius)}
           cardClassName="border border-white/15 bg-white/5 rounded-2xl"
           captionClassName="p-3 sm:p-5 [&>h3]:text-sm [&>h3]:sm:text-lg [&>em]:text-[11px] [&>em]:sm:text-sm [&>p]:text-[10px] [&>p]:sm:text-xs"
           onItemSelect={id => {
