@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
-import { Reveal, useParallax, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
+import { Reveal, useParallax, REVEAL_VIEWPORT } from '../common/Reveal';
 import { Calendar, Crown, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
 /** Real bride photos from tonymusto.it/my-wedding-page/ */
@@ -189,7 +189,7 @@ export const BridalSection: React.FC = () => {
                   key={s.step}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
+                  viewport={REVEAL_VIEWPORT}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   whileHover={{ x: 8 }}
                   className="p-5 rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 hover:border-gold/60 transition-colors flex items-start gap-4 shadow-2xs"

@@ -28,13 +28,26 @@ export const IS_TOUCH = matches('(hover: none)');
 export const REVEAL_ONCE = IS_TOUCH;
 
 /**
- * Negative rootMargin delays the trigger until the element is well inside the
- * viewport. On touch that compounds the already-late observer callback, so the
- * inset is dropped there.
+ * One shared trigger point for every scroll reveal.
+ *
+ * On touch this previously used margin '0px', which fires the moment the
+ * element's top edge crosses the bottom of the viewport — while it is still
+ * entirely off-screen. The 0.65s animation was over before you scrolled it into
+ * view, so the content just appeared fully formed and the site looked frozen.
+ * The -120px bottom inset delays the trigger until the element is properly on
+ * screen, and `once: true` means a late observer callback can only make the
+ * animation play a little late, never leave the section blank.
+ *
+ * Margins must be in px: framer rejects percentage rootMargins.
  */
-export const REVEAL_MARGIN = REVEAL_ONCE ? '0px' : '-50px';
+export const REVEAL_VIEWPORT = IS_TOUCH
+  ? ({ once: true, margin: '0px 0px -120px 0px' } as const)
+  : ({ once: false, margin: '-50px' } as const);
 
-/** The user asked the OS not to animate: show everything, immediately. */
+/**
+ * Reduced motion: drop the travel, keep a plain cross-fade. A fade is the
+ * accepted substitute for motion, and it keeps the page from looking dead.
+ */
 export const REVEAL_STATIC = matches('(prefers-reduced-motion: reduce)');
 
 const useRevealDirection = (direction: Direction): Direction => {
@@ -78,7 +91,7 @@ interface RevealProps {
   direction?: Direction;
   delay?: number;
   duration?: number;
-  /** false = re-animates out when it leaves the viewport (comparsa/scomparsa) */
+  /** Overrides the shared default (once on touch, repeat on desktop). */
   once?: boolean;
   className?: string;
   as?: 'div' | 'section' | 'li' | 'span';
@@ -90,28 +103,20 @@ export const Reveal: React.FC<RevealProps> = ({
   direction = 'up',
   delay = 0,
   duration = 0.65,
-  once = REVEAL_ONCE,
+  once,
   className,
   as = 'div',
 }) => {
   const Tag = motion[as];
   const resolved = useRevealDirection(direction);
 
-  // Reduced motion: never hide the content behind an animation that won't play.
-  if (REVEAL_STATIC) {
-    const Plain = as;
-    return <Plain className={className}>{children}</Plain>;
-  }
-
-  const from = offsets[resolved];
+  const from = REVEAL_STATIC ? {} : offsets[resolved];
   return (
     <Tag
       initial={{ opacity: 0, ...from }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       exit={{ opacity: 0, ...from }}
-      // No negative margin on touch: the observer should fire the moment a
-      // sliver is visible, not 60px later, because the callback is already late.
-      viewport={{ once, margin: REVEAL_ONCE ? '0px' : '-60px 0px -60px 0px' }}
+      viewport={{ ...REVEAL_VIEWPORT, once: once ?? REVEAL_VIEWPORT.once }}
       transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >

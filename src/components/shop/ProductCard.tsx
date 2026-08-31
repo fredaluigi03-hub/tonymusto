@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ProductItem } from '../../types';
 import { useCart } from '../../context/CartContext';
-import { useTilt, IS_TOUCH, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
+import { useTilt, IS_TOUCH, REVEAL_VIEWPORT } from '../common/Reveal';
 import { ShoppingBag, Sparkles, Star, HeartHandshake, Check, Info, RotateCcw } from 'lucide-react';
 
 interface ProductCardProps {
@@ -66,7 +66,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
       initial={{ opacity: 0, y: 40, rotateX: -8 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       exit={{ opacity: 0, scale: 0.94 }}
-      viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
+      viewport={REVEAL_VIEWPORT}
       transition={{ duration: 0.6, delay: Math.min(index, 5) * 0.06, ease: [0.16, 1, 0.3, 1] }}
       ref={cardRef}
       className="[perspective:1400px]"

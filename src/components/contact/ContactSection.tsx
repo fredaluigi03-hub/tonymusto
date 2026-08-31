@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { useBooking } from '../../context/BookingContext';
 import { 
   MapPin, 
@@ -24,7 +25,7 @@ export const ContactSection: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={REVEAL_VIEWPORT}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-14 space-y-3"
         >

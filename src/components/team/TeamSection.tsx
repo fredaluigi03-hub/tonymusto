@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { teamData } from '../../data/teamData';
 import { useBooking } from '../../context/BookingContext';
 import { Scissors, Calendar, Quote, Sparkles } from 'lucide-react';
@@ -16,7 +17,7 @@ export const TeamSection: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={REVEAL_VIEWPORT}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-14 space-y-3"
         >
@@ -39,7 +40,7 @@ export const TeamSection: React.FC = () => {
               key={member.id}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={REVEAL_VIEWPORT}
               transition={{ duration: 0.6, delay: idx * 0.12 }}
               whileHover={{ y: -6 }}
               className="rounded-3xl bg-pearl-100 border border-neutral-200 hover:border-gold/60 transition-all duration-300 shadow-luxury-white hover:shadow-luxury-card overflow-hidden flex flex-col justify-between"

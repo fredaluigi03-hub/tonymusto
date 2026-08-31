@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Reveal, REVEAL_ONCE, REVEAL_MARGIN } from '../components/common/Reveal';
+import { Reveal, REVEAL_VIEWPORT } from '../components/common/Reveal';
 import { useBooking } from '../context/BookingContext';
 import { useCareers } from '../context/CareersContext';
 import {
@@ -188,7 +188,7 @@ export const ContactPage: React.FC = () => {
               rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
+              viewport={REVEAL_VIEWPORT}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               whileHover={{ y: -6 }}
               className="group p-6 rounded-2xl bg-white border border-neutral-200 hover:border-gold shadow-luxury-white hover:shadow-luxury-card transition-colors space-y-3"
@@ -234,7 +234,7 @@ export const ContactPage: React.FC = () => {
                     key={h.day}
                     initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: REVEAL_ONCE }}
+                    viewport={REVEAL_VIEWPORT}
                     transition={{ delay: i * 0.05 }}
                     className="flex items-center justify-between py-3 text-sm"
                   >
@@ -445,7 +445,7 @@ export const ContactPage: React.FC = () => {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: REVEAL_ONCE }}
+                viewport={REVEAL_VIEWPORT}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 whileHover={{ y: -6 }}
                 className="group p-6 rounded-2xl bg-white border border-neutral-200 hover:border-gold shadow-luxury-white hover:shadow-luxury-card transition-colors flex flex-col items-center text-center gap-3"

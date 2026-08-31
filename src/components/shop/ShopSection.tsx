@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { productsData } from '../../data/productsData';
 import { ProductCard } from './ProductCard';
 import { 
@@ -45,7 +46,7 @@ export const ShopSection: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={REVEAL_VIEWPORT}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-12 space-y-3"
         >
@@ -65,7 +66,7 @@ export const ShopSection: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          viewport={REVEAL_VIEWPORT}
           transition={{ duration: 0.7 }}
           className="mb-12 p-6 sm:p-8 rounded-2xl bg-pearl-100 border border-gold/40 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6"
         >

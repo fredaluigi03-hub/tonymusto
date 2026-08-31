@@ -63,13 +63,13 @@ export function App() {
               <main className="flex-grow">
                 <HeroSection />
                 <PhilosophySection />
+                <GallerySection />
                 <ServicesSection />
                 <BeforeAfterSection />
                 <ShopSection />
                 <BridalSection />
                 <TeamSection />
                 <CareersSection />
-                <GallerySection />
                 <ContactSection />
               </main>
             )}

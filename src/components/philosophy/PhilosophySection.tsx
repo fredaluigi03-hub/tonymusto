@@ -1,14 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Reveal, useParallax, useTilt, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
-import { useBooking } from '../../context/BookingContext';
+import { Reveal, useParallax, useTilt, REVEAL_VIEWPORT } from '../common/Reveal';
 import {
   Scissors,
   Palette,
   Sparkles,
   Award,
-  ArrowRight,
-  Calendar,
   Plus,
   Minus,
 } from 'lucide-react';
@@ -87,7 +84,7 @@ const PillarCard: React.FC<{
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
+      viewport={REVEAL_VIEWPORT}
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={tilt.onMouseLeave}
@@ -186,12 +183,15 @@ const PillarCard: React.FC<{
 
 export const PhilosophySection: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>('haircut');
-  const bannerRef = useRef<HTMLDivElement>(null);
-  const parallaxY = useParallax(bannerRef, 40);
-  const { openBooking } = useBooking();
+  const decorRef = useRef<HTMLElement>(null);
+  const parallaxY = useParallax(decorRef, 40);
 
   return (
-    <section id="filosofia" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
+    <section
+      id="filosofia"
+      ref={decorRef}
+      className="py-24 bg-white relative overflow-hidden border-b border-neutral-200"
+    >
       {/* Decorative warm accents that drift on scroll */}
       <motion.div
         style={{ y: parallaxY }}
@@ -230,53 +230,6 @@ export const PhilosophySection: React.FC = () => {
           ))}
         </div>
 
-        {/* Salon banner with scroll parallax on the photo */}
-        <Reveal direction="scale">
-          <div
-            ref={bannerRef}
-            className="rounded-3xl overflow-hidden border border-neutral-200 shadow-md bg-pearl-100 p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
-          >
-            <div className="lg:col-span-6 rounded-2xl overflow-hidden aspect-[16/10] relative">
-              <motion.img
-                style={{ y: parallaxY }}
-                src="https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-scaled.jpeg"
-                alt="Atelier Tony Musto Montemiletto"
-                className="w-full h-[125%] object-cover -mt-[8%]"
-              />
-            </div>
-            <div className="lg:col-span-6 space-y-4 text-left p-2 sm:p-4">
-              <span className="text-xs uppercase font-mono tracking-widest text-gold font-bold">
-                Atelier Montemiletto
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
-                Un ambiente raffinato, curato e sempre aggiornato
-              </h3>
-              <p className="text-sm text-neutral-600 font-light leading-relaxed">
-                Nel nostro salone di Montemiletto ogni dettaglio è studiato per offrirti tranquillità,
-                accoglienza e un risultato stilistico impeccabile. Vieni a trovarci per una consulenza
-                personalizzata.
-              </p>
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => openBooking()}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-neutral-900 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors shadow-xs"
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Prenota una Consulenza</span>
-                </motion.button>
-                <a
-                  href="#servizi"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md border border-neutral-300 bg-white hover:bg-pearl-100 text-neutral-800 text-xs uppercase font-bold tracking-wider transition-colors"
-                >
-                  <span>Scopri i Servizi</span>
-                  <ArrowRight className="w-4 h-4 text-gold" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
