@@ -25,6 +25,14 @@ import React, {
 const cn = (...classes: (string | undefined | null | false)[]) =>
   classes.filter(Boolean).join(' ');
 
+/**
+ * Touch browsers synthesise `mouseenter` on tap but often never fire the
+ * matching `mouseleave`, which left the carousel paused for good after the
+ * first tap. Hover-pause is therefore bound only on devices that really hover.
+ */
+const CAN_HOVER =
+  typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
 export interface CircularGalleryItem {
   id: string;
   title: string;
@@ -158,8 +166,9 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        {...(CAN_HOVER
+          ? { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false) }
+          : {})}
         className={cn(
           'relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y',
           className

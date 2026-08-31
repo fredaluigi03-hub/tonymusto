@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useCareers, careerRoles } from '../../context/CareersContext';
-import { Reveal, useParallax } from '../common/Reveal';
+import { Reveal, useParallax, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
 import { HorizontalScroller } from '../common/HorizontalScroller';
 import { Sparkles, ArrowRight, GraduationCap, HeartHandshake, Users, Check } from 'lucide-react';
 
@@ -89,7 +89,7 @@ export const CareersSection: React.FC = () => {
                 key={v.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: '-50px' }}
+                viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
                 whileHover={{ y: -6 }}
                 className="p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 hover:border-gold/50 shadow-luxury-white hover:shadow-luxury-card transition-colors space-y-3"
@@ -127,7 +127,7 @@ export const CareersSection: React.FC = () => {
               key={role.id}
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: '-40px' }}
+              viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
               transition={{ duration: 0.55, delay: Math.min(index, 4) * 0.07 }}
               whileHover={{ y: -6 }}
               className="group snap-start shrink-0 w-[80vw] sm:w-[340px] rounded-3xl bg-white border border-neutral-200 hover:border-gold/60 shadow-luxury-white hover:shadow-luxury-card transition-colors p-6 flex flex-col justify-between gap-5"

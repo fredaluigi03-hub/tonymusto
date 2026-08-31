@@ -12,6 +12,29 @@ type Direction = 'up' | 'down' | 'left' | 'right' | 'scale' | 'none';
 const matches = (query: string) =>
   typeof window !== 'undefined' && window.matchMedia(query).matches;
 
+/**
+ * Touch devices reveal once and stay revealed.
+ *
+ * With `once: false` anything not currently intersecting is pushed back to
+ * opacity 0, and mobile browsers defer IntersectionObserver callbacks until a
+ * momentum scroll settles — so a flick lands you on a section that is still
+ * blank and only appears once you nudge it. Desktop keeps the appear/disappear
+ * behaviour, where a wheel scroll fires the observer continuously.
+ *
+ * Evaluated once at module load: a device does not grow a mouse at runtime.
+ */
+export const REVEAL_ONCE = matches('(hover: none)');
+
+/**
+ * Negative rootMargin delays the trigger until the element is well inside the
+ * viewport. On touch that compounds the already-late observer callback, so the
+ * inset is dropped there.
+ */
+export const REVEAL_MARGIN = REVEAL_ONCE ? '0px' : '-50px';
+
+/** The user asked the OS not to animate: show everything, immediately. */
+export const REVEAL_STATIC = matches('(prefers-reduced-motion: reduce)');
+
 const useRevealDirection = (direction: Direction): Direction => {
   // Read synchronously on the first render: framer captures `initial` at mount,
   // so a value that only arrives in an effect would leave the wrong offset stuck.
@@ -65,18 +88,28 @@ export const Reveal: React.FC<RevealProps> = ({
   direction = 'up',
   delay = 0,
   duration = 0.65,
-  once = false,
+  once = REVEAL_ONCE,
   className,
   as = 'div',
 }) => {
   const Tag = motion[as];
-  const from = offsets[useRevealDirection(direction)];
+  const resolved = useRevealDirection(direction);
+
+  // Reduced motion: never hide the content behind an animation that won't play.
+  if (REVEAL_STATIC) {
+    const Plain = as;
+    return <Plain className={className}>{children}</Plain>;
+  }
+
+  const from = offsets[resolved];
   return (
     <Tag
       initial={{ opacity: 0, ...from }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       exit={{ opacity: 0, ...from }}
-      viewport={{ once, margin: '-60px 0px -60px 0px' }}
+      // No negative margin on touch: the observer should fire the moment a
+      // sliver is visible, not 60px later, because the callback is already late.
+      viewport={{ once, margin: REVEAL_ONCE ? '0px' : '-60px 0px -60px 0px' }}
       transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >

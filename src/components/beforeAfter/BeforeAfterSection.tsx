@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { beforeAfterData } from '../../data/beforeAfterData';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { useBooking } from '../../context/BookingContext';
-import { Reveal } from '../common/Reveal';
+import { Reveal, REVEAL_ONCE } from '../common/Reveal';
 import {
   Sparkles,
   Maximize2,
@@ -48,7 +48,7 @@ export const BeforeAfterSection: React.FC = () => {
                 key={item.id}
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
+                viewport={{ once: REVEAL_ONCE }}
                 transition={{ delay: i * 0.06 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}

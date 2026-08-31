@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Reveal, useParallax, useTilt } from '../common/Reveal';
+import { Reveal, useParallax, useTilt, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
 import { useBooking } from '../../context/BookingContext';
 import {
   Scissors,
@@ -87,7 +87,7 @@ const PillarCard: React.FC<{
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      viewport={{ once: false, margin: '-60px' }}
+      viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={tilt.onMouseLeave}
