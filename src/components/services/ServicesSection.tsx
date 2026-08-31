@@ -80,7 +80,7 @@ export const ServicesSection: React.FC = () => {
           radius={dims.radius}
           cardWidth={dims.cardWidth}
           cardHeight={dims.cardHeight}
-          autoRotateSpeed={0.025}
+          autoRotateSpeed={0.12}
           cardClassName="border border-white/15 bg-white/5 rounded-2xl"
           captionClassName="p-3 sm:p-5 [&>h3]:text-sm [&>h3]:sm:text-lg [&>em]:text-[11px] [&>em]:sm:text-sm [&>p]:text-[10px] [&>p]:sm:text-xs"
           onItemSelect={id => {

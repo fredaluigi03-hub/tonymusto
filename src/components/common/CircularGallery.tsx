@@ -48,7 +48,7 @@ export interface CircularGalleryProps extends HTMLAttributes<HTMLDivElement> {
   items: CircularGalleryItem[];
   /** distanza delle card dal centro, in px */
   radius?: number;
-  /** gradi al frame quando ruota da sola */
+  /** gradi al frame (a 60fps) quando ruota da sola. 0.1 = un giro in ~60s */
   autoRotateSpeed?: number;
   /** true = la rotazione segue lo scroll della sezione */
   scrollDriven?: boolean;
@@ -68,7 +68,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
       items,
       className,
       radius = 600,
-      autoRotateSpeed = 0.02,
+      autoRotateSpeed = 0.1,
       scrollDriven = true,
       cardWidth = 300,
       cardHeight = 400,
@@ -120,10 +120,16 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     }, [scrollDriven, reduced, nudgeIdle]);
 
     // Auto-rotazione quando nessuno interagisce.
+    // Scalata sul tempo trascorso e non "per frame": su un telefono a 120Hz
+    // girerebbe al doppio della velocita', su un dispositivo sotto sforzo a
+    // meta'. `autoRotateSpeed` resta espresso in gradi per frame a 60fps.
     useEffect(() => {
       if (reduced) return;
-      const tick = () => {
-        if (!paused && !drag.current) setRotation((p) => p + autoRotateSpeed);
+      let last = 0;
+      const tick = (now: number) => {
+        const frames = last ? Math.min(now - last, 100) / (1000 / 60) : 1;
+        last = now;
+        if (!paused && !drag.current) setRotation((p) => p + autoRotateSpeed * frames);
         rafRef.current = requestAnimationFrame(tick);
       };
       rafRef.current = requestAnimationFrame(tick);

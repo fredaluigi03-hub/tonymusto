@@ -140,7 +140,7 @@ export const GallerySection: React.FC = () => {
           <InfiniteSlider
             key={r}
             gap={20}
-            duration={r === 0 ? 55 : 68}
+            duration={r === 0 ? 38 : 46}
             durationOnHover={200}
             reverse={r === 1}
             className="[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
