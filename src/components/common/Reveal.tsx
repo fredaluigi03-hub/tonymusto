@@ -23,7 +23,9 @@ const matches = (query: string) =>
  *
  * Evaluated once at module load: a device does not grow a mouse at runtime.
  */
-export const REVEAL_ONCE = matches('(hover: none)');
+export const IS_TOUCH = matches('(hover: none)');
+
+export const REVEAL_ONCE = IS_TOUCH;
 
 /**
  * Negative rootMargin delays the trigger until the element is well inside the

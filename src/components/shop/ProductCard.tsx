@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence, useTransform } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ProductItem } from '../../types';
 import { useCart } from '../../context/CartContext';
-import { useTilt, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
+import { useTilt, IS_TOUCH, REVEAL_ONCE, REVEAL_MARGIN } from '../common/Reveal';
 import { ShoppingBag, Sparkles, Star, HeartHandshake, Check, Info, RotateCcw } from 'lucide-react';
 
 interface ProductCardProps {
@@ -15,6 +15,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
   const [added, setAdded] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const tilt = useTilt(14);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // No pointer to follow on a phone, so the card's travel through the viewport
+  // drives the same two values the mouse would. Everything downstream — tilt,
+  // bottle parallax, gold sheen — follows for free.
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'end start'],
+  });
+  // Narrow bands: a full 0..1 sweep would tilt by the mouse's full 14 degrees.
+  const scrollPy = useTransform(scrollYProgress, [0, 1], [0.30, 0.70]);
+  const scrollPx = useTransform(
+    scrollYProgress,
+    [0, 1],
+    index % 2 === 0 ? [0.40, 0.60] : [0.60, 0.40]
+  );
+
+  useEffect(() => {
+    if (!IS_TOUCH) return;
+    tilt.py.set(scrollPy.get());
+    tilt.px.set(scrollPx.get());
+    const stopY = scrollPy.on('change', v => tilt.py.set(v));
+    const stopX = scrollPx.on('change', v => tilt.px.set(v));
+    return () => {
+      stopY();
+      stopX();
+    };
+  }, [scrollPy, scrollPx, tilt.px, tilt.py]);
 
   // Bottle drifts opposite the tilt for real parallax depth.
   const bottleX = useTransform(tilt.px, [0, 1], [14, -14]);
@@ -40,6 +68,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
       exit={{ opacity: 0, scale: 0.94 }}
       viewport={{ once: REVEAL_ONCE, margin: REVEAL_MARGIN }}
       transition={{ duration: 0.6, delay: Math.min(index, 5) * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      ref={cardRef}
       className="[perspective:1400px]"
     >
       <motion.div
@@ -55,7 +84,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
         {/* Moving specular glare */}
         <motion.div
           style={{ background: glare }}
-          className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"
+          className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity duration-300 z-20"
         />
 
         {/* Product stage */}
