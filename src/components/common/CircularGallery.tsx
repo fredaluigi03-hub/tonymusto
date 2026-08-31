@@ -85,6 +85,9 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     const [reduced, setReduced] = useState(false);
 
     const drag = useRef<{ x: number; start: number } | null>(null);
+    // Ultimo valore di rotazione ricavato dallo scroll, per applicarne la
+    // differenza invece del valore assoluto.
+    const scrollBase = useRef<number | null>(null);
     const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const rafRef = useRef<number | null>(null);
 
@@ -111,7 +114,18 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
         const r = el.getBoundingClientRect();
         const span = r.height + window.innerHeight;
         const progress = span > 0 ? (window.innerHeight - r.top) / span : 0;
-        setRotation(Math.max(0, Math.min(1, progress)) * 360);
+        const next = Math.max(0, Math.min(1, progress)) * 360;
+
+        // Si applica la DIFFERENZA, non il valore assoluto. Scrivendo il valore
+        // assoluto ogni evento di scroll cancellava la rotazione fatta a dito o
+        // dall'autoplay: su telefono il contenitore e' `touch-pan-y`, quindi un
+        // trascinamento non perfettamente orizzontale scrolla anche la pagina e
+        // il carosello tornava di scatto alla prima card.
+        const previous = scrollBase.current;
+        scrollBase.current = next;
+        if (previous === null || next === previous) return;
+
+        setRotation(p => p + (next - previous));
         nudgeIdle();
       };
       onScroll();
