@@ -17,7 +17,7 @@ export const ContactSection: React.FC = () => {
   const { openBooking } = useBooking();
 
   return (
-    <section id="contatti" className="py-24 bg-pearl-100 relative overflow-hidden border-b border-neutral-200">
+    <section id="contatti" className="py-24 bg-pearl-100/89 relative overflow-hidden border-b border-neutral-200">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

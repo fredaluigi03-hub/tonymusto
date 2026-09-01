@@ -1,5 +1,13 @@
 import { ProductItem } from '../types';
 
+export const productCollections = [
+  { id: 'all', label: 'Tutti i Prodotti' },
+  { id: 'bee-it', label: 'Linea BEE IT' },
+  { id: 'curl-up', label: 'Bio Organic Curl Up' },
+  { id: 'restorative', label: 'Styling & Trattamenti' },
+  { id: 'bath-body', label: 'Bagno & Doccia' },
+];
+
 export const productsData: ProductItem[] = [
   {
     id: 'curl-me-crema-ricci',

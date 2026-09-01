@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import logo from '../../assets/logo.webp';
 import { 
-  Scissors, 
   Sparkles, 
   HeartHandshake, 
   MapPin, 
@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-white text-neutral-700 border-t border-neutral-200 pt-16 pb-12 relative overflow-hidden">
+    <footer className="bg-white/91 text-neutral-700 border-t border-neutral-200 pt-16 pb-12 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-14">
         
@@ -39,17 +39,13 @@ export const Footer: React.FC = () => {
           
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center bg-pearl-100 text-gold">
-                <Scissors className="w-5 h-5 -rotate-45" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-serif text-2xl font-bold tracking-wider text-neutral-950">TONY MUSTO</span>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-neutral-500 font-sans font-semibold">
-                  Hair Stylist for Passion
-                </span>
-              </div>
-            </div>
+            <img
+              src={logo}
+              alt="Tony Musto Parrucchieri"
+              width={1400}
+              height={681}
+              className="h-16 w-auto"
+            />
 
             <p className="text-xs text-neutral-600 font-light leading-relaxed">
               Fashion hair — acconciature e make-up for wedding a Montemiletto (AV). Prodotti professionali BEE IT, Bio Organic Curl Up e cura sartoriale del capello.

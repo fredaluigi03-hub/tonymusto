@@ -1,88 +1,10 @@
 import React from 'react';
 import { Reveal } from '../common/Reveal';
 import { InfiniteSlider } from '../common/InfiniteSlider';
-import { Camera, ArrowUpRight } from 'lucide-react';
+import { Camera, ArrowUpRight, ArrowRight } from 'lucide-react';
+import { shots, Shot as ShotType } from '../../data/photosData';
 
-interface Shot {
-  url: string;
-  caption: string;
-  tag: string;
-}
-
-const shots: Shot[] = [
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6535-1-768x768.jpg',
-    caption: 'Taglio Sartoriale Morfologico',
-    tag: '#TonyMustoHair',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_1243-2-768x1024.jpeg',
-    caption: 'Raccolto morbido con velo',
-    tag: '#BridalExcellence',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/1037aaf5-d290-4ea3-b26f-13d8e64f5b86-1-768x768.jpg',
-    caption: 'Definizione Bio Organic Curl Up',
-    tag: '#CurlySpecialist',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2596-1-scaled.jpeg',
-    caption: 'Onde luminose, riga laterale',
-    tag: '#WeddingHair',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_8897-768x768.jpeg',
-    caption: 'Color Couture & Armocromia',
-    tag: '#ColorCouture',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2054.jpeg',
-    caption: 'Styling da set fotografico',
-    tag: '#Shooting',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-768x768.jpeg',
-    caption: 'Hair Spa Sensoriale BEE IT',
-    tag: '#SaveTheBees',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2736-1-scaled.jpeg',
-    caption: 'Chignon basso scolpito',
-    tag: '#BridalCouture',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/752F748E-514B-40F1-B3F0-7C80E0CAE228-768x768.jpg',
-    caption: 'Acconciatura Sposa Couture',
-    tag: '#MyWeddingPage',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_7563-2-scaled.jpg',
-    caption: 'Acconciatura con accessorio gioiello',
-    tag: '#WeddingStyle',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/06/Tony_8-2-768x768.jpg',
-    caption: 'Shooting Tony Musto',
-    tag: '#Montemiletto',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_3370-1-1024x1024.jpeg',
-    caption: 'Dettaglio raccolto sposa',
-    tag: '#BridalDetails',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2022/05/IMG_8124-1-1024x1024.jpg',
-    caption: 'Vita quotidiana in salone',
-    tag: '#JoinOurTeam',
-  },
-  {
-    url: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2525-2-1024x1024.jpeg',
-    caption: 'Look sposa contemporaneo',
-    tag: '#WeddingLook',
-  },
-];
-
-const Shot: React.FC<{ shot: Shot }> = ({ shot }) => (
+const Shot: React.FC<{ shot: ShotType }> = ({ shot }) => (
   <figure className="group relative h-52 sm:h-64 lg:h-72 aspect-[4/5] shrink-0 overflow-hidden rounded-2xl border border-neutral-200 bg-pearl-200 shadow-luxury-white">
     <img
       src={shot.url}
@@ -105,7 +27,7 @@ export const GallerySection: React.FC = () => {
   const rows = [shots.slice(0, half), shots.slice(half)];
 
   return (
-    <section id="photos" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
+    <section id="photos" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
@@ -122,15 +44,25 @@ export const GallerySection: React.FC = () => {
             </p>
           </div>
 
-          <a
-            href="https://www.instagram.com/tonymustoparrucchieri/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-md border border-neutral-300 hover:border-gold hover:text-gold text-neutral-800 text-xs uppercase tracking-wider font-bold transition-all flex items-center gap-2 self-start md:self-auto bg-white shadow-2xs"
-          >
-            <span>Instagram: @tonymustoparrucchieri</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </a>
+          <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
+            <a
+              href="#/foto"
+              className="px-5 py-2.5 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-2 shadow-xs"
+            >
+              <span>Vedi tutte le foto ({shots.length})</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.instagram.com/tonymustoparrucchieri/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 rounded-md border border-neutral-300 hover:border-gold hover:text-gold text-neutral-800 text-xs uppercase tracking-wider font-bold transition-all flex items-center gap-2 bg-white shadow-2xs"
+            >
+              <span>@tonymustoparrucchieri</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>
+
         </Reveal>
       </div>
 

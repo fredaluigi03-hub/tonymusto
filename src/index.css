@@ -24,18 +24,25 @@
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
 
-body {
-  background-color: #FAF9F6;
-  color: #1A1A24;
-  font-family: var(--font-sans);
-  letter-spacing: 0.015em;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
+/* In @layer base cosi le utility Tailwind (es. text-white) vincono sui default */
+@layer base {
+  /* Il fondo sta su <html>: un body opaco coprirebbe il layer foto a -z-10 */
+  html {
+    background-color: #FAF9F6;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  color: #111116;
+  body {
+    color: #1A1A24;
+    font-family: var(--font-sans);
+    letter-spacing: 0.015em;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: #111116;
+  }
 }
 
 /* Custom Scrollbar */
@@ -88,4 +95,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-float {
   animation: float 5s ease-in-out infinite;
+}
+
+@layer components {
+  /* Il pannello del testo entra mentre la foto si apre, non prima */
+  .hero-reveal {
+    opacity: clamp(0, calc((var(--hero-zoom, 0) - 0.28) / 0.34), 1);
+    transition: opacity 260ms ease-out;
+  }
 }

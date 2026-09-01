@@ -9,7 +9,7 @@ export const TeamSection: React.FC = () => {
   const { openBooking } = useBooking();
 
   return (
-    <section id="team" className="py-24 bg-white relative overflow-hidden border-b border-neutral-200">
+    <section id="team" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

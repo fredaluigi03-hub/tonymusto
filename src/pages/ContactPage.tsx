@@ -161,7 +161,7 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Quick contact tiles */}
-      <section className="py-16 border-b border-neutral-200">
+      <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
             {
@@ -211,7 +211,7 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Hours + form */}
-      <section className="py-16 border-b border-neutral-200">
+      <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Hours */}
           <Reveal direction="right" className="lg:col-span-5 space-y-5">
@@ -406,7 +406,7 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Map */}
-      <section className="py-16 border-b border-neutral-200">
+      <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal direction="scale">
             <div className="rounded-3xl overflow-hidden border border-neutral-200 shadow-luxury-card bg-white p-2">
@@ -425,7 +425,7 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Socials + careers CTA */}
-      <section className="py-16">
+      <section className="py-16 bg-white/91">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <Reveal className="text-center space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-gold font-bold">

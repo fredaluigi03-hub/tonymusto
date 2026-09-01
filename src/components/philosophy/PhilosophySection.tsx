@@ -190,7 +190,7 @@ export const PhilosophySection: React.FC = () => {
     <section
       id="filosofia"
       ref={decorRef}
-      className="py-24 bg-white relative overflow-hidden border-b border-neutral-200"
+      className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200"
     >
       {/* Decorative warm accents that drift on scroll */}
       <motion.div
