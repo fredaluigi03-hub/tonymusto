@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-/** Ultimo tratto di video che non viene scrubbato: quando lo zoom finisce, la
- *  scena resta viva invece di congelarsi sull'ultimo fotogramma. */
+/** Ultimo tratto di video che non viene scrubbato: quando lo zoom finisce la
+ *  scena scorre da sola invece di congelarsi sull'ultimo fotogramma.
+ *  Gira una volta sola: rimandarlo indietro in loop e un taglio secco su una
+ *  scena in movimento, e si vede. Per una coda ciclica servirebbe una clip che
+ *  finisce nella stessa posa in cui inizia. */
 const LIVE_TAIL = 1.2;
 
 /**
@@ -30,10 +33,34 @@ export function useHeroScroll() {
 
     const tailStart = () => Math.max(0, v.duration - LIVE_TAIL);
 
+    // un seek alla volta: durante uno scroll veloce le richieste si accavallano
+    // e il video singhiozza. Teniamo solo l'ultima posizione e la applichiamo
+    // quando il decoder ha finito la precedente.
+    let pending: number | null = null;
+    const seekTo = (t: number) => {
+      if (v.seeking) {
+        pending = t;
+        return;
+      }
+      v.currentTime = t;
+    };
+    const flushPending = () => {
+      if (pending === null) return;
+      const t = pending;
+      pending = null;
+      v.currentTime = t;
+    };
+
     const update = () => {
       if (hidden()) return;
-      const end = window.innerHeight * 0.9;
-      const progress = Math.min(1, Math.max(0, window.scrollY / end));
+      // la corsa e l'altezza della sezione hero meno una schermata: cosi il
+      // video finisce esattamente quando l'hero smette di essere bloccato
+      const hero = document.getElementById('hero');
+      const start = hero ? hero.offsetTop : 0;
+      const end = hero
+        ? Math.max(1, hero.offsetHeight - window.innerHeight)
+        : window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (window.scrollY - start) / end));
       root.style.setProperty('--hero-zoom', String(progress));
 
       if (!v.duration || Number.isNaN(v.duration)) return;
@@ -48,13 +75,7 @@ export function useHeroScroll() {
 
       if (!v.paused) v.pause();
       const t = progress * tailStart();
-      if (Math.abs(v.currentTime - t) > 1 / 60) v.currentTime = t;
-    };
-
-    // arrivati in fondo, l'ultimo tratto gira in loop
-    const replayTail = () => {
-      v.currentTime = tailStart();
-      v.play().catch(() => {});
+      if (Math.abs(v.currentTime - t) > 1 / 60) seekTo(t);
     };
 
     // il download parte solo per il video effettivamente visibile
@@ -67,12 +88,12 @@ export function useHeroScroll() {
 
     update();
     v.addEventListener('loadedmetadata', update);
-    v.addEventListener('ended', replayTail);
+    v.addEventListener('seeked', flushPending);
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     return () => {
       v.removeEventListener('loadedmetadata', update);
-      v.removeEventListener('ended', replayTail);
+      v.removeEventListener('seeked', flushPending);
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
