@@ -1,29 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../../assets/logo.webp';
-import { 
-  Sparkles, 
-  HeartHandshake, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  ArrowUp,
-  Check
-} from 'lucide-react';
+import { HeartHandshake, MapPin, Phone, Mail, Clock, ArrowUp } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail) return;
-    setSubscribed(true);
-    setTimeout(() => {
-      setSubscribed(false);
-      setNewsletterEmail('');
-    }, 4000);
-  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -33,11 +12,8 @@ export const Footer: React.FC = () => {
     <footer className="bg-white/91 text-neutral-700 border-t border-neutral-200 pt-16 pb-12 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-14">
-        
-        {/* Multi-column Navigation & Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           
-          {/* Col 1: Brand Info */}
           <div className="lg:col-span-4 space-y-4">
             <img
               src={logo}
@@ -88,7 +64,6 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Col 2: Navigation Links */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Navigazione</h4>
             <ul className="space-y-2 text-xs">
@@ -102,7 +77,6 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 3: Real Product Categories */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Linee Cosmetiche</h4>
             <ul className="space-y-2 text-xs">
@@ -117,7 +91,6 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4: Contacts & Salone */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Salone & Orari</h4>
             <div className="space-y-2 text-xs text-neutral-600">
@@ -141,8 +114,6 @@ export const Footer: React.FC = () => {
           </div>
 
         </div>
-
-        {/* Bottom Legal & Back to Top */}
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
           <div>
             <p>© {new Date().getFullYear()} Tony Musto Parrucchieri. Tutti i diritti riservati.</p>

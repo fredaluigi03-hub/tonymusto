@@ -40,7 +40,6 @@ export const CartDrawer: React.FC = () => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Dark Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -50,7 +49,6 @@ export const CartDrawer: React.FC = () => {
           />
 
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            {/* White Luxury Drawer */}
             <motion.div 
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -58,8 +56,6 @@ export const CartDrawer: React.FC = () => {
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
               className="w-screen max-w-md bg-white border-l border-neutral-200 shadow-2xl flex flex-col justify-between text-neutral-900 relative"
             >
-              
-              {/* Header */}
               <div className="p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-full border border-gold/40 bg-white text-gold shadow-xs">
@@ -79,8 +75,6 @@ export const CartDrawer: React.FC = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-
-              {/* Free Shipping Progress */}
               <div className="px-6 py-3 bg-pearl-100/60 border-b border-neutral-200">
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <span className="text-neutral-700 flex items-center gap-1.5 font-medium">
@@ -102,8 +96,6 @@ export const CartDrawer: React.FC = () => {
                   />
                 </div>
               </div>
-
-              {/* Items List */}
               <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {items.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-center p-8 text-neutral-400">
@@ -127,14 +119,11 @@ export const CartDrawer: React.FC = () => {
                       key={product.id}
                       className="flex gap-4 p-4 rounded-2xl bg-pearl-100/50 border border-neutral-200 hover:border-gold/50 transition-all duration-200"
                     >
-                      {/* Thumbnail */}
                       <img
                         src={product.image}
                         alt={product.name}
                         className="w-18 h-18 object-contain rounded-xl border border-neutral-200 bg-white p-1 flex-shrink-0"
                       />
-
-                      {/* Info */}
                       <div className="flex-1 flex flex-col justify-between">
                         <div>
                           <div className="flex items-start justify-between gap-2">
@@ -152,7 +141,6 @@ export const CartDrawer: React.FC = () => {
                         </div>
 
                         <div className="flex items-center justify-between mt-2">
-                          {/* Quantity Controls */}
                           <div className="flex items-center border border-neutral-300 rounded-lg bg-white px-2 py-0.5 shadow-2xs">
                             <button
                               onClick={() => updateQuantity(product.id, quantity - 1)}
@@ -180,8 +168,6 @@ export const CartDrawer: React.FC = () => {
                   ))
                 )}
               </div>
-
-              {/* Footer & Checkout Action */}
               {items.length > 0 && (
                 <div className="p-6 bg-pearl-100 border-t border-neutral-200 space-y-3.5">
                   <div className="space-y-1.5 text-xs text-neutral-700">
@@ -198,8 +184,6 @@ export const CartDrawer: React.FC = () => {
                       <span className="text-neutral-950 font-mono font-bold text-xl">€{subtotal.toFixed(2)}</span>
                     </div>
                   </div>
-
-                  {/* Bee Note */}
                   <div className="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-gold/30 text-[11px] text-neutral-700">
                     <HeartHandshake className="w-4 h-4 text-gold flex-shrink-0" />
                     <span>Ogni acquisto BEE IT sostiene la salvaguardia delle api.</span>

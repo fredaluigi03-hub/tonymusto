@@ -25,8 +25,6 @@ export const BookingModal: React.FC = () => {
           transition={{ duration: 0.3 }}
           className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900"
         >
-          
-          {/* Top Header with Progress Bar */}
           <div className="sticky top-0 z-30 rounded-t-3xl p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
@@ -49,8 +47,6 @@ export const BookingModal: React.FC = () => {
               <X className="w-6 h-6" />
             </button>
           </div>
-
-          {/* Step Progress Line (Steps 1-4) */}
           {currentStep <= 4 && (
             <div className="bg-white px-4 sm:px-6 py-3.5 border-b border-neutral-100">
               <div className="flex items-center justify-between max-w-xl mx-auto">
@@ -86,8 +82,6 @@ export const BookingModal: React.FC = () => {
               </div>
             </div>
           )}
-
-          {/* Body Content with AnimatePresence step transition */}
           <div className="p-4 sm:p-8 bg-white">
             <AnimatePresence mode="wait">
               <motion.div

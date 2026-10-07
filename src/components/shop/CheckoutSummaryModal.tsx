@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import { ModalOverlay } from '../common/ModalOverlay';
 import { useCart } from '../../context/CartContext';
-import { 
-  X, 
-  CheckCircle2, 
-  ShoppingBag, 
-  Truck, 
-  Store, 
-  CreditCard, 
-  Sparkles,
-  ArrowLeft
-} from 'lucide-react';
+import { X, CheckCircle2, ShoppingBag, Truck, Store } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const CheckoutSummaryModal: React.FC = () => {
@@ -54,7 +45,6 @@ export const CheckoutSummaryModal: React.FC = () => {
         colors: ['#D4AF37', '#FFF2B2', '#EAD7A1']
       });
     } catch {
-      // safe fallback
     }
 
     clearCart();
@@ -68,8 +58,6 @@ export const CheckoutSummaryModal: React.FC = () => {
   return (
     <ModalOverlay onClose={handleClose} className="bg-black/60 backdrop-blur-xs" label="Riepilogo ordine">
       <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
-        
-        {/* Header */}
         <div className="sticky top-0 z-30 rounded-t-3xl p-5 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full border border-gold/40 bg-white text-gold shadow-xs">
@@ -93,7 +81,6 @@ export const CheckoutSummaryModal: React.FC = () => {
         </div>
 
         {orderConfirmed ? (
-          /* Confirmation Screen */
           <div className="p-8 text-center space-y-6">
             <div className="w-20 h-20 mx-auto rounded-full bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-600 shadow-xs">
               <CheckCircle2 className="w-10 h-10" />
@@ -136,10 +123,7 @@ export const CheckoutSummaryModal: React.FC = () => {
             </button>
           </div>
         ) : (
-          /* Checkout Form */
           <form onSubmit={handlePlaceOrder} className="p-6 space-y-6">
-            
-            {/* Fulfillment Selector */}
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
@@ -175,8 +159,6 @@ export const CheckoutSummaryModal: React.FC = () => {
                 </div>
               </button>
             </div>
-
-            {/* Inputs */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
                 <label className="block text-neutral-700 mb-1 font-semibold">Nome e Cognome *</label>
@@ -225,8 +207,6 @@ export const CheckoutSummaryModal: React.FC = () => {
                 </>
               )}
             </div>
-
-            {/* Total Recap */}
             <div className="p-4 rounded-2xl bg-pearl-100 border border-neutral-200 space-y-1.5 text-xs">
               <div className="flex justify-between text-neutral-600">
                 <span>Subtotale Prodotti ({items.length} articoli):</span>
@@ -241,8 +221,6 @@ export const CheckoutSummaryModal: React.FC = () => {
                 <span className="text-base text-neutral-950 font-mono">€{finalTotal.toFixed(2)}</span>
               </div>
             </div>
-
-            {/* Submit */}
             <div className="flex justify-end gap-3 pt-2">
               <button
                 type="button"

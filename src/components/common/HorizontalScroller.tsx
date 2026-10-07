@@ -14,8 +14,7 @@ interface HorizontalScrollerProps {
 
 /**
  * Full-bleed horizontal carousel: native CSS scroll-snap + drag-to-pan + arrows.
- * ponytail: native scroll-snap instead of a carousel lib; swap only if we need
- * autoplay/loop/virtualisation.
+ * No carousel library: revisit only if we need autoplay or looping.
  */
 export const HorizontalScroller: React.FC<HorizontalScrollerProps> = ({
   children,
@@ -103,8 +102,6 @@ export const HorizontalScroller: React.FC<HorizontalScrollerProps> = ({
       <div
         className={`pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[var(--scroller-fade,#ffffff)] to-transparent transition-opacity duration-300 ${atEnd ? 'opacity-0' : 'opacity-100'}`}
       />
-
-      {/* Controls + progress rail */}
       <div className={`mt-2 flex items-center gap-4 ${controlsClassName}`}>
         <div className="flex items-center gap-2">
           <button

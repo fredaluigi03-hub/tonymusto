@@ -30,7 +30,7 @@ import { useHeroScroll } from './components/common/useHeroScroll';
 /**
  * Routing is a plain hash lookup: the keys below are standalone pages, everything
  * else is the one-page site (its `#sezione` anchors still work).
- * ponytail: no router dependency for four routes — add one if this keeps growing.
+ * Four routes don't justify a router dependency yet.
  */
 const PAGES: Record<string, React.FC> = {
   '#/contatti': ContactPage,
@@ -105,8 +105,6 @@ export function App() {
             )}
 
             <Footer />
-
-            {/* Global drawers & modals */}
             <CartDrawer />
             <CheckoutSummaryModal />
             <BookingModal />

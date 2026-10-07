@@ -64,8 +64,6 @@ export const StepStylist: React.FC = () => {
           );
         })}
       </div>
-
-      {/* Navigation Controls */}
       <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
         <button
           type="button"

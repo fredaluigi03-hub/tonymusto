@@ -3,17 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { useBooking } from '../../context/BookingContext';
 import logo from '../../assets/logo.webp';
-import { 
-  ShoppingBag, 
-  Calendar, 
-  Phone, 
-  MapPin, 
-  Menu, 
-  X, 
-  Clock, 
-  Sparkles,
-  Scissors
-} from 'lucide-react';
+import { ShoppingBag, Calendar, Phone, MapPin, Menu, X, Clock, Sparkles } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { totalItemsCount, setIsOpen: setCartOpen } = useCart();
@@ -42,7 +32,6 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Top Banner - Bianco Caldo & Oro */}
       <div className="bg-white border-b border-gold/20 text-[11px] text-neutral-600 py-1.5 px-4 relative z-50 shadow-xs">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
           <div className="flex items-center gap-4 flex-wrap justify-center">
@@ -83,8 +72,6 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Main White Luxury Header */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -96,8 +83,6 @@ export const Navbar: React.FC = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          
-          {/* Brand Logo Reale */}
           <a href="#" className="group flex items-center shrink-0" aria-label="Tony Musto Parrucchieri — home">
             <img
               src={logo}
@@ -107,8 +92,6 @@ export const Navbar: React.FC = () => {
               className="h-11 sm:h-12 w-auto max-w-none shrink-0 transition-opacity duration-300 group-hover:opacity-80"
             />
           </a>
-
-          {/* Desktop Navigation Links con Effetto Linea Oro */}
           <nav className="hidden xl:flex items-center space-x-5 text-sm font-medium tracking-wider">
             {navLinks.map((link) => (
               <a
@@ -123,7 +106,6 @@ export const Navbar: React.FC = () => {
 
           {/* Actions: Cart Button & Booking CTA */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Cart Icon Drawer Trigger */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -138,8 +120,6 @@ export const Navbar: React.FC = () => {
                 </span>
               )}
             </motion.button>
-
-            {/* Prenota Rituale CTA */}
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -149,8 +129,6 @@ export const Navbar: React.FC = () => {
               <Calendar className="w-3.5 h-3.5 text-gold group-hover:text-neutral-950 transition-colors" />
               <span className="font-semibold">Prenota Online</span>
             </motion.button>
-
-            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="xl:hidden p-2 rounded-md border border-neutral-200 text-neutral-800 hover:text-gold hover:border-gold transition-colors"
@@ -160,8 +138,6 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
         </div>
-
-        {/* Mobile Dropdown Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div 

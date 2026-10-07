@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { teamData } from '../../data/teamData';
 import { useBooking } from '../../context/BookingContext';
-import { Scissors, Calendar, Quote, Sparkles } from 'lucide-react';
+import { Scissors, Calendar, Quote } from 'lucide-react';
 
 export const TeamSection: React.FC = () => {
   const { openBooking } = useBooking();
@@ -12,8 +12,6 @@ export const TeamSection: React.FC = () => {
     <section id="team" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -32,8 +30,6 @@ export const TeamSection: React.FC = () => {
             Guidati dall'esperienza e dalla passione di Tony Musto, un team dedicato alla valorizzazione della tua personalità.
           </p>
         </motion.div>
-
-        {/* Team Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {teamData.map((member, idx) => (
             <motion.div
@@ -46,7 +42,6 @@ export const TeamSection: React.FC = () => {
               className="rounded-3xl bg-pearl-100 border border-neutral-200 hover:border-gold/60 transition-all duration-300 shadow-luxury-white hover:shadow-luxury-card overflow-hidden flex flex-col justify-between"
             >
               <div>
-                {/* Photo Frame */}
                 <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
                   <img
                     src={member.image}
@@ -60,8 +55,6 @@ export const TeamSection: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Info & Quote */}
                 <div className="p-6 space-y-3">
                   <div>
                     <h3 className="font-serif text-2xl font-bold text-neutral-900">
@@ -83,8 +76,6 @@ export const TeamSection: React.FC = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Action */}
               <div className="p-6 pt-0">
                 <motion.button
                   whileHover={{ scale: 1.02 }}

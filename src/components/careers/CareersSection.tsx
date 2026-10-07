@@ -34,7 +34,6 @@ export const CareersSection: React.FC = () => {
       ref={sectionRef}
       className="py-24 relative overflow-hidden border-b border-neutral-200 isolate [--scroller-fade:#FAF9F6]"
     >
-      {/* Salon backdrop, softened */}
       <motion.div style={{ y: bgY }} className="absolute -inset-y-20 inset-x-0 -z-10">
         <img
           src="https://tonymusto.it/wp-content/uploads/2022/05/IMG_8124-1-1024x1024.jpg"
@@ -79,8 +78,6 @@ export const CareersSection: React.FC = () => {
             </a>
           </div>
         </Reveal>
-
-        {/* Why us */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
           {values.map((v, i) => {
             const Icon = v.icon;
@@ -113,8 +110,6 @@ export const CareersSection: React.FC = () => {
           </p>
         </Reveal>
       </div>
-
-      {/* Open roles carousel */}
       <div className="relative z-10 w-full">
         <HorizontalScroller
           ariaLabel="Posizioni aperte"

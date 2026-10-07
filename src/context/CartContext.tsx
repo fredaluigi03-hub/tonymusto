@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ProductItem, CartItem } from '../types';
+import { productsData } from '../data/productsData';
 
 interface CartContextType {
   items: CartItem[];
@@ -22,8 +23,15 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
-      const saved = localStorage.getItem('tony_musto_cart');
-      return saved ? JSON.parse(saved) : [];
+      // Only trust ids and quantities from storage; product data (and prices)
+      // always come from the catalogue, so a hand-edited cart can't change them.
+      const saved: unknown = JSON.parse(localStorage.getItem('tony_musto_cart') ?? '[]');
+      if (!Array.isArray(saved)) return [];
+      return saved.flatMap((row): CartItem[] => {
+        const product = productsData.find(p => p.id === row?.product?.id);
+        const quantity = Math.floor(Number(row?.quantity));
+        return product && quantity > 0 ? [{ product, quantity: Math.min(quantity, 99) }] : [];
+      });
     } catch {
       return [];
     }
@@ -36,7 +44,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       localStorage.setItem('tony_musto_cart', JSON.stringify(items));
     } catch {
-      // Local storage fallback
+      // storage full or blocked (private mode): the cart just won't persist
     }
   }, [items]);
 

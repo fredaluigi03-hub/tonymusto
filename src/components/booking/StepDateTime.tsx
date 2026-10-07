@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { useBooking } from '../../context/BookingContext';
-import { 
-  Calendar as CalendarIcon, 
-  Clock, 
-  ArrowRight, 
-  ArrowLeft,
-  Sun,
-  Sunset
-} from 'lucide-react';
+import { Calendar as CalendarIcon, ArrowRight, ArrowLeft, Sun, Sunset } from 'lucide-react';
 
 export const StepDateTime: React.FC = () => {
   const { bookingState, selectDateTime, setStep } = useBooking();
-
-  // Generate real upcoming dates for the next 14 days
   const today = new Date();
   const availableDates = Array.from({ length: 14 }).map((_, i) => {
     const d = new Date(today);
@@ -57,8 +48,6 @@ export const StepDateTime: React.FC = () => {
           Orari salone: <strong>Martedì – Sabato (8:30 – 19:00)</strong> · Chiuso Lunedì e Domenica
         </p>
       </div>
-
-      {/* Date Carousel Selector */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-neutral-600">
           <span className="flex items-center gap-1.5 text-gold font-semibold">
@@ -107,10 +96,7 @@ export const StepDateTime: React.FC = () => {
           })}
         </div>
       </div>
-
-      {/* Time Slots */}
       <div className="space-y-4 pt-1">
-        {/* Mattina */}
         <div className="p-4 rounded-xl bg-pearl-100/60 border border-neutral-200 space-y-2.5">
           <div className="flex items-center gap-2 text-xs font-serif text-neutral-900 font-bold">
             <Sun className="w-4 h-4 text-gold" />
@@ -136,8 +122,6 @@ export const StepDateTime: React.FC = () => {
             })}
           </div>
         </div>
-
-        {/* Pomeriggio */}
         <div className="p-4 rounded-xl bg-pearl-100/60 border border-neutral-200 space-y-2.5">
           <div className="flex items-center gap-2 text-xs font-serif text-neutral-900 font-bold">
             <Sunset className="w-4 h-4 text-gold" />
@@ -164,8 +148,6 @@ export const StepDateTime: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Navigation Controls */}
       <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
         <button
           type="button"

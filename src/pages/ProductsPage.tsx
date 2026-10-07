@@ -43,8 +43,6 @@ export const ProductsPage: React.FC = () => {
             trattamenti ricci Bio Organic, styling e cura quotidiana.
           </p>
         </motion.div>
-
-        {/* Collection Filter Tabs */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
           {productCollections.map(col => {
             const isActive = activeCollection === col.id;

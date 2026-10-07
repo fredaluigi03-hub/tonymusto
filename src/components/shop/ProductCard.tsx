@@ -81,13 +81,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
         }}
         className="group relative h-full flex flex-col justify-between rounded-3xl bg-white border border-neutral-200 hover:border-gold/60 transition-colors duration-300 shadow-luxury-white hover:shadow-luxury-card"
       >
-        {/* Moving specular glare */}
         <motion.div
           style={{ background: glare }}
           className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity duration-300 z-20"
         />
-
-        {/* Product stage */}
         <div className="relative aspect-[4/4] sm:aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-pearl-100 via-white to-pearl-200 rounded-t-3xl p-6 flex items-center justify-center">
           {product.badge && (
             <div className="absolute top-3 left-3 z-30" style={{ transform: 'translateZ(50px)' }}>
@@ -106,8 +103,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
           >
             {flipped ? <RotateCcw className="w-4 h-4" /> : <Info className="w-4 h-4" />}
           </button>
-
-          {/* Contact shadow that slides with the tilt */}
           <motion.div
             style={{ x: shadowX, z: 4 }}
             className="absolute bottom-7 left-1/2 -translate-x-1/2 w-[55%] h-5 rounded-[50%] bg-neutral-900/20 blur-xl"
@@ -164,8 +159,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
             )}
           </AnimatePresence>
         </div>
-
-        {/* Details */}
         <div className="p-6 flex-1 flex flex-col justify-between space-y-4" style={{ transform: 'translateZ(30px)' }}>
           <div>
             <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">

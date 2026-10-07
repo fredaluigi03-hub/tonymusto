@@ -29,8 +29,6 @@ export const ShopSection: React.FC = () => {
     <section id="shop" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -49,8 +47,6 @@ export const ShopSection: React.FC = () => {
             Acquista online i prodotti professionali utilizzati nel nostro salone: linea ecologica BEE IT, trattamenti ricci Bio Organic e prodotti per lo styling.
           </p>
         </motion.div>
-
-        {/* Distinctive Eco Manifesto Banner (BEE IT) */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -85,8 +81,6 @@ export const ShopSection: React.FC = () => {
             Vedi Linea BEE IT
           </motion.button>
         </motion.div>
-
-        {/* Collection Filter Tabs */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
           {collections.map(col => {
             const isActive = activeCollection === col.id;
@@ -107,8 +101,6 @@ export const ShopSection: React.FC = () => {
             );
           })}
         </div>
-
-        {/* Products Grid with Framer Motion AnimatePresence */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {visibleProducts.map((product, i) => (
@@ -116,8 +108,6 @@ export const ShopSection: React.FC = () => {
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* Il catalogo completo vive sulla sua pagina */}
         <div className="mt-10 flex justify-center">
           <motion.a
             whileHover={{ scale: 1.03 }}
@@ -129,8 +119,6 @@ export const ShopSection: React.FC = () => {
             <ArrowRight className="w-4 h-4 text-gold" />
           </motion.a>
         </div>
-
-        {/* Guarantees Bar */}
         <div className="mt-16 pt-10 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-xs text-neutral-600">
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <Truck className="w-6 h-6 text-gold" />

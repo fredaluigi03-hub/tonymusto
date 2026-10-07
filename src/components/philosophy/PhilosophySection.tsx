@@ -192,7 +192,6 @@ export const PhilosophySection: React.FC = () => {
       ref={decorRef}
       className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200"
     >
-      {/* Decorative warm accents that drift on scroll */}
       <motion.div
         style={{ y: parallaxY }}
         className="absolute top-1/3 -left-20 w-80 h-80 bg-amber-100/40 rounded-full blur-3xl pointer-events-none"

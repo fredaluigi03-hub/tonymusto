@@ -104,7 +104,6 @@ export const ContactPage: React.FC = () => {
 
   return (
     <main className="bg-pearl-100">
-      {/* Page hero */}
       <section className="relative overflow-hidden isolate py-20 sm:py-28 border-b border-neutral-200">
         <img
           src="https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-scaled.jpeg"
@@ -159,8 +158,6 @@ export const ContactPage: React.FC = () => {
           </Reveal>
         </div>
       </section>
-
-      {/* Quick contact tiles */}
       <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
@@ -209,11 +206,8 @@ export const ContactPage: React.FC = () => {
           ))}
         </div>
       </section>
-
-      {/* Hours + form */}
       <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Hours */}
           <Reveal direction="right" className="lg:col-span-5 space-y-5">
             <div className="p-7 rounded-3xl bg-white border border-neutral-200 shadow-luxury-white">
               <div className="flex items-center gap-3 pb-4 border-b border-neutral-200">
@@ -250,8 +244,6 @@ export const ContactPage: React.FC = () => {
                 ))}
               </ul>
             </div>
-
-            {/* Getting here */}
             <div className="p-7 rounded-3xl bg-white border border-neutral-200 shadow-luxury-white space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-pearl-100 border border-gold/40 flex items-center justify-center text-gold">
@@ -283,8 +275,6 @@ export const ContactPage: React.FC = () => {
               </a>
             </div>
           </Reveal>
-
-          {/* Form */}
           <Reveal direction="left" className="lg:col-span-7">
             <form
               onSubmit={submit}
@@ -404,8 +394,6 @@ export const ContactPage: React.FC = () => {
           </Reveal>
         </div>
       </section>
-
-      {/* Map */}
       <section className="py-16 bg-white/91 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal direction="scale">
@@ -423,8 +411,6 @@ export const ContactPage: React.FC = () => {
           </Reveal>
         </div>
       </section>
-
-      {/* Socials + careers CTA */}
       <section className="py-16 bg-white/91">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <Reveal className="text-center space-y-2">

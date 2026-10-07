@@ -41,8 +41,6 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
             <X className="w-5 h-5" />
           </button>
         </div>
-
-        {/* Modal Banner Image */}
         <div className="relative h-60 sm:h-72 w-full overflow-hidden rounded-t-3xl bg-neutral-100">
           <img
             src={service.image}
@@ -61,15 +59,11 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
             </h2>
           </div>
         </div>
-
-        {/* Modal Content */}
         <div className="p-5 sm:p-8 space-y-6">
           
           <p className="text-sm text-neutral-600 font-light leading-relaxed">
             {service.description}
           </p>
-
-          {/* Sensory & Botanical Highlight Boxes */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {service.sensoryNotes && (
               <div className="p-3.5 rounded-xl bg-pearl-100 border border-neutral-200 space-y-1">
@@ -89,8 +83,6 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
               </div>
             )}
           </div>
-
-          {/* Key Inclusions */}
           <div>
             <h4 className="font-serif text-sm text-neutral-900 font-bold uppercase tracking-wider mb-3">
               Cosa Comprende il Servizio
@@ -106,8 +98,6 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
               ))}
             </div>
           </div>
-
-          {/* Price & Action */}
           <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-1 text-xs text-neutral-500 font-medium">

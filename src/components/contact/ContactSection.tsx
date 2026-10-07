@@ -2,16 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { useBooking } from '../../context/BookingContext';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Calendar, 
-  MessageSquare,
-  Navigation,
-  ArrowRight
-} from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Calendar, MessageSquare } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
   const { openBooking } = useBooking();
@@ -20,8 +11,6 @@ export const ContactSection: React.FC = () => {
     <section id="contatti" className="py-24 bg-pearl-100/89 relative overflow-hidden border-b border-neutral-200">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,11 +32,7 @@ export const ContactSection: React.FC = () => {
 
         {/* Grid: Details on Left, Map on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Cards */}
           <div className="lg:col-span-6 space-y-4">
-            
-            {/* Address Card */}
             <div className="p-6 rounded-2xl bg-white border border-neutral-200 shadow-2xs flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-pearl-100 border border-gold/40 flex items-center justify-center text-gold flex-shrink-0 shadow-xs">
                 <MapPin className="w-6 h-6" />
@@ -58,8 +43,6 @@ export const ContactSection: React.FC = () => {
                 <p className="text-xs text-neutral-600">83038 Montemiletto (AV)</p>
               </div>
             </div>
-
-            {/* Opening Hours Table Card */}
             <div className="p-6 rounded-2xl bg-white border border-neutral-200 shadow-2xs space-y-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-pearl-100 border border-gold/40 flex items-center justify-center text-gold shadow-xs">
@@ -84,8 +67,6 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Phone Numbers */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <a
                 href="tel:0825968391"
@@ -115,8 +96,6 @@ export const ContactSection: React.FC = () => {
                 </div>
               </a>
             </div>
-
-            {/* Email Card */}
             <a
               href="mailto:mustohairdresser@gmail.com"
               className="p-5 rounded-2xl bg-white border border-neutral-200 hover:border-gold transition-all flex items-center gap-3.5 shadow-2xs group block"
@@ -131,8 +110,6 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
             </a>
-
-            {/* Booking Quick Action */}
             <div className="pt-1">
               <button
                 onClick={() => openBooking()}
@@ -145,7 +122,7 @@ export const ContactSection: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Google Maps Embed (Esattamente come in tonymusto.it) */}
+          {/* Right Column: Google Maps Embed */}
           <div className="lg:col-span-6 space-y-4">
             <div className="rounded-3xl overflow-hidden border border-neutral-200 shadow-luxury-card bg-white p-2">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden">

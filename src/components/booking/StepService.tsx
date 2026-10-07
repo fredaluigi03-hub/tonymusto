@@ -31,8 +31,6 @@ export const StepService: React.FC = () => {
           Scegli il servizio desiderato tra le nostre specialità sartoriali e botaniche.
         </p>
       </div>
-
-      {/* Category Pills */}
       <div className="flex items-center justify-center gap-2 flex-wrap pb-1">
         {categories.map(cat => (
           <button
@@ -49,8 +47,6 @@ export const StepService: React.FC = () => {
           </button>
         ))}
       </div>
-
-      {/* Services Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[380px] overflow-y-auto pr-1">
         {filteredServices.map(service => {
           const isSelected = selected?.id === service.id;
@@ -64,7 +60,6 @@ export const StepService: React.FC = () => {
                   : 'border-neutral-200 bg-white hover:border-gold/50 hover:bg-pearl-100/40'
               }`}
             >
-              {/* Service Image */}
               <img
                 src={service.image}
                 alt={service.name}
@@ -103,8 +98,6 @@ export const StepService: React.FC = () => {
           );
         })}
       </div>
-
-      {/* Action Next */}
       <div className="flex justify-end pt-3 border-t border-neutral-100">
         <button
           type="button"

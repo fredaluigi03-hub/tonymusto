@@ -68,7 +68,6 @@ export const ServicesSection: React.FC = () => {
       id="servizi"
       className="relative overflow-hidden border-b border-neutral-200 bg-neutral-950 py-20 sm:py-24"
     >
-      {/* Warm depth behind the cylinder */}
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <div className="absolute top-1/4 right-1/4 w-[36rem] h-[36rem] rounded-full bg-gold/12 blur-[130px]" />
         <div className="absolute bottom-0 left-1/4 w-[30rem] h-[30rem] rounded-full bg-amber-500/10 blur-[130px]" />
@@ -89,8 +88,6 @@ export const ServicesSection: React.FC = () => {
           </p>
         </Reveal>
       </div>
-
-      {/* 3D cylinder of treatments */}
       <div className="relative z-10 h-[380px] sm:h-[520px] lg:h-[720px]">
         <CircularGallery
           items={galleryItems}

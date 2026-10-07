@@ -59,7 +59,6 @@ export const AwardsPage: React.FC = () => (
               transition={{ duration: 0.6, delay: idx * 0.12 }}
               className={`relative ${hang}`}
             >
-              {/* filo teso al chiodo */}
               <svg
                 aria-hidden
                 viewBox="0 0 200 40"
@@ -68,18 +67,12 @@ export const AwardsPage: React.FC = () => (
               >
                 <path d="M0 38 L100 4 L200 38" fill="none" stroke="rgba(60,45,20,0.35)" strokeWidth="1.5" />
               </svg>
-              {/* chiodo */}
               <span className="absolute left-1/2 -top-10 -translate-x-1/2 h-3 w-3 rounded-full bg-neutral-500 shadow-md ring-2 ring-white/60" />
-
-              {/* cornice */}
               <div
                 className={`${tilt} hover:rotate-0 transition-transform duration-500 p-2.5 rounded-[3px] shadow-[0_24px_45px_-16px_rgba(0,0,0,0.55)] bg-[linear-gradient(135deg,#8a6410_0%,#e8d59b_20%,#b8860b_45%,#f2e7c2_68%,#7d5a0d_100%)]`}
               >
-                {/* battuta interna scura */}
                 <div className="p-[3px] bg-neutral-900/75">
-                  {/* passe-partout */}
                   <div className="bg-[#FBF8F0] px-4 py-6 sm:px-6 sm:py-8 shadow-[inset_0_2px_12px_rgba(0,0,0,0.10)]">
-                    {/* carta dell'attestato, doppio filetto oro */}
                     <div className="bg-white border border-gold/45 outline outline-1 outline-offset-[4px] outline-gold/25 px-5 py-7 text-center space-y-3">
                       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gold/50 bg-pearl-100 text-gold shadow-2xs">
                         <Award className="h-6 w-6" />

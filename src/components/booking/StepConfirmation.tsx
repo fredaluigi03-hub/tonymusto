@@ -1,15 +1,6 @@
 import React from 'react';
 import { useBooking } from '../../context/BookingContext';
-import { 
-  CheckCircle2, 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  User, 
-  Sparkles, 
-  Share2, 
-  Scissors 
-} from 'lucide-react';
+import { CheckCircle2, Clock, MapPin, User, Sparkles, Share2, Scissors } from 'lucide-react';
 
 export const StepConfirmation: React.FC = () => {
   const { bookingState, closeBooking, resetBooking } = useBooking();
@@ -25,7 +16,6 @@ export const StepConfirmation: React.FC = () => {
 
   return (
     <div className="space-y-6 text-center py-2">
-      {/* Success Emblem */}
       <div className="w-16 h-16 mx-auto rounded-full bg-emerald-50 border border-emerald-300 text-emerald-600 flex items-center justify-center shadow-xs">
         <CheckCircle2 className="w-9 h-9 stroke-[2.5]" />
       </div>
@@ -41,8 +31,6 @@ export const StepConfirmation: React.FC = () => {
           Ti aspettiamo in salone a Montemiletto per il tuo appuntamento.
         </p>
       </div>
-
-      {/* Ticket / Voucher Card */}
       <div className="max-w-md mx-auto p-5 rounded-2xl bg-pearl-100 border border-neutral-200 shadow-xs text-left space-y-3.5">
         <div className="border-b border-neutral-200 pb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -91,8 +79,6 @@ export const StepConfirmation: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
         <a
           href={`https://wa.me/393770293092?text=${whatsappMessage}`}

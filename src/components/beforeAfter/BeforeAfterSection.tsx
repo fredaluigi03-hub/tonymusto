@@ -38,8 +38,6 @@ export const BeforeAfterSection: React.FC = () => {
             definizione ricci e tagli sartoriali. Trascina la maniglia per confrontare.
           </p>
         </Reveal>
-
-        {/* Case switcher */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
           {beforeAfterData.map((item, i) => {
             const isActive = item.id === activeCaseId;
@@ -79,8 +77,6 @@ export const BeforeAfterSection: React.FC = () => {
             );
           })}
         </div>
-
-        {/* Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <motion.div
             key={activeCase.id}
@@ -170,8 +166,6 @@ export const BeforeAfterSection: React.FC = () => {
           </motion.div>
         </div>
       </div>
-
-      {/* Fullscreen inspector */}
       <AnimatePresence>
         {fullscreenOpen && (
           <motion.div

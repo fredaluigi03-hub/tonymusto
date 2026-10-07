@@ -79,6 +79,12 @@ export const CareersModal: React.FC = () => {
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
+    // `accept` on the input is only a hint to the file picker, check again here
+    if (!/\.(pdf|docx?)$/i.test(f.name)) {
+      e.target.value = '';
+      alert('Formato non supportato: carica un PDF o un file Word.');
+      return;
+    }
     if (f.size > 5 * 1024 * 1024) {
       updateApplication({ cvFileName: '' });
       alert('Il CV deve essere inferiore a 5 MB.');
@@ -107,7 +113,6 @@ export const CareersModal: React.FC = () => {
           transition={{ duration: 0.3 }}
           className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900"
         >
-          {/* Header */}
           <div className="sticky top-0 z-30 rounded-t-3xl p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
@@ -130,8 +135,6 @@ export const CareersModal: React.FC = () => {
               <X className="w-6 h-6" />
             </button>
           </div>
-
-          {/* Progress */}
           {currentStep <= 3 && (
             <div className="bg-white px-4 sm:px-6 py-3.5 border-b border-neutral-100">
               <div className="flex items-center justify-between max-w-lg mx-auto">
@@ -171,8 +174,6 @@ export const CareersModal: React.FC = () => {
               </div>
             </div>
           )}
-
-          {/* Body */}
           <div className="p-4 sm:p-8 bg-white">
             <AnimatePresence mode="wait">
               <motion.div
@@ -182,7 +183,6 @@ export const CareersModal: React.FC = () => {
                 exit={{ opacity: 0, x: -15 }}
                 transition={{ duration: 0.25 }}
               >
-                {/* STEP 1 — role */}
                 {currentStep === 1 && (
                   <div className="space-y-4">
                     <div>
@@ -200,8 +200,6 @@ export const CareersModal: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* STEP 2 — details */}
                 {currentStep === 2 && (
                   <div className="space-y-5">
                     <div>
@@ -336,8 +334,6 @@ export const CareersModal: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* STEP 3 — motivation + CV */}
                 {currentStep === 3 && (
                   <div className="space-y-5">
                     <div>
@@ -365,8 +361,6 @@ export const CareersModal: React.FC = () => {
                         {application.message.trim().length}/10 caratteri minimi
                       </span>
                     </label>
-
-                    {/* CV upload */}
                     <div className="space-y-1.5">
                       <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
                         Curriculum (facoltativo · PDF o DOC, max 5MB)
@@ -436,8 +430,6 @@ export const CareersModal: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* STEP 4 — confirmation */}
                 {currentStep === 4 && (
                   <div className="text-center space-y-5 py-4">
                     <motion.div

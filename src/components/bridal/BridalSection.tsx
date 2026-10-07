@@ -93,7 +93,6 @@ export const BridalSection: React.FC = () => {
         </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          {/* Real bride gallery */}
           <Reveal direction="right" className="lg:col-span-6">
             <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-white/70 shadow-luxury-card relative bg-white/80 backdrop-blur-sm group p-2 sm:p-2.5">
               <div className="w-full h-full rounded-2xl overflow-hidden relative bg-pearl-200">
@@ -112,8 +111,6 @@ export const BridalSection: React.FC = () => {
                 </AnimatePresence>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
-
-                {/* Gallery arrows */}
                 <button
                   type="button"
                   onClick={() => go(-1)}
@@ -130,8 +127,6 @@ export const BridalSection: React.FC = () => {
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
-
-                {/* Caption card */}
                 <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3.5 sm:p-5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md space-y-1">
                   <span className="text-[11px] uppercase font-mono tracking-widest text-gold font-bold">
                     Spose Tony Musto · {photoIndex + 1}/{bridePhotos.length}
@@ -175,8 +170,6 @@ export const BridalSection: React.FC = () => {
               </div>
             </div>
           </Reveal>
-
-          {/* Steps */}
           <Reveal direction="left" className="lg:col-span-6 space-y-5">
             <h3 className="font-serif text-2xl font-bold text-neutral-900 tracking-wide pb-2 border-b border-neutral-300/70 flex items-center gap-2">
               <Heart className="w-5 h-5 text-gold" />

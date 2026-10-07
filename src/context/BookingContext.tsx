@@ -93,8 +93,6 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const code = `TM-${Math.floor(100000 + Math.random() * 900000)}`;
     setBookingState(prev => ({ ...prev, bookingCode: code }));
     setCurrentStep(5);
-
-    // Trigger elegant celebratory confetti
     try {
       confetti({
         particleCount: 70,
@@ -103,7 +101,6 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         colors: ['#D4AF37', '#FFF2B2', '#B8BCC2', '#EAD7A1']
       });
     } catch {
-      // safe fallback
     }
   };
 

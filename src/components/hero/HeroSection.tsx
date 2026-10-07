@@ -68,8 +68,6 @@ export const HeroSection: React.FC = () => {
             animate="visible"
             className="lg:col-start-7 lg:col-span-6 space-y-6 text-left rounded-3xl bg-white/85 backdrop-blur-xl border border-white/70 shadow-luxury-card p-6 sm:p-8"
           >
-
-            {/* Top Anchor Badge */}
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gold/40 shadow-xs">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
               <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1.5">
@@ -77,8 +75,6 @@ export const HeroSection: React.FC = () => {
                 Salone a Montemiletto (AV) · Aperto Mar–Sab
               </span>
             </motion.div>
-
-            {/* Headline Editoriale Ufficiale */}
             <motion.div variants={itemVariants} className="space-y-2">
               <span className="block font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-neutral-500 font-semibold">
                 Tony Musto Parrucchieri
@@ -91,13 +87,9 @@ export const HeroSection: React.FC = () => {
                 Fashion hair — acconciature e make-up for wedding
               </p>
             </motion.div>
-
-            {/* Testo Vero dal Sito Ufficiale tonymusto.it */}
             <motion.p variants={itemVariants} className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed border-l-2 border-gold pl-4 py-1">
               "Chi sceglie i nostri prodotti sceglie un’esperienza totale che coinvolge tutti i sensi, sceglie di affidarsi a professionisti dello stile che sappiano esaltare ogni tratto e sfumatura della personalità, in un ambiente raffinato e di classe sempre aggiornato sulle tendenze e sulle mode."
             </motion.p>
-
-            {/* 2 Clear Main CTAs */}
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-1">
               <motion.button
                 whileHover={{ scale: 1.03, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)" }}
@@ -119,8 +111,6 @@ export const HeroSection: React.FC = () => {
                 <span>Acquista Prodotti Online</span>
               </motion.a>
             </motion.div>
-
-            {/* Quick Facts Strip */}
             <motion.div variants={itemVariants} className="pt-5 flex items-center gap-3 flex-wrap text-xs text-neutral-600 border-t border-neutral-200">
               <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-md border border-neutral-200 shadow-2xs">
                 <Clock className="w-4 h-4 text-gold" />
@@ -136,8 +126,6 @@ export const HeroSection: React.FC = () => {
 
         </div>
       </div>
-
-      {/* Scroll Down Indicator */}
       <motion.div
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}

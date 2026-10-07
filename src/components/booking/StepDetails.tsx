@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useBooking } from '../../context/BookingContext';
-import { ArrowRight, ArrowLeft, Sparkles, Shield, User, Phone, Mail, FileText } from 'lucide-react';
+import { ArrowLeft, Sparkles, Shield, User, Phone, Mail, FileText } from 'lucide-react';
 
 export const StepDetails: React.FC = () => {
   const { bookingState, updateCustomerDetails, confirmBooking, setStep } = useBooking();
@@ -41,8 +41,6 @@ export const StepDetails: React.FC = () => {
           Inserisci i recapiti per confermare l'appuntamento in salone a Montemiletto.
         </p>
       </div>
-
-      {/* Booking Quick Recap Header */}
       <div className="p-4 rounded-xl bg-pearl-100 border border-neutral-200 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div>
           <span className="text-neutral-500">Servizio:</span>{' '}
@@ -57,8 +55,6 @@ export const StepDetails: React.FC = () => {
           <strong className="text-gold font-mono font-bold">{bookingState.date} ore {bookingState.timeSlot}</strong>
         </div>
       </div>
-
-      {/* Form Fields */}
       <div className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div>
@@ -145,8 +141,6 @@ export const StepDetails: React.FC = () => {
         <Shield className="w-4 h-4 text-gold flex-shrink-0" />
         <span>Nessun pagamento anticipato. Il pagamento si effettua in salone al termine del servizio.</span>
       </div>
-
-      {/* Controls */}
       <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
         <button
           type="button"

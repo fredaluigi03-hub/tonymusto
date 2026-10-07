@@ -9,7 +9,6 @@ export const DarkMap: React.FC = () => {
       
       {/* Stylized Dark Mode Map Canvas / Mockup with Grid Lines and Gold Radar Pin */}
       <div className="absolute inset-0 bg-[#0c0c10] overflow-hidden">
-        {/* Vector Road Lines Map Effect */}
         <svg className="w-full h-full opacity-40" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -17,21 +16,13 @@ export const DarkMap: React.FC = () => {
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
-          
-          {/* Main roads */}
           <path d="M-50,200 Q200,180 350,150 T800,90" fill="none" stroke="#383848" strokeWidth="6" />
           <path d="M200,-50 Q230,150 250,300 T300,500" fill="none" stroke="#383848" strokeWidth="5" />
           <path d="M-10,80 L500,280" fill="none" stroke="#2a2a38" strokeWidth="3" />
           <path d="M300,-10 L650,400" fill="none" stroke="#2a2a38" strokeWidth="3" />
-          
-          {/* Accent Gold Route to Salon */}
           <path d="M120,380 C180,300 220,240 280,180" fill="none" stroke="#D4AF37" strokeWidth="2.5" strokeDasharray="6,4" className="animate-pulse" />
         </svg>
-
-        {/* Topographic glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
-
-        {/* Central Luxury Gold Pin at Montemiletto */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
           <div className="relative flex items-center justify-center">
             <div className="absolute w-12 h-12 rounded-full bg-gold/20 animate-ping" />
@@ -45,8 +36,6 @@ export const DarkMap: React.FC = () => {
             <span className="text-[9px] font-mono text-gold-muted block">Via XXIV Maggio 13/14, Montemiletto</span>
           </div>
         </div>
-
-        {/* Corner Controls */}
         <div className="absolute bottom-4 right-4 z-20">
           <a
             href={googleMapsUrl}
