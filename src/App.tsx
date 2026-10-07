@@ -24,8 +24,7 @@ import { CheckoutSummaryModal } from './components/shop/CheckoutSummaryModal';
 import { BookingModal } from './components/booking/BookingModal';
 import { CareersModal } from './components/careers/CareersModal';
 import { ScrollProgress } from './components/layout/ScrollProgress';
-import heroPoster from './assets/hero-poster.webp';
-import { useHeroScroll } from './components/common/useHeroScroll';
+import heroPhoto from './assets/hero-photo.webp';
 
 /**
  * Routing is a plain hash lookup: the keys below are standalone pages, everything
@@ -59,24 +58,17 @@ const useHashRoute = () => {
 export function App() {
   const route = useHashRoute();
   const Page = PAGES[route];
-  const heroVideo = useHeroScroll();
 
   return (
     <CartProvider>
       <BookingProvider>
         <CareersProvider>
           {/* Foto fissa dietro tutto il sito: piena nell'hero, velata dalle sezioni successive */}
-          {/* Muro, cornice, zoom e animazione stanno dentro al video: lo scroll
-              ne comanda il tempo, avanti e indietro. */}
           <div aria-hidden className="fixed inset-0 -z-10 pointer-events-none bg-pearl-100">
-            <video
-              ref={heroVideo}
-              src="/hero-video.mp4"
-              poster={heroPoster}
-              muted
-              playsInline
-              preload="none"
-              className="hidden h-full w-full object-cover object-center lg:block"
+            <img
+              src={heroPhoto}
+              alt=""
+              className="hidden h-full w-full object-cover object-[center_30%] lg:block"
             />
           </div>
 

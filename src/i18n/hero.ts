@@ -2,7 +2,7 @@ import { defineStrings } from './strings';
 
 export const heroStrings = defineStrings({
   it: {
-    videoLabel: "Tony Musto al lavoro su un'acconciatura durante uno shooting",
+    photoAlt: "Tony Musto al lavoro su un'acconciatura durante uno shooting",
     badge: 'Salone a Montemiletto (AV) · Aperto Mar–Sab',
     brand: 'Tony Musto Parrucchieri',
     tagline: 'Fashion hair — acconciature e make-up for wedding',
@@ -14,7 +14,7 @@ export const heroStrings = defineStrings({
     scroll: 'Scorri',
   },
   en: {
-    videoLabel: 'Tony Musto styling a look during a photo shoot',
+    photoAlt: 'Tony Musto styling a look during a photo shoot',
     badge: 'Salon in Montemiletto (AV) · Open Tue–Sat',
     brand: 'Tony Musto Parrucchieri',
     tagline: 'Fashion hair — styling and wedding make-up',
@@ -26,7 +26,7 @@ export const heroStrings = defineStrings({
     scroll: 'Scroll',
   },
   fr: {
-    videoLabel: 'Tony Musto en train de coiffer un look lors d’un shooting',
+    photoAlt: 'Tony Musto en train de coiffer un look lors d’un shooting',
     badge: 'Salon à Montemiletto (AV) · Ouvert du mar. au sam.',
     brand: 'Tony Musto Parrucchieri',
     tagline: 'Fashion hair — coiffures et maquillage de mariage',
@@ -38,7 +38,7 @@ export const heroStrings = defineStrings({
     scroll: 'Défiler',
   },
   es: {
-    videoLabel: 'Tony Musto trabajando en un peinado durante una sesión de fotos',
+    photoAlt: 'Tony Musto trabajando en un peinado durante una sesión de fotos',
     badge: 'Salón en Montemiletto (AV) · Abierto mar–sáb',
     brand: 'Tony Musto Parrucchieri',
     tagline: 'Fashion hair — peinados y maquillaje de novia',
@@ -50,7 +50,7 @@ export const heroStrings = defineStrings({
     scroll: 'Desliza',
   },
   de: {
-    videoLabel: 'Tony Musto stylt bei einem Shooting eine Frisur',
+    photoAlt: 'Tony Musto stylt bei einem Shooting eine Frisur',
     badge: 'Salon in Montemiletto (AV) · Geöffnet Di–Sa',
     brand: 'Tony Musto Parrucchieri',
     tagline: 'Fashion Hair — Frisuren und Make-up for Wedding',

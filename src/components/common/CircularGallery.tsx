@@ -227,6 +227,8 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   marginTop: -cardHeight / 2,
                   opacity,
                   transition: 'opacity .3s linear',
+                  // dal retro il testo si vedrebbe specchiato
+                  backfaceVisibility: 'hidden',
                   // le card sul retro non devono intercettare i click
                   pointerEvents: normalized > 100 ? 'none' : 'auto',
                 }}
@@ -242,30 +244,32 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                       }
                     : {})}
                   className={cn(
-                    'relative block w-full h-full rounded-lg overflow-hidden group shadow-2xl',
+                    'relative flex flex-col w-full h-full rounded-lg overflow-hidden group shadow-2xl text-left',
                     cardClassName
                   )}
                 >
-                  <img
-                    src={item.image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    draggable={false}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    style={{ objectPosition: item.imagePosition || 'center' }}
-                  />
+                    <div className="relative min-h-0 flex-1 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      style={{ objectPosition: item.imagePosition || 'center' }}
+                    />
+                  </div>
                   <div
                     className={cn(
-                      'absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/85 to-transparent text-white',
+                      'w-full p-4 bg-neutral-950 text-white',
                       captionClassName
                     )}
                   >
-                    <h3 className="text-lg font-bold leading-tight">{item.title}</h3>
+                    <h3 className="font-serif text-lg font-bold leading-tight text-white">{item.title}</h3>
                     {item.subtitle && (
-                      <em className="block text-sm italic opacity-80">{item.subtitle}</em>
+                      <em className="block text-sm italic text-gold-light">{item.subtitle}</em>
                     )}
-                    {item.meta && <p className="text-xs mt-1.5 opacity-70">{item.meta}</p>}
+                    {item.meta && <p className="text-xs mt-1.5 text-neutral-300">{item.meta}</p>}
                   </div>
                 </Card>
               </div>

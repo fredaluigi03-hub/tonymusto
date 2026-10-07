@@ -1,10 +1,9 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
-import { useHeroScroll } from '../common/useHeroScroll';
 import { useStrings } from '../../i18n/strings';
 import { heroStrings } from '../../i18n/hero';
-import heroPoster from '../../assets/hero-poster.webp';
+import heroPhoto from '../../assets/hero-photo.webp';
 import {
   Sparkles,
   Calendar,
@@ -16,7 +15,6 @@ import {
 
 export const HeroSection: React.FC = () => {
   const { openBooking } = useBooking();
-  const heroVideo = useHeroScroll();
   const t = useStrings(heroStrings);
 
   const containerVariants: Variants = {
@@ -40,28 +38,19 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    /* La sezione e alta 3 schermate: quello spazio e la corsa dello scrub.
-       Dentro, un blocco sticky resta fermo a schermo pieno, cosi il resto del
-       sito non sale finche il video non e arrivato in fondo. */
-    <section id="hero" className="relative h-[300vh] border-b border-neutral-200">
-      <div className="sticky top-0 flex h-svh items-start lg:items-center justify-center overflow-hidden bg-pearl-100 lg:bg-transparent pt-[38vh] pb-12 lg:pt-24 lg:pb-24">
+    <section id="hero" className="relative border-b border-neutral-200">
+      <div className="relative flex min-h-svh items-start lg:items-center justify-center overflow-hidden bg-pearl-100 lg:bg-transparent pt-[38vh] pb-12 lg:pt-24 lg:pb-24">
 
-      {/* Mobile: banda in alto, la 16:9 non copre uno schermo verticale.
-          Desktop: arriva dal layer fisso in App. */}
+      {/* Su desktop la foto arriva dal layer fisso in App */}
       <div className="absolute inset-x-0 top-0 h-[46vh] bg-pearl-100 lg:hidden">
-        <video
-          ref={heroVideo}
-          src="/hero-video-sm.mp4"
-          poster={heroPoster}
-          muted
-          playsInline
-          preload="none"
-          aria-label={t.videoLabel}
-          className="h-full w-full object-cover object-center"
+        <img
+          src={heroPhoto}
+          alt={t.photoAlt}
+          className="h-full w-full object-cover object-[center_30%]"
         />
       </div>
 
-      <div className="hero-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12">
 
           {/* Il testo vive in un pannello vetro: la foto intorno resta intatta */}
@@ -132,7 +121,6 @@ export const HeroSection: React.FC = () => {
       <motion.div
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        style={{ opacity: 'clamp(0, calc(1 - var(--hero-zoom, 0) * 2.5), 1)' }}
         className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-1 px-3 py-2 rounded-full bg-white/85 backdrop-blur-md border border-white/70 text-xs text-neutral-600 shadow-md"
       >
         <span className="text-[10px] uppercase tracking-widest text-gold font-mono font-bold">{t.scroll}</span>
