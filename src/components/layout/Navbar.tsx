@@ -1,203 +1,164 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, Phone, ShoppingBag, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useBooking } from '../../context/BookingContext';
-import logo from '../../assets/logo.webp';
-import { ShoppingBag, Calendar, Phone, MapPin, Menu, X, Clock, Sparkles, Globe } from 'lucide-react';
 import { LANGUAGES, useLang, type Lang } from '../../i18n/LanguageContext';
 import { useStrings } from '../../i18n/strings';
 import { navbarStrings } from '../../i18n/navbar';
+import { ROUTES, useHashRoute } from '../../routes';
+import logo from '../../assets/logo.webp';
+
+const PHONE = '+393770293092';
 
 export const Navbar: React.FC = () => {
   const { totalItemsCount, setIsOpen: setCartOpen } = useCart();
   const { openBooking } = useBooking();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { lang, setLang } = useLang();
   const t = useStrings(navbarStrings);
+  const route = useHashRoute();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { name: t.links.services, href: '#servizi' },
-    { name: t.links.shop, href: '#/prodotti' },
-    { name: t.links.beforeAfter, href: '#prima-dopo' },
-    { name: 'My Wedding Page', href: '#spose' },
-    { name: t.links.careers, href: '#lavora-con-noi' },
-    { name: 'Awards', href: '#/premi' },
-    { name: 'Photos', href: '#/foto' },
-    { name: t.links.contact, href: '#/contatti' },
+  useEffect(() => setMenuOpen(false), [route]);
+
+  const links = [
+    { name: t.links.services, href: ROUTES.boutique },
+    { name: 'My Wedding Page', href: ROUTES.wedding },
+    { name: t.links.shop, href: ROUTES.shop },
+    { name: 'Photos', href: ROUTES.photos },
+    { name: 'Awards', href: ROUTES.awards },
+    { name: t.links.careers, href: ROUTES.careers },
+    { name: t.links.contact, href: ROUTES.contact },
   ];
 
   return (
     <>
-      <div className="bg-white border-b border-gold/20 text-[11px] text-neutral-600 py-1.5 px-4 relative z-50 shadow-xs">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
-          <div className="flex items-center gap-4 flex-wrap justify-center">
-            <span className="flex items-center gap-1.5 text-gold font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
-              <span>Hair Stylist for Passion · Montemiletto (AV)</span>
-            </span>
-            <span className="hidden md:inline text-neutral-300">|</span>
-            <span className="hidden md:flex items-center gap-1 text-neutral-500">
-              <Clock className="w-3.5 h-3.5 text-gold" />
-              <span>{t.hours}</span>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-neutral-600">
-            <a 
-              href="tel:0825968391" 
-              className="flex items-center gap-1 hover:text-gold font-medium transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-gold" />
-              <span>0825 968391</span>
-            </a>
-            <span className="text-neutral-300">/</span>
-            <a 
-              href="tel:3770293092" 
-              className="hover:text-gold font-medium transition-colors"
-            >
-              377 0293092
-            </a>
-            <span className="text-neutral-300 hidden lg:inline">|</span>
-            <a 
-              href="#contatti" 
-              className="hidden lg:flex items-center gap-1 hover:text-gold transition-colors"
-            >
-              <MapPin className="w-3.5 h-3.5 text-gold" />
-              <span>Via XXIV Maggio 13/14</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className={`sticky top-0 left-0 w-full z-40 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-md py-1.5' 
-            : 'bg-white/90 backdrop-blur-sm border-b border-neutral-200/60 py-2.5'
+      <header
+        className={`sticky top-0 z-40 w-full border-b transition-colors duration-300 ${
+          scrolled || menuOpen
+            ? 'border-neutral-200 bg-white/95 backdrop-blur-md'
+            : 'border-transparent bg-white/80 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <a href="#" className="group flex items-center shrink-0" aria-label="Tony Musto Parrucchieri — home">
-            <img
-              src={logo}
-              alt="Tony Musto Parrucchieri"
-              width={1400}
-              height={681}
-              className="h-11 sm:h-12 w-auto max-w-none shrink-0 transition-opacity duration-300 group-hover:opacity-80"
-            />
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
+          <a href={ROUTES.home} className="shrink-0" aria-label="Tony Musto Parrucchieri — home">
+            <img src={logo} alt="Tony Musto Parrucchieri" width={1400} height={681} className="h-10 w-auto lg:h-11" />
           </a>
-          <nav className="hidden xl:flex items-center space-x-5 text-sm font-medium tracking-wider">
-            {navLinks.map((link) => (
+
+          <nav className="hidden items-center gap-6 xl:flex">
+            {links.map(link => (
               <a
-                key={link.name}
+                key={link.href}
                 href={link.href}
-                className="text-neutral-700 hover:text-gold relative py-1 text-[11px] uppercase tracking-wider font-semibold whitespace-nowrap transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
+                aria-current={route === link.href ? 'page' : undefined}
+                className="relative py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-600 transition-colors hover:text-neutral-950 aria-[current=page]:text-neutral-950 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
               >
                 {link.name}
               </a>
             ))}
           </nav>
 
-          {/* Actions: Cart Button & Booking CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setCartOpen(true)}
-              aria-label={t.cart}
-              className="relative p-2 rounded-full border border-neutral-200 bg-white hover:border-gold hover:bg-pearl-100 text-neutral-800 hover:text-gold transition-all duration-300 shadow-xs"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              {totalItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gold text-white text-[9px] font-bold flex items-center justify-center shadow-md">
-                  {totalItemsCount}
-                </span>
-              )}
-            </motion.button>
-            <label className="relative flex items-center">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <label className="relative">
               <span className="sr-only">{t.language}</span>
-              <Globe className="pointer-events-none absolute left-2 w-3.5 h-3.5 text-gold" />
               <select
                 value={lang}
                 onChange={e => setLang(e.target.value as Lang)}
-                className="appearance-none cursor-pointer rounded-md border border-neutral-200 bg-white py-2 pl-7 pr-2 text-[11px] font-semibold uppercase tracking-wider text-neutral-800 hover:border-gold focus:border-gold focus:outline-none transition-colors"
+                className="cursor-pointer appearance-none rounded-full bg-transparent px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-950 focus-visible:outline-2 focus-visible:outline-gold"
               >
                 {LANGUAGES.map(l => (
-                  <option key={l.code} value={l.code}>
-                    {l.code.toUpperCase()} · {l.label}
+                  <option key={l.code} value={l.code} title={l.label}>
+                    {l.code.toUpperCase()}
                   </option>
                 ))}
               </select>
             </label>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => openBooking()}
-              className="relative group overflow-hidden px-3.5 sm:px-4 py-2 rounded-md bg-neutral-900 hover:bg-gold text-white hover:text-neutral-950 font-medium text-[11px] tracking-wider uppercase transition-all duration-300 shadow-sm flex items-center gap-2"
-            >
-              <Calendar className="w-3.5 h-3.5 text-gold group-hover:text-neutral-950 transition-colors" />
-              <span className="font-semibold">{t.book}</span>
-            </motion.button>
+
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-md border border-neutral-200 text-neutral-800 hover:text-gold hover:border-gold transition-colors"
-              aria-label={t.menu}
+              type="button"
+              onClick={() => setCartOpen(true)}
+              aria-label={t.cart}
+              className="relative cursor-pointer rounded-full p-2.5 text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-neutral-950"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              <ShoppingBag className="h-[18px] w-[18px]" />
+              {totalItemsCount > 0 && (
+                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-neutral-950 px-1 text-[9px] font-bold text-white">
+                  {totalItemsCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => openBooking()}
+              className="hidden cursor-pointer rounded-full bg-neutral-950 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-gold sm:block"
+            >
+              {t.book}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(open => !open)}
+              aria-label={t.menu}
+              aria-expanded={menuOpen}
+              className="cursor-pointer rounded-full p-2.5 text-neutral-800 transition-colors hover:bg-neutral-100 xl:hidden"
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
+
         <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div 
+          {menuOpen && (
+            <motion.nav
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="xl:hidden bg-white border-b border-neutral-200 px-6 py-6 transition-all"
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden border-t border-neutral-200 bg-white xl:hidden"
             >
-              <div className="flex flex-col space-y-4">
-                {navLinks.map((link) => (
+              <div className="flex flex-col px-6 py-4">
+                {links.map(link => (
                   <a
-                    key={link.name}
+                    key={link.href}
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-neutral-800 hover:text-gold text-base font-serif tracking-wide py-2 border-b border-neutral-100 transition-colors"
+                    aria-current={route === link.href ? 'page' : undefined}
+                    className="border-b border-neutral-100 py-3.5 font-serif text-xl text-neutral-800 transition-colors last:border-0 hover:text-gold aria-[current=page]:text-gold"
                   >
                     {link.name}
                   </a>
                 ))}
-                <div className="pt-4 flex flex-col gap-3">
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      openBooking();
-                    }}
-                    className="w-full py-3 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md rounded-md hover:bg-gold hover:text-neutral-950 transition-colors"
-                  >
-                    <Calendar className="w-4 h-4 text-gold" />
-                    {t.bookLong}
-                  </button>
-                  <div className="text-center text-xs text-neutral-500 pt-2">
-                    <p>Via XXIV Maggio 13/14, Montemiletto (AV)</p>
-                    <p className="text-gold font-mono font-bold mt-1">Tel: 0825 968391 · 377 0293092</p>
-                  </div>
-                </div>
               </div>
-            </motion.div>
+            </motion.nav>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
+
+      {/* On phones the two actions that matter stay one tap away */}
+      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-px border-t border-neutral-200 bg-neutral-200 pb-[env(safe-area-inset-bottom)] sm:hidden">
+        <a
+          href={`tel:${PHONE}`}
+          className="flex items-center justify-center gap-2 bg-white py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-900"
+        >
+          <Phone className="h-4 w-4" />
+          {t.call}
+        </a>
+        <button
+          type="button"
+          onClick={() => openBooking()}
+          className="cursor-pointer bg-neutral-950 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-white"
+        >
+          {t.book}
+        </button>
+      </div>
     </>
   );
 };
