@@ -5,7 +5,6 @@ import { shots } from "../../data/photosData";
 import { useStrings } from "../../i18n/strings";
 import { photosStrings } from "../../i18n/photos";
 import { philosophyStrings } from "../../i18n/philosophy";
-import { ROUTES } from "../../routes";
 
 const ROWS = [
   [0, 19, 3, 13, 9, 6, 16, 25],
@@ -39,24 +38,12 @@ export const GallerySection: React.FC = () => {
   );
 
   return (
-    <section className="flex w-full flex-col justify-center gap-12 py-16">
+    <section className="flex w-full flex-col justify-center gap-8 py-12">
       {ribbon(ROWS[0], false)}
       <Reveal className="mx-auto max-w-4xl px-6 text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
-          {t.kicker}
-        </p>
-        <h2 className="mt-5 font-serif text-4xl font-normal leading-[1.05] tracking-tight text-neutral-950 sm:text-6xl">
+        <h2 className="font-serif text-4xl font-normal leading-[1.05] tracking-tight text-neutral-950 sm:text-6xl">
           {t.statement}
         </h2>
-        <p className="mt-6 text-xs font-medium uppercase tracking-[0.3em] text-neutral-500">
-          {t.pillars.map((pillar) => pillar.title).join(" · ")}
-        </p>
-        <a
-          href={ROUTES.photos}
-          className="mt-8 inline-flex min-h-11 cursor-pointer items-center rounded-full border border-neutral-300 px-8 text-xs font-medium uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold"
-        >
-          {photos.seeAll}
-        </a>
       </Reveal>
       {ribbon(ROWS[1], true)}
     </section>
