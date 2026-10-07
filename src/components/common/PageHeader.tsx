@@ -13,7 +13,7 @@ interface PageHeaderProps {
 
 /** Opening block shared by every inner page, so they all start the same way. */
 export const PageHeader: React.FC<PageHeaderProps> = ({ kicker, title, intro, image, imageAlt = '', children }) => (
-  <header className="mx-auto max-w-7xl px-6 pb-16 pt-16 sm:pt-24 lg:px-8">
+  <header className="mx-auto max-w-7xl px-6 pb-16 pt-32 sm:pt-44 lg:px-8">
     <Reveal className="max-w-3xl">
       <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{kicker}</p>
       <h1 className="mt-4 font-serif text-4xl font-normal leading-[1.1] tracking-tight text-neutral-950 sm:text-6xl">

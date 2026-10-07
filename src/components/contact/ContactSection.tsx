@@ -18,12 +18,24 @@ export const ContactSection: React.FC = () => {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-      <Reveal className="max-w-2xl">
-        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
-        <h2 className="mt-6 font-serif text-5xl font-normal leading-[1.02] tracking-tight sm:text-7xl">
-          {contact.section.title}
-        </h2>
-      </Reveal>
+      <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <Reveal className="max-w-2xl">
+          <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
+          <h2 className="mt-6 font-serif text-5xl font-normal leading-[1.02] tracking-tight sm:text-7xl">
+            {contact.section.title}
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1} className="[perspective:1200px]">
+          <div className="h-56 w-full overflow-hidden rounded-2xl shadow-[0_30px_60px_-20px_rgba(212,175,55,0.45)] ring-1 ring-gold/40 transition-transform duration-700 [transform:rotateX(14deg)_rotateY(-16deg)] hover:[transform:none] sm:w-96">
+            <iframe
+              loading="lazy"
+              className="h-full w-full border-0"
+              src="https://maps.google.com/maps?q=tony%20musto%20montemiletto&t=m&z=16&output=embed"
+              title={contact.mapTitle}
+            />
+          </div>
+        </Reveal>
+      </div>
 
       <Reveal delay={0.1} className="mt-14 grid gap-12 border-t border-white/15 pt-12 md:grid-cols-3">
         <div>

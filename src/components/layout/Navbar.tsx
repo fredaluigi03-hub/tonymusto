@@ -40,10 +40,8 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full border-b transition-colors duration-300 ${
-          scrolled || menuOpen
-            ? 'border-neutral-200 bg-white/95 backdrop-blur-md'
-            : 'border-transparent bg-white/80 backdrop-blur-sm'
+        className={`sticky top-0 z-40 -mb-16 w-full border-b backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300 lg:-mb-20 ${
+          scrolled || menuOpen ? 'border-white/40 bg-white/70' : 'border-transparent bg-white/45'
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
@@ -57,7 +55,7 @@ export const Navbar: React.FC = () => {
                 key={link.href}
                 href={link.href}
                 aria-current={route === link.href ? 'page' : undefined}
-                className="relative py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-600 transition-colors hover:text-neutral-950 aria-[current=page]:text-neutral-950 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+                className="relative py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-800 transition-colors hover:text-neutral-950 aria-[current=page]:text-neutral-950 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
               >
                 {link.name}
               </a>

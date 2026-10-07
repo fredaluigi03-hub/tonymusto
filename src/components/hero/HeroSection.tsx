@@ -15,7 +15,7 @@ export const HeroSection: React.FC = () => {
       <img
         src={heroPhoto}
         alt={t.photoAlt}
-        className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+        className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/45 to-neutral-950/10" />
 
