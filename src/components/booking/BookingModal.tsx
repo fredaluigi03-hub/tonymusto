@@ -2,6 +2,8 @@ import React from 'react';
 import { ModalOverlay } from '../common/ModalOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { bookingStrings } from '../../i18n/booking';
 import { StepService } from './StepService';
 import { StepStylist } from './StepStylist';
 import { StepDateTime } from './StepDateTime';
@@ -11,13 +13,14 @@ import { X, Scissors } from 'lucide-react';
 
 export const BookingModal: React.FC = () => {
   const { isModalOpen, closeBooking, currentStep, setStep } = useBooking();
+  const t = useStrings(bookingStrings);
 
   if (!isModalOpen) return null;
 
-  const stepTitles = ['Servizio', 'Stylist', 'Data & Ora', 'I Tuoi Dati'];
+  const stepTitles = t.steps;
 
   return (
-    <ModalOverlay onClose={closeBooking} label="Prenota il tuo appuntamento">
+    <ModalOverlay onClose={closeBooking} label={t.dialogLabel}>
         <motion.div 
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -32,7 +35,7 @@ export const BookingModal: React.FC = () => {
               </div>
               <div>
                 <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
-                  Prenota il tuo Appuntamento
+                  {t.title}
                 </h2>
                 <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
                   Tony Musto · Montemiletto (AV)
@@ -42,6 +45,7 @@ export const BookingModal: React.FC = () => {
 
             <button
               onClick={closeBooking}
+              aria-label={t.close}
               className="p-2 shrink-0 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
             >
               <X className="w-6 h-6" />

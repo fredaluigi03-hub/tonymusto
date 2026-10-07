@@ -1,7 +1,10 @@
 import React from 'react';
 import { MapPin, Navigation, ExternalLink } from 'lucide-react';
+import { useStrings } from '../../i18n/strings';
+import { contactStrings } from '../../i18n/contact';
 
 export const DarkMap: React.FC = () => {
+  const t = useStrings(contactStrings);
   const googleMapsUrl = "https://maps.google.com/?q=Via+XXIV+Maggio+13+Montemiletto+AV";
 
   return (
@@ -44,7 +47,7 @@ export const DarkMap: React.FC = () => {
             className="px-4 py-2 rounded-lg bg-obsidian-900/90 border border-gold/40 text-gold text-xs font-semibold hover:bg-gold hover:text-obsidian-950 transition-all flex items-center gap-2 shadow-lg backdrop-blur-md"
           >
             <Navigation className="w-3.5 h-3.5" />
-            <span>Apri Indicazioni Stradali</span>
+            <span>{t.darkMap.directions}</span>
             <ExternalLink className="w-3 h-3" />
           </a>
         </div>

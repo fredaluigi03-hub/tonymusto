@@ -2,6 +2,8 @@ import React from 'react';
 import { ModalOverlay } from '../common/ModalOverlay';
 import { ServiceItem } from '../../types';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { servicesStrings } from '../../i18n/services';
 import { 
   X, 
   Clock, 
@@ -18,6 +20,7 @@ interface ServiceModalProps {
 
 export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) => {
   const { openBooking } = useBooking();
+  const t = useStrings(servicesStrings).modal;
 
   if (!service) return null;
 
@@ -35,7 +38,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
         <div className="sticky top-0 z-40 h-0">
           <button
             onClick={onClose}
-            aria-label="Chiudi"
+            aria-label={t.close}
             className="absolute right-4 top-4 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-800 hover:text-gold transition-colors shadow-lg"
           >
             <X className="w-5 h-5" />
@@ -68,7 +71,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
             {service.sensoryNotes && (
               <div className="p-3.5 rounded-xl bg-pearl-100 border border-neutral-200 space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-gold font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> Note & Atmosfera
+                  <Sparkles className="w-3.5 h-3.5" /> {t.notes}
                 </span>
                 <p className="text-xs text-neutral-700 italic">{service.sensoryNotes}</p>
               </div>
@@ -77,7 +80,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
             {service.botanicalHighlight && (
               <div className="p-3.5 rounded-xl bg-pearl-100 border border-neutral-200 space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-gold font-bold flex items-center gap-1.5">
-                  <Leaf className="w-3.5 h-3.5" /> Attivi Botanici
+                  <Leaf className="w-3.5 h-3.5" /> {t.botanical}
                 </span>
                 <p className="text-xs text-neutral-700">{service.botanicalHighlight}</p>
               </div>
@@ -85,7 +88,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
           </div>
           <div>
             <h4 className="font-serif text-sm text-neutral-900 font-bold uppercase tracking-wider mb-3">
-              Cosa Comprende il Servizio
+              {t.includes}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               {service.features.map((feat, i) => (
@@ -102,7 +105,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
             <div>
               <div className="flex items-center gap-1 text-xs text-neutral-500 font-medium">
                 <Clock className="w-3.5 h-3.5 text-gold" />
-                <span>Durata: {service.duration}</span>
+                <span>{t.duration} {service.duration}</span>
               </div>
               <span className="font-serif text-2xl font-bold text-neutral-950 mt-0.5 block">
                 {service.price}
@@ -114,7 +117,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
               className="w-full sm:w-auto px-7 py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
             >
               <Calendar className="w-4 h-4 text-gold group-hover:text-neutral-950" />
-              <span>Prenota Questo Servizio</span>
+              <span>{t.book}</span>
             </button>
           </div>
 

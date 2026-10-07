@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { bookingStrings } from '../../i18n/booking';
+import { useLang } from '../../i18n/LanguageContext';
 import { Calendar as CalendarIcon, ArrowRight, ArrowLeft, Sun, Sunset } from 'lucide-react';
 
 export const StepDateTime: React.FC = () => {
   const { bookingState, selectDateTime, setStep } = useBooking();
+  const { lang } = useLang();
+  const t = useStrings(bookingStrings).dateTime;
   const today = new Date();
   const availableDates = Array.from({ length: 14 }).map((_, i) => {
     const d = new Date(today);
@@ -11,9 +16,9 @@ export const StepDateTime: React.FC = () => {
     const dayOfWeek = d.getDay(); // 0 is Sunday, 1 is Monday
     const isClosed = dayOfWeek === 0 || dayOfWeek === 1; // Closed Sun & Mon
     
-    const dayName = d.toLocaleDateString('it-IT', { weekday: 'short' });
+    const dayName = d.toLocaleDateString(lang, { weekday: 'short' });
     const dayNumber = d.getDate();
-    const monthName = d.toLocaleDateString('it-IT', { month: 'short' });
+    const monthName = d.toLocaleDateString(lang, { month: 'short' });
     const isoDate = d.toISOString().split('T')[0];
 
     return {
@@ -42,19 +47,19 @@ export const StepDateTime: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-center max-w-lg mx-auto space-y-1">
-        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Passo 3 di 4</span>
-        <h3 className="font-serif text-2xl font-bold text-neutral-950">Scegli Data e Ora</h3>
+        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">{t.step}</span>
+        <h3 className="font-serif text-2xl font-bold text-neutral-950">{t.title}</h3>
         <p className="text-xs text-neutral-500">
-          Orari salone: <strong>Martedì – Sabato (8:30 – 19:00)</strong> · Chiuso Lunedì e Domenica
+          {t.hoursLabel} <strong>{t.hours}</strong> · {t.closedDays}
         </p>
       </div>
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-neutral-600">
           <span className="flex items-center gap-1.5 text-gold font-semibold">
             <CalendarIcon className="w-4 h-4" />
-            <span>Seleziona il giorno</span>
+            <span>{t.selectDay}</span>
           </span>
-          <span className="text-[11px] text-neutral-400">Prossimi 14 giorni</span>
+          <span className="text-[11px] text-neutral-400">{t.nextDays}</span>
         </div>
 
         <div className="flex gap-2.5 overflow-x-auto pb-2 pt-1 scrollbar-thin">
@@ -68,7 +73,7 @@ export const StepDateTime: React.FC = () => {
                 >
                   <span className="text-[10px] text-neutral-400 uppercase font-semibold">{item.dayName}</span>
                   <span className="text-sm font-serif font-bold text-neutral-400 my-0.5">{item.dayNumber}</span>
-                  <span className="text-[9px] text-red-500 font-mono font-bold">Chiuso</span>
+                  <span className="text-[9px] text-red-500 font-mono font-bold">{t.closed}</span>
                 </div>
               );
             }
@@ -100,7 +105,7 @@ export const StepDateTime: React.FC = () => {
         <div className="p-4 rounded-xl bg-pearl-100/60 border border-neutral-200 space-y-2.5">
           <div className="flex items-center gap-2 text-xs font-serif text-neutral-900 font-bold">
             <Sun className="w-4 h-4 text-gold" />
-            <span>Mattina (8:30 – 12:30)</span>
+            <span>{t.morning}</span>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {morningSlots.map(time => {
@@ -125,7 +130,7 @@ export const StepDateTime: React.FC = () => {
         <div className="p-4 rounded-xl bg-pearl-100/60 border border-neutral-200 space-y-2.5">
           <div className="flex items-center gap-2 text-xs font-serif text-neutral-900 font-bold">
             <Sunset className="w-4 h-4 text-gold" />
-            <span>Pomeriggio (14:30 – 19:00)</span>
+            <span>{t.afternoon}</span>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {afternoonSlots.map(time => {
@@ -155,7 +160,7 @@ export const StepDateTime: React.FC = () => {
           className="py-2.5 -my-1 text-xs uppercase tracking-wider text-neutral-600 hover:text-gold font-bold flex items-center gap-1.5 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Indietro</span>
+          <span>{t.back}</span>
         </button>
 
         <button
@@ -164,7 +169,7 @@ export const StepDateTime: React.FC = () => {
           onClick={handleContinue}
           className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors rounded-md flex items-center gap-2 shadow-xs disabled:opacity-40"
         >
-          <span>Inserisci i Tuoi Dati</span>
+          <span>{t.next}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

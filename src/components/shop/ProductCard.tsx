@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ProductItem } from '../../types';
+import { useLang } from '../../i18n/LanguageContext';
+import { useStrings } from '../../i18n/strings';
+import { shopStrings, useFormatPrice } from '../../i18n/shop';
+import { localizeProduct } from '../../i18n/products';
 import { useCart } from '../../context/CartContext';
 import { useTilt, IS_TOUCH, REVEAL_VIEWPORT } from '../common/Reveal';
 import { ShoppingBag, Sparkles, Star, HeartHandshake, Check, Info, RotateCcw } from 'lucide-react';
@@ -10,8 +14,12 @@ interface ProductCardProps {
   index?: number;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product: baseProduct, index = 0 }) => {
   const { addToCart } = useCart();
+  const { lang } = useLang();
+  const t = useStrings(shopStrings).card;
+  const formatPrice = useFormatPrice();
+  const product = localizeProduct(baseProduct, lang);
   const [added, setAdded] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const tilt = useTilt(14);
@@ -55,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
   );
 
   const handleAdd = () => {
-    addToCart(product, 1);
+    addToCart(baseProduct, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -97,7 +105,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
           <button
             type="button"
             onClick={() => setFlipped(!flipped)}
-            aria-label={flipped ? 'Torna al prodotto' : 'Dettagli botanici'}
+            aria-label={flipped ? t.backToProduct : t.botanicDetails}
             className="absolute top-3 right-3 z-30 p-2 rounded-full bg-white text-neutral-600 hover:text-gold border border-neutral-200 hover:border-gold transition-colors shadow-2xs"
             style={{ transform: 'translateZ(50px)' }}
           >
@@ -132,7 +140,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
               >
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-neutral-100">
-                    <span className="text-gold font-serif font-bold text-sm">Ingredienti Chiave</span>
+                    <span className="text-gold font-serif font-bold text-sm">{t.keyIngredients}</span>
                   </div>
                   <ul className="mt-3 space-y-2 text-[11px] text-neutral-600">
                     {product.keyIngredients.map((ing, i) => (
@@ -188,9 +196,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
 
           <div className="pt-4 border-t border-neutral-100 flex items-center justify-between gap-3">
             <div className="flex flex-col">
-              <span className="text-[10px] uppercase text-neutral-400 font-medium tracking-wider">Prezzo</span>
+              <span className="text-[10px] uppercase text-neutral-400 font-medium tracking-wider">{t.price}</span>
               <span className="font-serif text-2xl font-bold text-neutral-950">
-                €{product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </span>
             </div>
 
@@ -206,12 +214,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) 
               {added ? (
                 <>
                   <Check className="w-4 h-4 stroke-[3]" />
-                  <span>Aggiunto!</span>
+                  <span>{t.added}</span>
                 </>
               ) : (
                 <>
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Aggiungi</span>
+                  <span>{t.add}</span>
                 </>
               )}
             </motion.button>

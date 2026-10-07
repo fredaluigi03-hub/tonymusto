@@ -1,9 +1,15 @@
 import React from 'react';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { bookingStrings, formatBookingDate } from '../../i18n/booking';
+import { useLang } from '../../i18n/LanguageContext';
 import { CheckCircle2, Clock, MapPin, User, Sparkles, Share2, Scissors } from 'lucide-react';
 
 export const StepConfirmation: React.FC = () => {
   const { bookingState, closeBooking, resetBooking } = useBooking();
+  const { lang } = useLang();
+  const t = useStrings(bookingStrings).confirmation;
+  const date = bookingState.date ? formatBookingDate(bookingState.date, lang) : '';
 
   const handleFinish = () => {
     resetBooking();
@@ -11,7 +17,7 @@ export const StepConfirmation: React.FC = () => {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Salve Tony Musto Parrucchieri, ho confermato la prenotazione ${bookingState.bookingCode} per il servizio "${bookingState.service?.name}" in data ${bookingState.date} alle ${bookingState.timeSlot}. A presto!`
+    t.whatsappMessage(bookingState.bookingCode ?? '', bookingState.service?.name ?? '', date, bookingState.timeSlot ?? '')
   );
 
   return (
@@ -22,13 +28,13 @@ export const StepConfirmation: React.FC = () => {
 
       <div className="space-y-1.5">
         <span className="text-xs font-mono tracking-widest text-gold uppercase px-3 py-1 rounded-full bg-pearl-100 border border-gold/30 font-bold">
-          Codice Prenotazione: {bookingState.bookingCode}
+          {t.code} {bookingState.bookingCode}
         </span>
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-950 pt-1">
-          Prenotazione Confermata
+          {t.title}
         </h2>
         <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto">
-          Ti aspettiamo in salone a Montemiletto per il tuo appuntamento.
+          {t.intro}
         </p>
       </div>
       <div className="max-w-md mx-auto p-5 rounded-2xl bg-pearl-100 border border-neutral-200 shadow-xs text-left space-y-3.5">
@@ -46,7 +52,7 @@ export const StepConfirmation: React.FC = () => {
           <div className="flex items-start gap-2.5">
             <Sparkles className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
             <div>
-              <span className="text-neutral-400 block text-[10px] uppercase tracking-wider font-semibold">Trattamento</span>
+              <span className="text-neutral-400 block text-[10px] uppercase tracking-wider font-semibold">{t.treatment}</span>
               <strong className="text-neutral-950 font-serif text-sm font-bold">{bookingState.service?.name}</strong>
               <span className="text-neutral-500 block text-[11px]">({bookingState.service?.duration})</span>
             </div>
@@ -56,7 +62,7 @@ export const StepConfirmation: React.FC = () => {
             <div className="flex items-start gap-2">
               <User className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
               <div>
-                <span className="text-neutral-400 block text-[10px] uppercase font-semibold">Stylist</span>
+                <span className="text-neutral-400 block text-[10px] uppercase font-semibold">{t.stylist}</span>
                 <span className="text-neutral-800 font-medium">{bookingState.stylist?.name}</span>
               </div>
             </div>
@@ -64,8 +70,8 @@ export const StepConfirmation: React.FC = () => {
             <div className="flex items-start gap-2">
               <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
               <div>
-                <span className="text-neutral-400 block text-[10px] uppercase font-semibold">Data & Ora</span>
-                <span className="text-gold font-mono font-bold">{bookingState.date} · {bookingState.timeSlot}</span>
+                <span className="text-neutral-400 block text-[10px] uppercase font-semibold">{t.dateTime}</span>
+                <span className="text-gold font-mono font-bold">{date} · {bookingState.timeSlot}</span>
               </div>
             </div>
           </div>
@@ -73,8 +79,8 @@ export const StepConfirmation: React.FC = () => {
           <div className="flex items-start gap-2.5 pt-2 border-t border-neutral-200">
             <MapPin className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
             <div>
-              <span className="text-neutral-400 block text-[10px] uppercase font-semibold">Luogo</span>
-              <span className="text-neutral-700">Via XXIV Maggio 13/14, 83038 Montemiletto (AV)</span>
+              <span className="text-neutral-400 block text-[10px] uppercase font-semibold">{t.place}</span>
+              <span className="text-neutral-700">{t.address}</span>
             </div>
           </div>
         </div>
@@ -87,14 +93,14 @@ export const StepConfirmation: React.FC = () => {
           className="w-full sm:w-auto px-6 py-2.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-2 shadow-xs"
         >
           <Share2 className="w-4 h-4" />
-          <span>Invia Promemoria WhatsApp</span>
+          <span>{t.whatsapp}</span>
         </a>
 
         <button
           onClick={handleFinish}
           className="w-full sm:w-auto px-7 py-2.5 bg-neutral-950 text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-gold hover:text-neutral-950 transition-all shadow-xs"
         >
-          Chiudi
+          {t.close}
         </button>
       </div>
     </div>

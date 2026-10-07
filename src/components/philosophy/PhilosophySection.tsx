@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal, useParallax, useTilt, REVEAL_VIEWPORT } from '../common/Reveal';
+import { useStrings } from '../../i18n/strings';
+import { philosophyStrings } from '../../i18n/philosophy';
 import {
   Scissors,
   Palette,
@@ -14,11 +16,8 @@ interface Pillar {
   id: string;
   icon: React.ElementType;
   title: string;
-  subtitle: string;
-  description: string;
   image: string;
-  points: string[];
-  stat: { value: string; label: string };
+  statValue: string;
 }
 
 const pillars: Pillar[] = [
@@ -26,46 +25,22 @@ const pillars: Pillar[] = [
     id: 'haircut',
     icon: Scissors,
     title: 'HAIRCUT',
-    subtitle: 'Arte Sartoriale del Taglio',
-    description:
-      "Il taglio viene definito come un'arte sartoriale, grazie alla quale il parrucchiere riesce a trovare la forma adatta per il vostro viso e i vostri lineamenti.",
     image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6535-1-768x768.jpg',
-    points: [
-      'Studio della morfologia del viso e del collo',
-      'Linee costruite sulla caduta naturale del capello',
-      'Taglio riproducibile anche a casa, senza fatica',
-    ],
-    stat: { value: '25+', label: 'Anni di forbici in mano' },
+    statValue: '25+',
   },
   {
     id: 'colour',
     icon: Palette,
     title: 'COLOUR',
-    subtitle: 'Tecnica & Armocromia',
-    description:
-      "Il colore mostra le tecniche del parrucchiere e la sua creatività, grazie alle quale esprime il suo giudizio riguardante l'armocromia del cliente.",
     image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_8897-768x768.jpeg',
-    points: [
-      'Analisi del sottotono di pelle, occhi e capelli',
-      'Schiariture progressive che rispettano la fibra',
-      'Riflessi costruiti per crescere in modo naturale',
-    ],
-    stat: { value: '100%', label: 'Formule professionali' },
+    statValue: '100%',
   },
   {
     id: 'treatments',
     icon: Sparkles,
     title: 'TREATMENTS',
-    subtitle: 'Ripristino & Luminosità',
-    description:
-      'I trattamenti sono dei processi che hanno la funzione di ripristinare il capello, rendendolo più forte e più lucente.',
     image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-768x768.jpeg',
-    points: [
-      'Diagnosi del capello prima di ogni rituale',
-      'Linee botaniche BEE IT e Bio Organic Curl Up',
-      'Protocollo di mantenimento personalizzato',
-    ],
-    stat: { value: '4', label: 'Linee botaniche in salone' },
+    statValue: '4',
   },
 ];
 
@@ -77,6 +52,8 @@ const PillarCard: React.FC<{
 }> = ({ pillar, index, isOpen, onToggle }) => {
   const Icon = pillar.icon;
   const tilt = useTilt(9);
+  const t = useStrings(philosophyStrings);
+  const text = t.pillars[index];
 
   return (
     <motion.article
@@ -121,14 +98,14 @@ const PillarCard: React.FC<{
       <div className="p-6 space-y-4">
         <div>
           <span className="text-[11px] font-mono font-bold tracking-widest text-gold uppercase">
-            {pillar.subtitle}
+            {text.subtitle}
           </span>
           <h3 className="font-serif text-2xl font-bold text-neutral-900 mt-1 tracking-wide">
             {pillar.title}
           </h3>
         </div>
 
-        <p className="text-sm text-neutral-600 leading-relaxed font-light">{pillar.description}</p>
+        <p className="text-sm text-neutral-600 leading-relaxed font-light">{text.description}</p>
 
         <button
           type="button"
@@ -136,7 +113,7 @@ const PillarCard: React.FC<{
           aria-expanded={isOpen}
           className="w-full flex items-center justify-between gap-3 pt-4 border-t border-neutral-200/70 text-xs font-bold uppercase tracking-wider text-neutral-800 hover:text-gold transition-colors"
         >
-          <span>{isOpen ? 'Chiudi dettagli' : 'Come lavoriamo'}</span>
+          <span>{isOpen ? t.close : t.open}</span>
           <span className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center text-gold">
             {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
           </span>
@@ -153,7 +130,7 @@ const PillarCard: React.FC<{
               className="overflow-hidden"
             >
               <ul className="space-y-2.5 pt-1 pb-3">
-                {pillar.points.map((p, i) => (
+                {text.points.map((p, i) => (
                   <motion.li
                     key={p}
                     initial={{ opacity: 0, x: -10 }}
@@ -168,9 +145,9 @@ const PillarCard: React.FC<{
               </ul>
 
               <div className="flex items-baseline gap-2 p-3.5 rounded-2xl bg-pearl-100 border border-gold/30">
-                <span className="font-serif text-2xl font-bold text-gold">{pillar.stat.value}</span>
+                <span className="font-serif text-2xl font-bold text-gold">{pillar.statValue}</span>
                 <span className="text-[11px] uppercase tracking-wider text-neutral-600 font-semibold">
-                  {pillar.stat.label}
+                  {text.statLabel}
                 </span>
               </div>
             </motion.div>
@@ -185,6 +162,7 @@ export const PhilosophySection: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>('haircut');
   const decorRef = useRef<HTMLElement>(null);
   const parallaxY = useParallax(decorRef, 40);
+  const t = useStrings(philosophyStrings);
 
   return (
     <section
@@ -205,15 +183,13 @@ export const PhilosophySection: React.FC = () => {
         <Reveal className="text-center max-w-3xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/30 text-gold text-xs uppercase tracking-[0.2em] font-bold">
             <Award className="w-3.5 h-3.5" />
-            <span>I Nostri Valori Fondamentali</span>
+            <span>{t.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            Everything you need to know about Musto hair stylist
+            {t.heading}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
-            Abbiamo provato a riassumere più di 25 anni nel settore dei capelli, mostrando quelli che
-            sono stati i nostri migliori lavori e le nostre esperienze per scoprire la versione più
-            adatta a te.
+            {t.intro}
           </p>
         </Reveal>
 

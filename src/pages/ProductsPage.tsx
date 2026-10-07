@@ -3,9 +3,12 @@ import { motion } from 'framer-motion';
 import { REVEAL_VIEWPORT } from '../components/common/Reveal';
 import { productsData, productCollections } from '../data/productsData';
 import { ProductCard } from '../components/shop/ProductCard';
+import { useStrings } from '../i18n/strings';
+import { shopStrings } from '../i18n/shop';
 import { ShoppingBag, ArrowLeft, Truck, ShieldCheck, Leaf } from 'lucide-react';
 
 export const ProductsPage: React.FC = () => {
+  const t = useStrings(shopStrings);
   const [activeCollection, setActiveCollection] = useState<string>('all');
 
   const products = activeCollection === 'all'
@@ -21,7 +24,7 @@ export const ProductsPage: React.FC = () => {
           className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-neutral-600 hover:text-gold transition-colors"
         >
           <ArrowLeft className="w-4 h-4 text-gold" />
-          Torna alla home
+          {t.page.back}
         </a>
 
         <motion.div
@@ -33,32 +36,31 @@ export const ProductsPage: React.FC = () => {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
             <ShoppingBag className="w-3.5 h-3.5" />
-            <span>Catalogo Completo</span>
+            <span>{t.page.badge}</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            Tutti i Prodotti Tony Musto
+            {t.page.title}
           </h1>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            {productsData.length} prodotti professionali usati in salone: linea ecologica BEE IT,
-            trattamenti ricci Bio Organic, styling e cura quotidiana.
+            {t.page.intro(productsData.length)}
           </p>
         </motion.div>
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
           {productCollections.map(col => {
-            const isActive = activeCollection === col.id;
+            const isActive = activeCollection === col;
             return (
               <motion.button
-                key={col.id}
+                key={col}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setActiveCollection(col.id)}
+                onClick={() => setActiveCollection(col)}
                 className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 shadow-2xs ${
                   isActive
                     ? 'bg-neutral-950 text-white shadow-md'
                     : 'bg-pearl-100 text-neutral-700 hover:text-gold border border-neutral-200 hover:border-gold/50'
                 }`}
               >
-                {col.label}
+                {t.collections[col]}
               </motion.button>
             );
           })}
@@ -73,18 +75,20 @@ export const ProductsPage: React.FC = () => {
         <div className="mt-16 pt-10 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-xs text-neutral-600">
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <Truck className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Spedizione Espressa o Ritiro in Salone</strong>
-            <p className="font-light">Consegna rapida in tutta Italia o ritiro gratuito a Montemiletto.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[0].title}</strong>
+            <p className="font-light">{t.trust[0].text}</p>
           </div>
+
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <ShieldCheck className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Prodotti 100% Originali</strong>
-            <p className="font-light">Formulazioni professionali certificate scelte da Tony Musto.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[1].title}</strong>
+            <p className="font-light">{t.trust[1].text}</p>
           </div>
+
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <Leaf className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Eco-Sostenibilità Attiva</strong>
-            <p className="font-light">Sostegno concreto alle api e rispetto per l'ambiente.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[2].title}</strong>
+            <p className="font-light">{t.trust[2].text}</p>
           </div>
         </div>
 

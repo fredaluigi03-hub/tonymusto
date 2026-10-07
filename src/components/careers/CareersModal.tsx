@@ -1,7 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { ModalOverlay } from '../common/ModalOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCareers, careerRoles, CareerRole } from '../../context/CareersContext';
+import { useCareers } from '../../context/CareersContext';
+import { useStrings } from '../../i18n/strings';
+import {
+  careersStrings,
+  careerRoleIds,
+  experienceLevels,
+  availabilityOptions,
+  type Availability,
+  type ExperienceLevel,
+} from '../../i18n/careers';
 import {
   X,
   Sparkles,
@@ -16,15 +25,20 @@ import {
   Check,
 } from 'lucide-react';
 
-const stepTitles = ['Posizione', 'I Tuoi Dati', 'Motivazione & CV'];
-
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 const phoneOk = (v: string) => v.replace(/\D/g, '').length >= 8;
 
 const inputBase =
   'w-full px-4 py-3 rounded-md bg-white border border-neutral-300 text-base sm:text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all';
 
-const RoleCard: React.FC<{ role: CareerRole; onPick: () => void }> = ({ role, onPick }) => (
+interface RoleCardText {
+  title: string;
+  type: string;
+  level: string;
+  description: string;
+}
+
+const RoleCard: React.FC<{ role: RoleCardText; onPick: () => void }> = ({ role, onPick }) => (
   <motion.button
     type="button"
     onClick={onPick}
@@ -63,6 +77,7 @@ export const CareersModal: React.FC = () => {
     resetApplication,
   } = useCareers();
 
+  const { modal: t, roles } = useStrings(careersStrings);
   const fileRef = useRef<HTMLInputElement>(null);
   const [touched, setTouched] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -82,12 +97,12 @@ export const CareersModal: React.FC = () => {
     // `accept` on the input is only a hint to the file picker, check again here
     if (!/\.(pdf|docx?)$/i.test(f.name)) {
       e.target.value = '';
-      alert('Formato non supportato: carica un PDF o un file Word.');
+      alert(t.cvFormatError);
       return;
     }
     if (f.size > 5 * 1024 * 1024) {
       updateApplication({ cvFileName: '' });
-      alert('Il CV deve essere inferiore a 5 MB.');
+      alert(t.cvSizeError);
       return;
     }
     updateApplication({ cvFileName: f.name });
@@ -105,7 +120,7 @@ export const CareersModal: React.FC = () => {
   };
 
   return (
-    <ModalOverlay onClose={closeCareers} label="Candidati">
+    <ModalOverlay onClose={closeCareers} label={t.label}>
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -120,7 +135,7 @@ export const CareersModal: React.FC = () => {
               </div>
               <div>
                 <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
-                  Candidati: Join Our Team
+                  {t.title}
                 </h2>
                 <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
                   Tony Musto · Montemiletto (AV)
@@ -129,7 +144,7 @@ export const CareersModal: React.FC = () => {
             </div>
             <button
               onClick={closeCareers}
-              aria-label="Chiudi"
+              aria-label={t.close}
               className="p-2 shrink-0 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
             >
               <X className="w-6 h-6" />
@@ -138,7 +153,7 @@ export const CareersModal: React.FC = () => {
           {currentStep <= 3 && (
             <div className="bg-white px-4 sm:px-6 py-3.5 border-b border-neutral-100">
               <div className="flex items-center justify-between max-w-lg mx-auto">
-                {stepTitles.map((title, index) => {
+                {t.steps.map((title, index) => {
                   const stepNum = index + 1;
                   const isPassed = currentStep > stepNum;
                   const isCurrent = currentStep === stepNum;
@@ -165,7 +180,7 @@ export const CareersModal: React.FC = () => {
                       >
                         {title}
                       </span>
-                      {index < stepTitles.length - 1 && (
+                      {index < t.steps.length - 1 && (
                         <div className={`w-8 sm:w-20 h-0.5 mx-1.5 ${isPassed ? 'bg-gold' : 'bg-neutral-200'}`} />
                       )}
                     </div>
@@ -187,15 +202,15 @@ export const CareersModal: React.FC = () => {
                   <div className="space-y-4">
                     <div>
                       <h3 className="font-serif text-xl font-bold text-neutral-950">
-                        Per quale posizione ti candidi?
+                        {t.pickTitle}
                       </h3>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Nel nostro salone la tua esperienza è la nostra priorità — anche se parti da zero.
+                        {t.pickSubtitle}
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {careerRoles.map(role => (
-                        <RoleCard key={role.id} role={role} onPick={() => selectRole(role)} />
+                      {careerRoleIds.map(id => (
+                        <RoleCard key={id} role={roles[id]} onPick={() => selectRole(id)} />
                       ))}
                     </div>
                   </div>
@@ -203,47 +218,47 @@ export const CareersModal: React.FC = () => {
                 {currentStep === 2 && (
                   <div className="space-y-5">
                     <div>
-                      <h3 className="font-serif text-xl font-bold text-neutral-950">I tuoi dati</h3>
+                      <h3 className="font-serif text-xl font-bold text-neutral-950">{t.detailsTitle}</h3>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Posizione scelta:{' '}
-                        <span className="text-gold font-bold">{application.role?.title ?? '—'}</span>
+                        {t.chosenRole}{' '}
+                        <span className="text-gold font-bold">{application.role ? roles[application.role].title : '—'}</span>
                       </p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <label className="space-y-1.5 sm:col-span-2">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Nome e Cognome *
+                          {t.fullName}
                         </span>
                         <input
                           className={inputBase}
                           value={application.fullName}
                           onChange={e => updateApplication({ fullName: e.target.value })}
-                          placeholder="Es. Maria Rossi"
+                          placeholder={t.fullNamePlaceholder}
                           autoComplete="name"
                         />
                       </label>
 
                       <label className="space-y-1.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Email *
+                          {t.email}
                         </span>
                         <input
                           type="email"
                           className={inputBase}
                           value={application.email}
                           onChange={e => updateApplication({ email: e.target.value })}
-                          placeholder="nome@email.it"
+                          placeholder={t.emailPlaceholder}
                           autoComplete="email"
                         />
                         {touched && !emailOk(application.email) && (
-                          <span className="text-[11px] text-red-500">Inserisci un&apos;email valida.</span>
+                          <span className="text-[11px] text-red-500">{t.emailError}</span>
                         )}
                       </label>
 
                       <label className="space-y-1.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Cellulare *
+                          {t.phone}
                         </span>
                         <input
                           type="tel"
@@ -254,52 +269,53 @@ export const CareersModal: React.FC = () => {
                           autoComplete="tel"
                         />
                         {touched && !phoneOk(application.phone) && (
-                          <span className="text-[11px] text-red-500">Inserisci un numero valido.</span>
+                          <span className="text-[11px] text-red-500">{t.phoneError}</span>
                         )}
                       </label>
 
                       <label className="space-y-1.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Esperienza
+                          {t.experience}
                         </span>
                         <select
                           className={inputBase}
                           value={application.experience}
-                          onChange={e => updateApplication({ experience: e.target.value })}
+                          onChange={e => updateApplication({ experience: e.target.value as ExperienceLevel })}
                         >
-                          <option>Nessuna esperienza — voglio imparare</option>
-                          <option>Meno di 1 anno</option>
-                          <option>1 – 3 anni</option>
-                          <option>3 – 6 anni</option>
-                          <option>Più di 6 anni</option>
+                          {experienceLevels.map(k => (
+                            <option key={k} value={k}>
+                              {t.experienceOptions[k]}
+                            </option>
+                          ))}
                         </select>
                       </label>
 
                       <label className="space-y-1.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Disponibilità
+                          {t.availability}
                         </span>
                         <select
                           className={inputBase}
                           value={application.availability}
-                          onChange={e => updateApplication({ availability: e.target.value })}
+                          onChange={e => updateApplication({ availability: e.target.value as Availability })}
                         >
-                          <option>Full-time</option>
-                          <option>Part-time</option>
-                          <option>Weekend</option>
-                          <option>Stage / Apprendistato</option>
+                          {availabilityOptions.map(k => (
+                            <option key={k} value={k}>
+                              {t.availabilityOptions[k]}
+                            </option>
+                          ))}
                         </select>
                       </label>
 
                       <label className="space-y-1.5 sm:col-span-2">
                         <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Instagram o portfolio (facoltativo)
+                          {t.portfolio}
                         </span>
                         <input
                           className={inputBase}
                           value={application.portfolio}
                           onChange={e => updateApplication({ portfolio: e.target.value })}
-                          placeholder="@iltuoprofilo"
+                          placeholder={t.portfolioPlaceholder}
                         />
                       </label>
                     </div>
@@ -310,7 +326,7 @@ export const CareersModal: React.FC = () => {
                         onClick={() => setStep(1)}
                         className="px-5 py-3 rounded-md border border-neutral-300 text-neutral-700 hover:text-gold hover:border-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-2"
                       >
-                        <ArrowLeft className="w-3.5 h-3.5" /> Indietro
+                        <ArrowLeft className="w-3.5 h-3.5" /> {t.back}
                       </button>
                       <motion.button
                         whileHover={{ scale: detailsValid ? 1.02 : 1 }}
@@ -329,7 +345,7 @@ export const CareersModal: React.FC = () => {
                             : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
                         }`}
                       >
-                        Continua <ArrowRight className="w-3.5 h-3.5" />
+                        {t.next} <ArrowRight className="w-3.5 h-3.5" />
                       </motion.button>
                     </div>
                   </div>
@@ -338,32 +354,31 @@ export const CareersModal: React.FC = () => {
                   <div className="space-y-5">
                     <div>
                       <h3 className="font-serif text-xl font-bold text-neutral-950">
-                        Raccontaci chi sei
+                        {t.storyTitle}
                       </h3>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Le persone rappresentano l&apos;identità di questo brand: due righe sincere valgono
-                        più di un curriculum perfetto.
+                        {t.storySubtitle}
                       </p>
                     </div>
 
                     <label className="space-y-1.5 block">
                       <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                        Messaggio / Motivazione *
+                        {t.message}
                       </span>
                       <textarea
                         rows={5}
                         className={`${inputBase} resize-none`}
                         value={application.message}
                         onChange={e => updateApplication({ message: e.target.value })}
-                        placeholder="Perché vorresti lavorare da Tony Musto? Cosa ti appassiona di questo mestiere?"
+                        placeholder={t.messagePlaceholder}
                       />
                       <span className="text-[11px] text-neutral-400">
-                        {application.message.trim().length}/10 caratteri minimi
+                        {t.minChars(application.message.trim().length)}
                       </span>
                     </label>
                     <div className="space-y-1.5">
                       <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                        Curriculum (facoltativo · PDF o DOC, max 5MB)
+                        {t.cv}
                       </span>
                       <input
                         ref={fileRef}
@@ -381,12 +396,12 @@ export const CareersModal: React.FC = () => {
                           <>
                             <FileText className="w-5 h-5 text-gold" />
                             <span className="font-semibold text-neutral-900">{application.cvFileName}</span>
-                            <span className="text-[11px] text-neutral-400">(clicca per cambiare)</span>
+                            <span className="text-[11px] text-neutral-400">{t.cvChange}</span>
                           </>
                         ) : (
                           <>
                             <Upload className="w-5 h-5" />
-                            <span>Carica il tuo CV</span>
+                            <span>{t.cvUpload}</span>
                           </>
                         )}
                       </button>
@@ -400,8 +415,7 @@ export const CareersModal: React.FC = () => {
                         className="mt-0.5 w-4 h-4 accent-[#B8860B]"
                       />
                       <span>
-                        Acconsento al trattamento dei miei dati personali per finalità di selezione, ai
-                        sensi del Reg. UE 2016/679 (GDPR). *
+                        {t.privacy}
                       </span>
                     </label>
 
@@ -411,7 +425,7 @@ export const CareersModal: React.FC = () => {
                         onClick={() => setStep(2)}
                         className="px-5 py-3 rounded-md border border-neutral-300 text-neutral-700 hover:text-gold hover:border-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-2"
                       >
-                        <ArrowLeft className="w-3.5 h-3.5" /> Indietro
+                        <ArrowLeft className="w-3.5 h-3.5" /> {t.back}
                       </button>
                       <motion.button
                         whileHover={{ scale: finalValid ? 1.02 : 1 }}
@@ -425,7 +439,7 @@ export const CareersModal: React.FC = () => {
                             : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
                         }`}
                       >
-                        Invia Candidatura <Sparkles className="w-3.5 h-3.5" />
+                        {t.submit} <Sparkles className="w-3.5 h-3.5" />
                       </motion.button>
                     </div>
                   </div>
@@ -443,18 +457,17 @@ export const CareersModal: React.FC = () => {
 
                     <div>
                       <h3 className="font-serif text-2xl font-bold text-neutral-950">
-                        Candidatura inviata, {application.fullName.split(' ')[0]}!
+                        {t.sentTitle(application.fullName.split(' ')[0])}
                       </h3>
                       <p className="text-sm text-neutral-600 font-light mt-2 max-w-md mx-auto">
-                        Grazie per aver scelto di far parte del team. Ti ricontattiamo entro 7 giorni per
-                        fissare un colloquio conoscitivo in salone.
+                        {t.sentText}
                       </p>
                     </div>
 
                     <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-pearl-100 border border-gold/40">
                       <div className="text-left">
                         <span className="block text-[10px] uppercase tracking-widest text-neutral-500 font-bold">
-                          Codice candidatura
+                          {t.code}
                         </span>
                         <span className="font-mono text-lg font-bold text-gold">
                           {application.applicationCode}
@@ -463,7 +476,7 @@ export const CareersModal: React.FC = () => {
                       <button
                         type="button"
                         onClick={copyCode}
-                        aria-label="Copia codice"
+                        aria-label={t.copyCode}
                         className="p-2 rounded-full bg-white border border-neutral-200 text-neutral-600 hover:text-gold transition-colors"
                       >
                         {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
@@ -473,16 +486,16 @@ export const CareersModal: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-left">
                       <div className="p-4 rounded-2xl bg-white border border-neutral-200 text-xs space-y-1">
                         <span className="text-[10px] uppercase tracking-widest text-gold font-bold">
-                          Posizione
+                          {t.position}
                         </span>
                         <p className="font-serif font-bold text-neutral-900 text-sm">
-                          {application.role?.title}
+                          {application.role && roles[application.role].title}
                         </p>
-                        <p className="text-neutral-500">{application.role?.type}</p>
+                        <p className="text-neutral-500">{application.role && roles[application.role].type}</p>
                       </div>
                       <div className="p-4 rounded-2xl bg-white border border-neutral-200 text-xs space-y-1.5">
                         <span className="text-[10px] uppercase tracking-widest text-gold font-bold">
-                          Hai fretta? Scrivici
+                          {t.hurry}
                         </span>
                         <a
                           href="mailto:mustohairdresser@gmail.com"
@@ -510,14 +523,14 @@ export const CareersModal: React.FC = () => {
                         }}
                         className="px-7 py-3 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors"
                       >
-                        Chiudi
+                        {t.close}
                       </button>
                       <button
                         type="button"
                         onClick={resetApplication}
                         className="px-5 py-3 rounded-md border border-neutral-300 text-neutral-700 hover:text-gold hover:border-gold text-xs uppercase font-bold tracking-wider transition-colors"
                       >
-                        Invia un&apos;altra candidatura
+                        {t.another}
                       </button>
                     </div>
                   </div>

@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { servicesData } from '../../data/servicesData';
 import { ServiceItem } from '../../types';
 import { ServiceModal } from './ServiceModal';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { servicesStrings, useServices } from '../../i18n/services';
 import { Reveal } from '../common/Reveal';
 import { CircularGallery, type CircularGalleryItem } from '../common/CircularGallery';
 import { Scissors, Calendar, MoveHorizontal, ArrowRight } from 'lucide-react';
-
-const galleryItems: CircularGalleryItem[] = servicesData.map(s => ({
-  id: s.id,
-  title: s.name,
-  subtitle: s.subtitle,
-  meta: `${s.duration} · ${s.price}`,
-  image: s.image,
-}));
 
 /**
  * The cylinder's radius is in px, so it has to shrink with the viewport or the
@@ -62,6 +55,19 @@ export const ServicesSection: React.FC = () => {
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const { openBooking } = useBooking();
   const dims = useGalleryDims();
+  const t = useStrings(servicesStrings);
+  const servicesData = useServices();
+  const galleryItems = useMemo<CircularGalleryItem[]>(
+    () =>
+      servicesData.map(s => ({
+        id: s.id,
+        title: s.name,
+        subtitle: s.subtitle,
+        meta: `${s.duration} · ${s.price}`,
+        image: s.image,
+      })),
+    [servicesData]
+  );
 
   return (
     <section
@@ -77,14 +83,13 @@ export const ServicesSection: React.FC = () => {
         <Reveal className="text-center max-w-3xl mx-auto space-y-4 mb-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-gold/40 text-gold-light text-xs uppercase tracking-[0.2em] font-bold backdrop-blur-sm">
             <Scissors className="w-3.5 h-3.5" />
-            <span>Hair Boutique &amp; Menu Servizi</span>
+            <span>{t.badge}</span>
           </div>
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight">
-            I Servizi del Nostro Salone
+            {t.title}
           </h2>
           <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto px-2">
-            Esperienze personalizzate di taglio sartoriale, colore armocromatico e cura botanica
-            profonda. Ruota il carosello e apri il trattamento che ti interessa.
+            {t.intro}
           </p>
         </Reveal>
       </div>
@@ -107,7 +112,7 @@ export const ServicesSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
         <span className="flex items-center gap-2 text-center text-[10px] sm:text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
           <MoveHorizontal className="w-4 h-4 text-gold" />
-          Trascina per ruotare · clicca una card per i dettagli
+          {t.hint}
         </span>
 
         <motion.button
@@ -117,7 +122,7 @@ export const ServicesSection: React.FC = () => {
           className="w-full sm:w-auto px-7 py-3.5 rounded-md bg-gold hover:bg-gold-bright text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors shadow-md flex items-center justify-center gap-2"
         >
           <Calendar className="w-4 h-4" />
-          <span>Prenota il Tuo Appuntamento</span>
+          <span>{t.book}</span>
           <ArrowRight className="w-4 h-4" />
         </motion.button>
       </div>

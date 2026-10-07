@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { useBooking } from '../../context/BookingContext';
-import { teamData } from '../../data/teamData';
+import { useStrings } from '../../i18n/strings';
+import { bookingStrings } from '../../i18n/booking';
+import { useTeam } from '../../i18n/team';
 import { TeamMember } from '../../types';
 import { Check, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 
 export const StepStylist: React.FC = () => {
   const { bookingState, selectStylist, setStep } = useBooking();
+  const t = useStrings(bookingStrings).stylist;
+  const teamData = useTeam();
   const [selected, setSelected] = useState<TeamMember | null>(bookingState.stylist || teamData[0]);
 
   return (
     <div className="space-y-6">
       <div className="text-center max-w-lg mx-auto space-y-1">
-        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Passo 2 di 4</span>
-        <h3 className="font-serif text-2xl font-bold text-neutral-950">Scegli il Tuo Stylist</h3>
+        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">{t.step}</span>
+        <h3 className="font-serif text-2xl font-bold text-neutral-950">{t.title}</h3>
         <p className="text-xs text-neutral-500">
-          Affidati a Tony Musto o ai nostri specialisti del salone.
+          {t.intro}
         </p>
       </div>
 
@@ -71,7 +75,7 @@ export const StepStylist: React.FC = () => {
           className="py-2.5 -my-1 text-xs uppercase tracking-wider text-neutral-600 hover:text-gold font-bold flex items-center gap-1.5 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Indietro</span>
+          <span>{t.back}</span>
         </button>
 
         <button
@@ -80,7 +84,7 @@ export const StepStylist: React.FC = () => {
           onClick={() => selected && selectStylist(selected)}
           className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors rounded-md flex items-center gap-2 shadow-xs disabled:opacity-40"
         >
-          <span>Scegli Data e Orario</span>
+          <span>{t.next}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

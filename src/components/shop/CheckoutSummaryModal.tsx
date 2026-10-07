@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { ModalOverlay } from '../common/ModalOverlay';
 import { useCart } from '../../context/CartContext';
+import { useStrings } from '../../i18n/strings';
+import { shopStrings, useFormatPrice } from '../../i18n/shop';
 import { X, CheckCircle2, ShoppingBag, Truck, Store } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const CheckoutSummaryModal: React.FC = () => {
+  const t = useStrings(shopStrings).checkout;
+  const formatPrice = useFormatPrice();
   const { 
     isCheckoutOpen, 
     setIsCheckoutOpen, 
@@ -56,7 +60,7 @@ export const CheckoutSummaryModal: React.FC = () => {
   };
 
   return (
-    <ModalOverlay onClose={handleClose} className="bg-black/60 backdrop-blur-xs" label="Riepilogo ordine">
+    <ModalOverlay onClose={handleClose} className="bg-black/60 backdrop-blur-xs" label={t.label}>
       <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
         <div className="sticky top-0 z-30 rounded-t-3xl p-5 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -65,15 +69,16 @@ export const CheckoutSummaryModal: React.FC = () => {
             </div>
             <div>
               <h3 className="font-serif text-xl font-bold text-neutral-950">
-                {orderConfirmed ? 'Ordine Confermato con Successo' : 'Riepilogo Ordine'}
+                {orderConfirmed ? t.confirmedTitle : t.summaryTitle}
               </h3>
               <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
-                Tony Musto Shop Ufficiale
+                {t.shopName}
               </p>
             </div>
           </div>
           <button
             onClick={handleClose}
+            aria-label={t.close}
             className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
@@ -88,30 +93,30 @@ export const CheckoutSummaryModal: React.FC = () => {
 
             <div className="space-y-2">
               <span className="text-xs font-mono tracking-widest text-gold uppercase px-3 py-1 rounded-full bg-pearl-100 border border-gold/30 font-bold">
-                Codice Ordine: {orderCode}
+                {t.orderCode} {orderCode}
               </span>
               <h3 className="font-serif text-2xl font-bold text-neutral-950 pt-2">
-                Grazie per il tuo Acquisto
+                {t.thanks}
               </h3>
               <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto leading-relaxed">
-                Abbiamo ricevuto il tuo ordine. Riceverai un messaggio di conferma con tutti i dettagli e il tracking della spedizione.
+                {t.thanksText}
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-pearl-100 border border-neutral-200 max-w-md mx-auto text-left text-xs space-y-2">
               <div className="flex justify-between">
-                <span className="text-neutral-500">Destinatario:</span>
+                <span className="text-neutral-500">{t.recipient}</span>
                 <strong className="text-neutral-900">{formData.name}</strong>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">Modalità:</span>
+                <span className="text-neutral-500">{t.method}</span>
                 <span className="text-gold font-semibold">
-                  {fulfillmentType === 'pickup' ? 'Ritiro in Salone a Montemiletto' : 'Spedizione a Domicilio'}
+                  {fulfillmentType === 'pickup' ? t.pickupConfirmed : t.deliveryConfirmed}
                 </span>
               </div>
               <div className="flex justify-between pt-2 border-t border-neutral-200 font-serif font-bold text-sm">
-                <span>Totale:</span>
-                <span className="text-neutral-950">€{finalTotal.toFixed(2)}</span>
+                <span>{t.total}</span>
+                <span className="text-neutral-950">{formatPrice(finalTotal)}</span>
               </div>
             </div>
 
@@ -119,7 +124,7 @@ export const CheckoutSummaryModal: React.FC = () => {
               onClick={handleClose}
               className="px-8 py-3 bg-neutral-950 text-white font-bold text-xs uppercase tracking-widest rounded-md hover:bg-gold hover:text-neutral-950 transition-colors shadow-xs"
             >
-              Torna allo Shop
+              {t.backToShop}
             </button>
           </div>
         ) : (
@@ -136,8 +141,8 @@ export const CheckoutSummaryModal: React.FC = () => {
               >
                 <Store className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="block text-xs font-bold text-neutral-900">Ritiro in Salone</strong>
-                  <span className="text-[11px] text-neutral-500">Gratuito a Montemiletto</span>
+                  <strong className="block text-xs font-bold text-neutral-900">{t.pickup}</strong>
+                  <span className="text-[11px] text-neutral-500">{t.pickupNote}</span>
                 </div>
               </button>
 
@@ -152,16 +157,16 @@ export const CheckoutSummaryModal: React.FC = () => {
               >
                 <Truck className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                 <div>
-                  <strong className="block text-xs font-bold text-neutral-900">Spedizione a Casa</strong>
+                  <strong className="block text-xs font-bold text-neutral-900">{t.delivery}</strong>
                   <span className="text-[11px] text-neutral-500">
-                    {subtotal >= 65 ? 'Gratuita (> €65)' : '€6.50 (24/48h)'}
+                    {subtotal >= 65 ? t.freeOver : t.deliveryFee(formatPrice(6.5))}
                   </span>
                 </div>
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="block text-neutral-700 mb-1 font-semibold">Nome e Cognome *</label>
+                <label className="block text-neutral-700 mb-1 font-semibold">{t.name}</label>
                 <input
                   type="text"
                   required
@@ -172,7 +177,7 @@ export const CheckoutSummaryModal: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-neutral-700 mb-1 font-semibold">Telefono *</label>
+                <label className="block text-neutral-700 mb-1 font-semibold">{t.phone}</label>
                 <input
                   type="tel"
                   required
@@ -185,7 +190,7 @@ export const CheckoutSummaryModal: React.FC = () => {
               {fulfillmentType === 'delivery' && (
                 <>
                   <div className="sm:col-span-2">
-                    <label className="block text-neutral-700 mb-1 font-semibold">Indirizzo di Spedizione *</label>
+                    <label className="block text-neutral-700 mb-1 font-semibold">{t.address}</label>
                     <input
                       type="text"
                       required
@@ -195,7 +200,7 @@ export const CheckoutSummaryModal: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-neutral-700 mb-1 font-semibold">Città e CAP *</label>
+                    <label className="block text-neutral-700 mb-1 font-semibold">{t.city}</label>
                     <input
                       type="text"
                       required
@@ -209,16 +214,16 @@ export const CheckoutSummaryModal: React.FC = () => {
             </div>
             <div className="p-4 rounded-2xl bg-pearl-100 border border-neutral-200 space-y-1.5 text-xs">
               <div className="flex justify-between text-neutral-600">
-                <span>Subtotale Prodotti ({items.length} articoli):</span>
-                <span className="font-mono font-bold text-neutral-900">€{subtotal.toFixed(2)}</span>
+                <span>{t.subtotal(items.length)}</span>
+                <span className="font-mono font-bold text-neutral-900">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-neutral-600">
-                <span>Spedizione:</span>
-                <span className="font-mono">{shippingCost === 0 ? <strong className="text-emerald-700 font-bold">Gratuita</strong> : `€${shippingCost.toFixed(2)}`}</span>
+                <span>{t.shipping}</span>
+                <span className="font-mono">{shippingCost === 0 ? <strong className="text-emerald-700 font-bold">{t.free}</strong> : formatPrice(shippingCost)}</span>
               </div>
               <div className="flex justify-between pt-2 border-t border-neutral-200 text-sm font-serif font-bold text-neutral-950">
-                <span>Totale Ordine:</span>
-                <span className="text-base text-neutral-950 font-mono">€{finalTotal.toFixed(2)}</span>
+                <span>{t.orderTotal}</span>
+                <span className="text-base text-neutral-950 font-mono">{formatPrice(finalTotal)}</span>
               </div>
             </div>
             <div className="flex justify-end gap-3 pt-2">
@@ -227,13 +232,13 @@ export const CheckoutSummaryModal: React.FC = () => {
                 onClick={handleClose}
                 className="px-5 py-2.5 text-xs uppercase tracking-wider text-neutral-600 hover:text-neutral-900 font-bold"
               >
-                Annulla
+                {t.cancel}
               </button>
               <button
                 type="submit"
                 className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors"
               >
-                Conferma e Invia Ordine
+                {t.submit}
               </button>
             </div>
 

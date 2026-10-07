@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Reveal, REVEAL_VIEWPORT } from '../components/common/Reveal';
 import { useBooking } from '../context/BookingContext';
 import { useCareers } from '../context/CareersContext';
+import { useStrings } from '../i18n/strings';
+import { contactStrings } from '../i18n/contact';
 import {
   MapPin,
   Phone,
@@ -19,15 +21,7 @@ import {
   ParkingCircle,
 } from 'lucide-react';
 
-const hours = [
-  { day: 'Lunedì', value: 'Chiuso', closed: true },
-  { day: 'Martedì', value: '8:30 – 19:00' },
-  { day: 'Mercoledì', value: '8:30 – 19:00' },
-  { day: 'Giovedì', value: '8:30 – 19:00' },
-  { day: 'Venerdì', value: '8:30 – 19:00' },
-  { day: 'Sabato', value: '8:30 – 19:00' },
-  { day: 'Domenica', value: 'Chiuso', closed: true },
-];
+const CLOSED_DAYS = [0, 6];
 
 /** lucide-react no longer ships brand marks, so these are inline. */
 const brandIcon = (path: string) => {
@@ -81,7 +75,9 @@ const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 export const ContactPage: React.FC = () => {
   const { openBooking } = useBooking();
   const { openCareers } = useCareers();
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: 'Informazioni generali', message: '' });
+  const common = useStrings(contactStrings);
+  const t = common.page;
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: 0, message: '' });
   const [sent, setSent] = useState(false);
   const [touched, setTouched] = useState(false);
 
@@ -94,7 +90,7 @@ export const ContactPage: React.FC = () => {
     setSent(true);
     setTimeout(() => {
       setSent(false);
-      setForm({ name: '', email: '', phone: '', subject: 'Informazioni generali', message: '' });
+      setForm({ name: '', email: '', phone: '', subject: 0, message: '' });
       setTouched(false);
     }, 5000);
   };
@@ -119,20 +115,19 @@ export const ContactPage: React.FC = () => {
               href="#"
               className="inline-flex items-center gap-2 py-2 text-xs uppercase tracking-widest font-bold text-neutral-600 hover:text-gold transition-colors mb-2"
             >
-              <ArrowLeft className="w-3.5 h-3.5" /> Torna alla Home
+              <ArrowLeft className="w-3.5 h-3.5" /> {t.back}
             </a>
             <div className="flex justify-center">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>Contatti</span>
+                <span>{t.badge}</span>
               </div>
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-neutral-950 tracking-tight mt-4">
-              Parliamo dei tuoi capelli
+              {t.title}
             </h1>
             <p className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed max-w-2xl mx-auto mt-3">
-              Siamo a Montemiletto (AV). Chiamaci, scrivici su WhatsApp o passa a trovarci in salone per
-              una consulenza personalizzata.
+              {t.intro}
             </p>
           </Reveal>
 
@@ -144,7 +139,7 @@ export const ContactPage: React.FC = () => {
               className="px-7 py-4 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-md transition-colors flex items-center gap-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Prenota Online</span>
+              <span>{t.bookOnline}</span>
             </motion.button>
             <a
               href="https://api.whatsapp.com/send?phone=393770293092"
@@ -153,7 +148,7 @@ export const ContactPage: React.FC = () => {
               className="px-7 py-4 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2 shadow-md"
             >
               <MessageSquare className="w-4 h-4" />
-              <span>Scrivici su WhatsApp</span>
+              <span>{t.writeWhatsapp}</span>
             </a>
           </Reveal>
         </div>
@@ -163,13 +158,13 @@ export const ContactPage: React.FC = () => {
           {[
             {
               Icon: MapPin,
-              label: 'Indirizzo',
+              label: common.address,
               value: 'Via XXIV Maggio 13/14',
               sub: '83038 Montemiletto (AV)',
               href: 'https://maps.google.com/?q=Via+XXIV+Maggio+13,+83038+Montemiletto+AV',
             },
-            { Icon: Phone, label: 'Telefono Fisso', value: '0825 968391', sub: 'Salone', href: 'tel:0825968391' },
-            { Icon: MessageSquare, label: 'Mobile & WhatsApp', value: '377 0293092', sub: 'Risposta rapida', href: 'tel:3770293092' },
+            { Icon: Phone, label: common.landline, value: '0825 968391', sub: t.salon, href: 'tel:0825968391' },
+            { Icon: MessageSquare, label: t.mobileWhatsapp, value: '377 0293092', sub: t.quickReply, href: 'tel:3770293092' },
             {
               Icon: Mail,
               label: 'Email',
@@ -216,29 +211,29 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-xs font-mono uppercase tracking-widest text-gold font-bold">
-                    Orario di Lavoro
+                    {t.workHours}
                   </span>
-                  <h2 className="font-serif text-xl font-bold text-neutral-950">Orari del Salone</h2>
+                  <h2 className="font-serif text-xl font-bold text-neutral-950">{t.salonHours}</h2>
                 </div>
               </div>
 
               <ul className="divide-y divide-neutral-100">
-                {hours.map((h, i) => (
+                {t.days.map((day, i) => (
                   <motion.li
-                    key={h.day}
+                    key={day}
                     initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={REVEAL_VIEWPORT}
                     transition={{ delay: i * 0.05 }}
                     className="flex items-center justify-between py-3 text-sm"
                   >
-                    <span className={h.closed ? 'text-neutral-400' : 'text-neutral-800 font-medium'}>
-                      {h.day}
+                    <span className={CLOSED_DAYS.includes(i) ? 'text-neutral-400' : 'text-neutral-800 font-medium'}>
+                      {day}
                     </span>
                     <span
-                      className={`font-mono text-xs font-bold ${h.closed ? 'text-red-500' : 'text-gold'}`}
+                      className={`font-mono text-xs font-bold ${CLOSED_DAYS.includes(i) ? 'text-red-500' : 'text-gold'}`}
                     >
-                      {h.value}
+                      {CLOSED_DAYS.includes(i) ? common.closed : '8:30 – 19:00'}
                     </span>
                   </motion.li>
                 ))}
@@ -249,19 +244,19 @@ export const ContactPage: React.FC = () => {
                 <div className="w-11 h-11 rounded-xl bg-pearl-100 border border-gold/40 flex items-center justify-center text-gold">
                   <Navigation className="w-5 h-5" />
                 </div>
-                <h2 className="font-serif text-xl font-bold text-neutral-950">Come Raggiungerci</h2>
+                <h2 className="font-serif text-xl font-bold text-neutral-950">{t.howTo}</h2>
               </div>
               <div className="space-y-3 text-xs text-neutral-600">
                 <p className="flex items-start gap-2.5">
                   <Car className="w-4 h-4 text-gold shrink-0 mt-0.5" />
                   <span>
-                    In auto: uscita <strong className="text-neutral-900">Avellino Est</strong>, poi SS7
-                    Appia in direzione Montemiletto. Il salone è nel centro del paese.
+                    {t.byCar} <strong className="text-neutral-900">{t.byCarExit}</strong>
+                    {t.byCarRoute}
                   </span>
                 </p>
                 <p className="flex items-start gap-2.5">
                   <ParkingCircle className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                  <span>Parcheggio disponibile nelle vicinanze di Via XXIV Maggio.</span>
+                  <span>{t.parking}</span>
                 </p>
               </div>
               <a
@@ -271,7 +266,7 @@ export const ContactPage: React.FC = () => {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase font-bold tracking-wider transition-colors"
               >
                 <Navigation className="w-4 h-4" />
-                <span>Apri in Google Maps</span>
+                <span>{t.openMaps}</span>
               </a>
             </div>
           </Reveal>
@@ -282,46 +277,46 @@ export const ContactPage: React.FC = () => {
             >
               <div>
                 <span className="text-xs font-mono uppercase tracking-widest text-gold font-bold">
-                  Scrivici
+                  {t.formKicker}
                 </span>
                 <h2 className="font-serif text-2xl font-bold text-neutral-950 mt-1">
-                  Inviaci un messaggio
+                  {t.formTitle}
                 </h2>
                 <p className="text-xs text-neutral-500 mt-1">
-                  Ti rispondiamo entro 24 ore nei giorni di apertura.
+                  {t.formNote}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="space-y-1.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Nome *</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">{t.name}</span>
                   <input
                     className={field}
                     value={form.name}
                     onChange={e => setForm({ ...form, name: e.target.value })}
-                    placeholder="Il tuo nome"
+                    placeholder={t.namePlaceholder}
                     autoComplete="name"
                   />
                 </label>
 
                 <label className="space-y-1.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Email *</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">{t.email}</span>
                   <input
                     type="email"
                     className={field}
                     value={form.email}
                     onChange={e => setForm({ ...form, email: e.target.value })}
-                    placeholder="nome@email.it"
+                    placeholder={t.emailPlaceholder}
                     autoComplete="email"
                   />
                   {touched && !emailOk(form.email) && (
-                    <span className="text-[11px] text-red-500">Inserisci un&apos;email valida.</span>
+                    <span className="text-[11px] text-red-500">{t.emailInvalid}</span>
                   )}
                 </label>
 
                 <label className="space-y-1.5">
                   <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                    Cellulare
+                    {t.phone}
                   </span>
                   <input
                     type="tel"
@@ -335,31 +330,31 @@ export const ContactPage: React.FC = () => {
 
                 <label className="space-y-1.5">
                   <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                    Motivo del contatto
+                    {t.subject}
                   </span>
                   <select
                     className={field}
                     value={form.subject}
-                    onChange={e => setForm({ ...form, subject: e.target.value })}
+                    onChange={e => setForm({ ...form, subject: Number(e.target.value) })}
                   >
-                    <option>Informazioni generali</option>
-                    <option>Prenotazione appuntamento</option>
-                    <option>Consulenza sposa / Wedding</option>
-                    <option>Ordine prodotti online</option>
-                    <option>Lavora con noi</option>
+                    {t.subjects.map((s, i) => (
+                      <option key={s} value={i}>
+                        {s}
+                      </option>
+                    ))}
                   </select>
                 </label>
 
                 <label className="space-y-1.5 sm:col-span-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-                    Messaggio *
+                    {t.message}
                   </span>
                   <textarea
                     rows={5}
                     className={`${field} resize-none`}
                     value={form.message}
                     onChange={e => setForm({ ...form, message: e.target.value })}
-                    placeholder="Raccontaci come possiamo aiutarti…"
+                    placeholder={t.messagePlaceholder}
                   />
                 </label>
               </div>
@@ -378,17 +373,17 @@ export const ContactPage: React.FC = () => {
               >
                 {sent ? (
                   <>
-                    <Check className="w-4 h-4 stroke-[3]" /> Messaggio inviato — ti ricontattiamo presto!
+                    <Check className="w-4 h-4 stroke-[3]" /> {t.sent}
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4" /> Invia Messaggio
+                    <Send className="w-4 h-4" /> {t.send}
                   </>
                 )}
               </motion.button>
 
               <p className="text-[11px] text-neutral-400 text-center">
-                Inviando accetti il trattamento dei dati ai sensi del Reg. UE 2016/679 (GDPR).
+                {t.gdpr}
               </p>
             </form>
           </Reveal>
@@ -403,8 +398,8 @@ export const ContactPage: React.FC = () => {
                   loading="lazy"
                   className="w-full h-full border-0"
                   src="https://maps.google.com/maps?q=tony%20musto%20montemiletto&t=m&z=17&output=embed&iwloc=near"
-                  title="Posizione Tony Musto Parrucchieri Montemiletto"
-                  aria-label="Posizione Tony Musto Parrucchieri Montemiletto"
+                  title={common.mapTitle}
+                  aria-label={common.mapTitle}
                 />
               </div>
             </div>
@@ -415,10 +410,10 @@ export const ContactPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <Reveal className="text-center space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-gold font-bold">
-              Seguici su
+              {t.followKicker}
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-950">
-              Restiamo in contatto
+              {t.followTitle}
             </h2>
           </Reveal>
 
@@ -453,13 +448,13 @@ export const ContactPage: React.FC = () => {
             <div className="p-8 rounded-3xl bg-neutral-950 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-lg">
               <div className="text-center sm:text-left">
                 <span className="text-xs font-mono uppercase tracking-widest text-gold font-bold">
-                  Join Our Team Now
+                  {t.careersKicker}
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-white mt-1">
-                  Vuoi lavorare con noi?
+                  {t.careersTitle}
                 </h3>
                 <p className="text-sm text-neutral-300 font-light mt-1">
-                  Cerchiamo persone ambiziose e di talento. L&apos;esperienza non è richiesta.
+                  {t.careersText}
                 </p>
               </div>
               <motion.button
@@ -469,7 +464,7 @@ export const ContactPage: React.FC = () => {
                 className="shrink-0 px-7 py-4 rounded-md bg-gold hover:bg-gold-bright text-neutral-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Candidati Ora</span>
+                <span>{t.apply}</span>
               </motion.button>
             </div>
           </Reveal>

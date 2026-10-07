@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from '../../assets/logo.webp';
 import { HeartHandshake, MapPin, Phone, Mail, Clock, ArrowUp } from 'lucide-react';
+import { useStrings } from '../../i18n/strings';
+import { footerStrings } from '../../i18n/footer';
 
 export const Footer: React.FC = () => {
+  const t = useStrings(footerStrings);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -17,14 +20,14 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-4 space-y-4">
             <img
               src={logo}
-              alt="Tony Musto Parrucchieri"
+              alt={t.logoAlt}
               width={1400}
               height={681}
               className="h-16 w-auto"
             />
 
             <p className="text-xs text-neutral-600 font-light leading-relaxed">
-              Fashion hair — acconciature e make-up for wedding a Montemiletto (AV). Prodotti professionali BEE IT, Bio Organic Curl Up e cura sartoriale del capello.
+              {t.about}
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -65,34 +68,34 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Navigazione</h4>
+            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.navigation}</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#servizi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Hair Boutique</a></li>
-              <li><a href="#shop" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Shop Online</a></li>
-              <li><a href="#prima-dopo" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Prima & Dopo</a></li>
-              <li><a href="#spose" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">My Wedding Page</a></li>
-              <li><a href="#lavora-con-noi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Lavora con Noi</a></li>
-              <li><a href="#photos" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Photos</a></li>
-              <li><a href="#/contatti" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">Contatti</a></li>
+              <li><a href="#servizi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.services}</a></li>
+              <li><a href="#shop" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.shop}</a></li>
+              <li><a href="#prima-dopo" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.beforeAfter}</a></li>
+              <li><a href="#spose" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.wedding}</a></li>
+              <li><a href="#lavora-con-noi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.careers}</a></li>
+              <li><a href="#photos" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.photos}</a></li>
+              <li><a href="#/contatti" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.contact}</a></li>
             </ul>
           </div>
 
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Linee Cosmetiche</h4>
+            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.lines}</h4>
             <ul className="space-y-2 text-xs">
               <li className="flex items-center gap-1.5 text-gold font-medium">
                 <HeartHandshake className="w-3.5 h-3.5 text-gold flex-shrink-0" />
-                <span>BEE IT — Salva-Api Ecologico</span>
+                <span>{t.beeIt}</span>
               </li>
-              <li><span className="text-neutral-600">Bio Organic Curl Up (Ricci)</span></li>
-              <li><span className="text-neutral-600">Argan Me Olio Puro</span></li>
-              <li><span className="text-neutral-600">Don't Frizz Me & Style Me</span></li>
-              <li><span className="text-neutral-600">Bagnodoccia Sensoriale</span></li>
+              <li><span className="text-neutral-600">{t.curl}</span></li>
+              <li><span className="text-neutral-600">{t.argan}</span></li>
+              <li><span className="text-neutral-600">{t.frizz}</span></li>
+              <li><span className="text-neutral-600">{t.shower}</span></li>
             </ul>
           </div>
 
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">Salone & Orari</h4>
+            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.salonHours}</h4>
             <div className="space-y-2 text-xs text-neutral-600">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
@@ -108,7 +111,7 @@ export const Footer: React.FC = () => {
               </p>
               <p className="flex items-start gap-2 pt-1">
                 <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-                <span>Mar–Sab: 8:30–19:00 (Lun & Dom Chiuso)</span>
+                <span>{t.hours}</span>
               </p>
             </div>
           </div>
@@ -116,16 +119,16 @@ export const Footer: React.FC = () => {
         </div>
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
           <div>
-            <p>© {new Date().getFullYear()} Tony Musto Parrucchieri. Tutti i diritti riservati.</p>
+            <p>© {new Date().getFullYear()} Tony Musto Parrucchieri. {t.rights}</p>
           </div>
 
           <div className="flex items-center gap-6">
-            <span>P.IVA 02996910649</span>
+            <span>{t.vat} 02996910649</span>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1.5 py-2 text-neutral-700 hover:text-gold font-bold transition-colors"
             >
-              <span>Torna su</span>
+              <span>{t.backToTop}</span>
               <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>

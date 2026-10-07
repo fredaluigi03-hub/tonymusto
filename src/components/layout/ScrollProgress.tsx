@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { useStrings } from '../../i18n/strings';
+import { footerStrings } from '../../i18n/footer';
 
 /** Gold reading-progress rail pinned to the top + a back-to-top button. */
 export const ScrollProgress: React.FC = () => {
+  const t = useStrings(footerStrings);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
   const [showTop, setShowTop] = useState(false);
@@ -31,7 +34,7 @@ export const ScrollProgress: React.FC = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            aria-label="Torna su"
+            aria-label={t.backToTop}
             className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-neutral-950 text-gold border border-gold/40 shadow-lg hover:bg-gold hover:text-neutral-950 transition-colors"
           >
             <ArrowUp className="w-5 h-5" />

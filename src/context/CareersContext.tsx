@@ -1,70 +1,15 @@
 import React, { createContext, useContext, useState } from 'react';
 import confetti from 'canvas-confetti';
 
-export interface CareerRole {
-  id: string;
-  title: string;
-  type: string;
-  level: string;
-  description: string;
-  perks: string[];
-}
-
-export const careerRoles: CareerRole[] = [
-  {
-    id: 'hair-stylist',
-    title: 'Hair Stylist',
-    type: 'Full-time · Montemiletto (AV)',
-    level: 'Junior o Senior',
-    description:
-      'Taglio, piega e styling accanto a Tony Musto, con formazione continua sulle tecniche sartoriali del salone.',
-    perks: ['Formazione continua interna', 'Affiancamento con Tony Musto', 'Crescita su taglio e styling'],
-  },
-  {
-    id: 'colorista',
-    title: 'Colorista & Armocromia',
-    type: 'Full-time · Montemiletto (AV)',
-    level: 'Esperienza gradita',
-    description:
-      'Diagnosi del colore, schiariture progressive e consulenza armocromatica su prodotti professionali.',
-    perks: ['Corsi colore certificati', 'Prodotti professionali', 'Clientela fidelizzata'],
-  },
-  {
-    id: 'assistente',
-    title: 'Assistente di Salone',
-    type: 'Full-time o Part-time',
-    level: 'Nessuna esperienza richiesta',
-    description:
-      'Accoglienza cliente, shampoo, supporto tecnico e preparazione dei trattamenti. Ti formiamo noi da zero.',
-    perks: ['Percorso formativo da zero', 'Ambiente giovane', 'Possibilità di crescita interna'],
-  },
-  {
-    id: 'apprendista',
-    title: 'Apprendista / Stage',
-    type: 'Apprendistato · Scuola o prima esperienza',
-    level: 'Entry level',
-    description:
-      'Un percorso strutturato per chi inizia adesso: teoria, pratica in salone e affiancamento quotidiano.',
-    perks: ['Tutor dedicato', 'Contratto di apprendistato', 'Certificazione delle competenze'],
-  },
-  {
-    id: 'candidatura-libera',
-    title: 'Candidatura Libera',
-    type: 'Sempre aperta',
-    level: 'Qualsiasi profilo',
-    description:
-      'Non trovi il tuo ruolo? Raccontaci chi sei: cerchiamo persone ambiziose e di talento, anche senza esperienza.',
-    perks: ['Valutiamo ogni profilo', 'Risposta entro 7 giorni', 'Colloquio conoscitivo in salone'],
-  },
-];
+import type { CareerRoleId, ExperienceLevel, Availability } from '../i18n/careers';
 
 export interface ApplicationState {
-  role: CareerRole | null;
+  role: CareerRoleId | null;
   fullName: string;
   email: string;
   phone: string;
-  experience: string;
-  availability: string;
+  experience: ExperienceLevel;
+  availability: Availability;
   portfolio: string;
   message: string;
   cvFileName: string;
@@ -77,8 +22,8 @@ const initialApplication: ApplicationState = {
   fullName: '',
   email: '',
   phone: '',
-  experience: 'Nessuna esperienza — voglio imparare',
-  availability: 'Full-time',
+  experience: 'none',
+  availability: 'fullTime',
   portfolio: '',
   message: '',
   cvFileName: '',
@@ -89,10 +34,10 @@ interface CareersContextType {
   isModalOpen: boolean;
   currentStep: number;
   application: ApplicationState;
-  openCareers: (roleId?: string) => void;
+  openCareers: (roleId?: CareerRoleId) => void;
   closeCareers: () => void;
   setStep: (step: number) => void;
-  selectRole: (role: CareerRole) => void;
+  selectRole: (role: CareerRoleId) => void;
   updateApplication: (patch: Partial<ApplicationState>) => void;
   submitApplication: () => void;
   resetApplication: () => void;
@@ -105,8 +50,8 @@ export const CareersProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [currentStep, setCurrentStep] = useState(1);
   const [application, setApplication] = useState<ApplicationState>(initialApplication);
 
-  const openCareers = (roleId?: string) => {
-    const role = roleId ? careerRoles.find(r => r.id === roleId) ?? null : application.role;
+  const openCareers = (roleId?: CareerRoleId) => {
+    const role = roleId ?? application.role;
     setApplication(prev => ({ ...prev, role }));
     setCurrentStep(role ? 2 : 1);
     setIsModalOpen(true);
@@ -114,7 +59,7 @@ export const CareersProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const closeCareers = () => setIsModalOpen(false);
 
-  const selectRole = (role: CareerRole) => {
+  const selectRole = (role: CareerRoleId) => {
     setApplication(prev => ({ ...prev, role }));
     setCurrentStep(2);
   };

@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { useBooking } from '../../context/BookingContext';
-import { servicesData } from '../../data/servicesData';
+import { useStrings } from '../../i18n/strings';
+import { bookingStrings } from '../../i18n/booking';
+import { useServices } from '../../i18n/services';
 import { ServiceItem } from '../../types';
 import { Clock, Check, ArrowRight } from 'lucide-react';
 
 export const StepService: React.FC = () => {
   const { bookingState, selectService } = useBooking();
+  const t = useStrings(bookingStrings).service;
+  const servicesData = useServices();
   const [selected, setSelected] = useState<ServiceItem | null>(bookingState.service || servicesData[0]);
   const [filter, setFilter] = useState<'all' | 'sartoriale' | 'ricci' | 'colore' | 'spa' | 'bridal'>('all');
 
   const categories = [
-    { id: 'all', label: 'Tutti i Trattamenti' },
-    { id: 'sartoriale', label: 'Taglio Sartoriale' },
-    { id: 'ricci', label: 'Bio Organic Curl' },
-    { id: 'colore', label: 'Color Couture' },
-    { id: 'spa', label: 'Hair Spa BEE IT' },
-    { id: 'bridal', label: 'Spose' },
+    { id: 'all', label: t.categories.all },
+    { id: 'sartoriale', label: t.categories.sartoriale },
+    { id: 'ricci', label: t.categories.ricci },
+    { id: 'colore', label: t.categories.colore },
+    { id: 'spa', label: t.categories.spa },
+    { id: 'bridal', label: t.categories.bridal },
   ];
 
   const filteredServices = filter === 'all'
@@ -25,10 +29,10 @@ export const StepService: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-center max-w-lg mx-auto space-y-1">
-        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Passo 1 di 4</span>
-        <h3 className="font-serif text-2xl font-bold text-neutral-950">Seleziona il Tuo Trattamento</h3>
+        <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">{t.step}</span>
+        <h3 className="font-serif text-2xl font-bold text-neutral-950">{t.title}</h3>
         <p className="text-xs text-neutral-500">
-          Scegli il servizio desiderato tra le nostre specialità sartoriali e botaniche.
+          {t.intro}
         </p>
       </div>
       <div className="flex items-center justify-center gap-2 flex-wrap pb-1">
@@ -105,7 +109,7 @@ export const StepService: React.FC = () => {
           onClick={() => selected && selectService(selected)}
           className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors rounded-md flex items-center gap-2 shadow-xs disabled:opacity-40"
         >
-          <span>Continua con lo Stylist</span>
+          <span>{t.next}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

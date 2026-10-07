@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { REVEAL_VIEWPORT } from '../common/Reveal';
 import { productsData, productCollections } from '../../data/productsData';
 import { ProductCard } from './ProductCard';
+import { useStrings } from '../../i18n/strings';
+import { shopStrings } from '../../i18n/shop';
 import { 
   Leaf, 
   Truck, 
@@ -17,7 +19,7 @@ const HOME_PRODUCT_COUNT = 3;
 
 export const ShopSection: React.FC = () => {
   const [activeCollection, setActiveCollection] = useState<string>('all');
-  const collections = productCollections;
+  const t = useStrings(shopStrings);
 
   const filteredProducts = activeCollection === 'all'
     ? productsData
@@ -38,13 +40,13 @@ export const ShopSection: React.FC = () => {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
             <ShoppingBag className="w-3.5 h-3.5" />
-            <span>Shop Online Ufficiale</span>
+            <span>{t.section.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            I Prodotti Tony Musto a Casa Tua
+            {t.section.title}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
-            Acquista online i prodotti professionali utilizzati nel nostro salone: linea ecologica BEE IT, trattamenti ricci Bio Organic e prodotti per lo styling.
+            {t.section.intro}
           </p>
         </motion.div>
         <motion.div 
@@ -60,13 +62,13 @@ export const ShopSection: React.FC = () => {
             </div>
             <div>
               <span className="text-xs uppercase tracking-widest text-gold font-mono font-bold">
-                Linea Sostenibile · BEE IT & Tony Musto
+                {t.section.ecoKicker}
               </span>
               <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 mt-0.5">
-                Salva le Api con ogni acquisto
+                {t.section.ecoTitle}
               </h3>
               <p className="text-xs sm:text-sm text-neutral-600 font-light mt-1 max-w-2xl leading-relaxed">
-                I prodotti della linea <strong>BEE IT</strong> sostengono la creazione di oasi fiorite per la tutela delle api e della biodiversità. Consegna gratuita su ordini superiori a €65.
+                {t.section.ecoBefore}<strong>BEE IT</strong>{t.section.ecoAfter}
               </p>
             </div>
           </div>
@@ -78,25 +80,25 @@ export const ShopSection: React.FC = () => {
             onClick={() => setActiveCollection('bee-it')}
             className="flex-shrink-0 px-6 py-3 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase tracking-wider font-bold transition-colors shadow-xs"
           >
-            Vedi Linea BEE IT
+            {t.section.ecoButton}
           </motion.button>
         </motion.div>
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
-          {collections.map(col => {
-            const isActive = activeCollection === col.id;
+          {productCollections.map(col => {
+            const isActive = activeCollection === col;
             return (
               <motion.button
-                key={col.id}
+                key={col}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setActiveCollection(col.id)}
+                onClick={() => setActiveCollection(col)}
                 className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 shadow-2xs ${
                   isActive
                     ? 'bg-neutral-950 text-white shadow-md'
                     : 'bg-pearl-100 text-neutral-700 hover:text-gold border border-neutral-200 hover:border-gold/50'
                 }`}
               >
-                {col.label}
+                {t.collections[col]}
               </motion.button>
             );
           })}
@@ -115,27 +117,27 @@ export const ShopSection: React.FC = () => {
             href="#/prodotti"
             className="px-7 py-3.5 rounded-md border border-neutral-300 bg-white hover:border-gold hover:text-gold text-neutral-800 text-xs uppercase font-bold tracking-wider transition-colors shadow-2xs flex items-center gap-2"
           >
-            <span>Vedi tutti i prodotti ({productsData.length})</span>
+            <span>{t.section.viewAll(productsData.length)}</span>
             <ArrowRight className="w-4 h-4 text-gold" />
           </motion.a>
         </div>
         <div className="mt-16 pt-10 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-xs text-neutral-600">
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <Truck className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Spedizione Espressa o Ritiro in Salone</strong>
-            <p className="font-light">Consegna rapida in tutta Italia o ritiro gratuito a Montemiletto.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[0].title}</strong>
+            <p className="font-light">{t.trust[0].text}</p>
           </div>
 
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <ShieldCheck className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Prodotti 100% Originali</strong>
-            <p className="font-light">Formulazioni professionali certificate scelte da Tony Musto.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[1].title}</strong>
+            <p className="font-light">{t.trust[1].text}</p>
           </div>
 
           <div className="flex flex-col items-center space-y-2 p-5 rounded-2xl bg-pearl-100 border border-neutral-200/80">
             <Leaf className="w-6 h-6 text-gold" />
-            <strong className="text-neutral-900 font-serif text-sm font-bold">Eco-Sostenibilità Attiva</strong>
-            <p className="font-light">Sostegno concreto alle api e rispetto per l'ambiente.</p>
+            <strong className="text-neutral-900 font-serif text-sm font-bold">{t.trust[2].title}</strong>
+            <p className="font-light">{t.trust[2].text}</p>
           </div>
         </div>
 

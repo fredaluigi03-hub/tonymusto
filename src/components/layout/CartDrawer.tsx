@@ -2,6 +2,10 @@ import React from 'react';
 import { useBodyScrollLock } from '../common/useBodyScrollLock';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
+import { useLang } from '../../i18n/LanguageContext';
+import { useStrings } from '../../i18n/strings';
+import { shopStrings, useFormatPrice } from '../../i18n/shop';
+import { localizeProduct } from '../../i18n/products';
 import { 
   X, 
   Trash2, 
@@ -15,6 +19,9 @@ import {
 } from 'lucide-react';
 
 export const CartDrawer: React.FC = () => {
+  const { lang } = useLang();
+  const t = useStrings(shopStrings).cart;
+  const formatPrice = useFormatPrice();
   const { 
     isOpen, 
     setIsOpen, 
@@ -62,14 +69,15 @@ export const CartDrawer: React.FC = () => {
                     <ShoppingBag className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-serif text-lg font-bold tracking-wide text-neutral-950">Il Tuo Carrello</h3>
+                    <h3 className="font-serif text-lg font-bold tracking-wide text-neutral-950">{t.title}</h3>
                     <p className="text-xs text-neutral-500 font-sans font-semibold">
-                      Tony Musto Shop Ufficiale
+                      {t.shopName}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
+                  aria-label={t.close}
                   className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
                 >
                   <X className="w-5 h-5" />
@@ -80,9 +88,9 @@ export const CartDrawer: React.FC = () => {
                   <span className="text-neutral-700 flex items-center gap-1.5 font-medium">
                     <Sparkles className="w-4 h-4 text-gold" />
                     {remainingForFreeShipping > 0 ? (
-                      <>Aggiungi <strong className="text-gold">€{remainingForFreeShipping.toFixed(2)}</strong> per la spedizione gratuita</>
+                      <>{t.addBefore}<strong className="text-gold">{formatPrice(remainingForFreeShipping)}</strong>{t.addAfter}</>
                     ) : (
-                      <span className="text-emerald-700 font-bold">Hai sbloccato la Spedizione Gratuita!</span>
+                      <span className="text-emerald-700 font-bold">{t.unlocked}</span>
                     )}
                   </span>
                   <span className="text-[10px] text-neutral-500 font-mono font-bold">{Math.round(freeShippingPercentage)}%</span>
@@ -102,19 +110,21 @@ export const CartDrawer: React.FC = () => {
                     <div className="w-16 h-16 rounded-full border border-neutral-200 bg-pearl-100 flex items-center justify-center mb-4 text-gold shadow-xs">
                       <ShoppingBag className="w-8 h-8" />
                     </div>
-                    <h4 className="font-serif text-lg font-bold text-neutral-900 mb-1">Il tuo carrello è vuoto</h4>
+                    <h4 className="font-serif text-lg font-bold text-neutral-900 mb-1">{t.emptyTitle}</h4>
                     <p className="text-xs text-neutral-500 max-w-xs mb-6">
-                      Scopri i prodotti professionali BEE IT salva-api e Bio Organic Curl Up per la cura a casa.
+                      {t.emptyText}
                     </p>
                     <button
                       onClick={() => setIsOpen(false)}
                       className="px-6 py-2.5 bg-neutral-950 text-white text-xs uppercase tracking-wider hover:bg-gold hover:text-neutral-950 transition-colors font-bold rounded-md shadow-xs"
                     >
-                      Esplora i Prodotti
+                      {t.explore}
                     </button>
                   </div>
                 ) : (
-                  items.map(({ product, quantity }) => (
+                  items.map(({ product: baseProduct, quantity }) => {
+                    const product = localizeProduct(baseProduct, lang);
+                    return (
                     <div 
                       key={product.id}
                       className="flex gap-4 p-4 rounded-2xl bg-pearl-100/50 border border-neutral-200 hover:border-gold/50 transition-all duration-200"
@@ -132,6 +142,7 @@ export const CartDrawer: React.FC = () => {
                             </h4>
                             <button
                               onClick={() => removeFromCart(product.id)}
+                              aria-label={t.remove}
                               className="text-neutral-400 hover:text-red-500 transition-colors p-2 -m-1"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -144,6 +155,7 @@ export const CartDrawer: React.FC = () => {
                           <div className="flex items-center border border-neutral-300 rounded-lg bg-white px-2 py-0.5 shadow-2xs">
                             <button
                               onClick={() => updateQuantity(product.id, quantity - 1)}
+                              aria-label={t.decrease}
                               className="p-2 text-neutral-600 hover:text-gold transition-colors"
                             >
                               <Minus className="w-3 h-3" />
@@ -151,6 +163,7 @@ export const CartDrawer: React.FC = () => {
                             <span className="text-xs font-mono px-2 text-neutral-900 font-bold">{quantity}</span>
                             <button
                               onClick={() => updateQuantity(product.id, quantity + 1)}
+                              aria-label={t.increase}
                               className="p-2 text-neutral-600 hover:text-gold transition-colors"
                             >
                               <Plus className="w-3 h-3" />
@@ -159,34 +172,35 @@ export const CartDrawer: React.FC = () => {
 
                           <div className="text-right">
                             <span className="text-base text-neutral-950 font-bold font-serif">
-                              €{(product.price * quantity).toFixed(2)}
+                              {formatPrice(product.price * quantity)}
                             </span>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
               {items.length > 0 && (
                 <div className="p-6 bg-pearl-100 border-t border-neutral-200 space-y-3.5">
                   <div className="space-y-1.5 text-xs text-neutral-700">
                     <div className="flex justify-between">
-                      <span>Subtotale</span>
-                      <span className="font-mono text-neutral-950 font-bold">€{subtotal.toFixed(2)}</span>
+                      <span>{t.subtotal}</span>
+                      <span className="font-mono text-neutral-950 font-bold">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between text-neutral-500">
-                      <span>Spedizione</span>
-                      <span>{remainingForFreeShipping === 0 ? <strong className="text-emerald-700">Gratuita</strong> : 'Calcolata al riepilogo'}</span>
+                      <span>{t.shipping}</span>
+                      <span>{remainingForFreeShipping === 0 ? <strong className="text-emerald-700">{t.free}</strong> : t.shippingLater}</span>
                     </div>
                     <div className="pt-2 border-t border-neutral-200 flex justify-between text-base font-serif text-neutral-950">
-                      <span className="font-bold">Totale</span>
-                      <span className="text-neutral-950 font-mono font-bold text-xl">€{subtotal.toFixed(2)}</span>
+                      <span className="font-bold">{t.total}</span>
+                      <span className="text-neutral-950 font-mono font-bold text-xl">{formatPrice(subtotal)}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-gold/30 text-[11px] text-neutral-700">
                     <HeartHandshake className="w-4 h-4 text-gold flex-shrink-0" />
-                    <span>Ogni acquisto BEE IT sostiene la salvaguardia delle api.</span>
+                    <span>{t.beeNote}</span>
                   </div>
 
                   <motion.button
@@ -195,13 +209,13 @@ export const CartDrawer: React.FC = () => {
                     onClick={handleProceedCheckout}
                     className="w-full py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-wider rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
                   >
-                    <span>Procedi all'Ordine</span>
+                    <span>{t.checkout}</span>
                     <ArrowRight className="w-4 h-4" />
                   </motion.button>
 
                   <div className="flex items-center justify-center gap-1.5 text-[10px] text-neutral-500 text-center">
                     <ShieldCheck className="w-3.5 h-3.5 text-gold" />
-                    <span>Consegna rapida in tutta Italia o ritiro gratuito in salone</span>
+                    <span>{t.delivery}</span>
                   </div>
                 </div>
               )}

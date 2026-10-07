@@ -1,12 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { REVEAL_VIEWPORT } from '../common/Reveal';
-import { teamData } from '../../data/teamData';
 import { useBooking } from '../../context/BookingContext';
+import { useStrings } from '../../i18n/strings';
+import { teamStrings, useTeam } from '../../i18n/team';
 import { Scissors, Calendar, Quote } from 'lucide-react';
 
 export const TeamSection: React.FC = () => {
   const { openBooking } = useBooking();
+  const t = useStrings(teamStrings);
+  const teamData = useTeam();
 
   return (
     <section id="team" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
@@ -21,13 +24,13 @@ export const TeamSection: React.FC = () => {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
             <Scissors className="w-3.5 h-3.5" />
-            <span>Gli Specialisti del Salone</span>
+            <span>{t.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            I Maestri dello Stile
+            {t.title}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
-            Guidati dall'esperienza e dalla passione di Tony Musto, un team dedicato alla valorizzazione della tua personalità.
+            {t.intro}
           </p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -66,7 +69,7 @@ export const TeamSection: React.FC = () => {
                   </div>
 
                   <p className="text-xs text-neutral-600 font-light leading-relaxed">
-                    <strong className="text-neutral-900 block font-semibold mb-0.5">Specializzazione:</strong>
+                    <strong className="text-neutral-900 block font-semibold mb-0.5">{t.specialty}</strong>
                     {member.specialty}
                   </p>
 
@@ -84,7 +87,7 @@ export const TeamSection: React.FC = () => {
                   className="w-full py-3 rounded-md bg-neutral-900 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 shadow-xs"
                 >
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>Prenota con {member.name.split(' ')[0]}</span>
+                  <span>{t.bookWith(member.name.split(' ')[0])}</span>
                 </motion.button>
               </div>
 

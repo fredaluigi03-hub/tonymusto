@@ -33,23 +33,6 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface BeforeAfterCase {
-  id: string;
-  title: string;
-  treatmentName: string;
-  stylist: string;
-  description: string;
-  details: {
-    baseCondition: string;
-    technique: string;
-    productsUsed: string;
-    timeRequired: string;
-  };
-  beforeImage: string;
-  afterImage: string;
-  tag: string;
-}
-
 export interface TeamMember {
   id: string;
   name: string;
@@ -58,25 +41,6 @@ export interface TeamMember {
   specialty: string;
   quote: string;
   image: string;
-}
-
-export interface ReviewItem {
-  id: string;
-  author: string;
-  roleOrCity: string;
-  rating: number;
-  date: string;
-  content: string;
-  service: string;
-}
-
-export interface AwardItem {
-  id: string;
-  year: string;
-  title: string;
-  organization: string;
-  description: string;
-  badge: string;
 }
 
 export interface BookingState {

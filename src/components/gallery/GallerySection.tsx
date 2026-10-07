@@ -2,9 +2,11 @@ import React from 'react';
 import { Reveal } from '../common/Reveal';
 import { InfiniteSlider } from '../common/InfiniteSlider';
 import { Camera, ArrowUpRight, ArrowRight } from 'lucide-react';
-import { shots, Shot as ShotType } from '../../data/photosData';
+import { shots, Shot } from '../../data/photosData';
+import { useStrings } from '../../i18n/strings';
+import { photosStrings } from '../../i18n/photos';
 
-const Shot: React.FC<{ shot: ShotType }> = ({ shot }) => (
+const ShotCard: React.FC<{ shot: Shot & { caption: string } }> = ({ shot }) => (
   <figure className="group relative h-52 sm:h-64 lg:h-72 aspect-[4/5] shrink-0 overflow-hidden rounded-2xl border border-neutral-200 bg-pearl-200 shadow-luxury-white">
     <img
       src={shot.url}
@@ -22,9 +24,12 @@ const Shot: React.FC<{ shot: ShotType }> = ({ shot }) => (
 );
 
 export const GallerySection: React.FC = () => {
+  const t = useStrings(photosStrings);
+  const captioned = shots.map((shot, i) => ({ ...shot, caption: t.captions[i] }));
+
   // Two ribbons running opposite ways read as a wall, not as a list.
-  const half = Math.ceil(shots.length / 2);
-  const rows = [shots.slice(0, half), shots.slice(half)];
+  const half = Math.ceil(captioned.length / 2);
+  const rows = [captioned.slice(0, half), captioned.slice(half)];
 
   return (
     <section id="photos" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
@@ -33,14 +38,13 @@ export const GallerySection: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pearl-100 border border-gold/30 text-gold text-xs uppercase tracking-[0.2em] font-bold mb-3 shadow-2xs">
               <Camera className="w-3.5 h-3.5" />
-              <span>Photos &amp; Shooting</span>
+              <span>{t.badge}</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-              Un po&apos; di noi...
+              {t.galleryTitle}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-neutral-600 font-light max-w-xl">
-              Alcuni dei nostri lavori uniti alle nostre esperienze quotidiane in salone e durante i
-              set fotografici.
+              {t.galleryIntro}
             </p>
           </div>
 
@@ -49,7 +53,7 @@ export const GallerySection: React.FC = () => {
               href="#/foto"
               className="px-5 py-2.5 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-2 shadow-xs"
             >
-              <span>Vedi tutte le foto ({shots.length})</span>
+              <span>{t.seeAll(shots.length)}</span>
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
@@ -78,14 +82,14 @@ export const GallerySection: React.FC = () => {
             className="[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
           >
             {row.map(shot => (
-              <Shot key={shot.url} shot={shot} />
+              <ShotCard key={shot.url} shot={shot} />
             ))}
           </InfiniteSlider>
         ))}
       </div>
 
       <p className="relative z-10 mt-8 text-center text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
-        Passa il mouse per rallentare il nastro
+        {t.hoverHint}
       </p>
     </section>
   );

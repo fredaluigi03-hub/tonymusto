@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { beforeAfterData } from '../../data/beforeAfterData';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
+import { useStrings } from '../../i18n/strings';
+import { beforeAfterStrings } from '../../i18n/beforeAfter';
 import { useBooking } from '../../context/BookingContext';
 import { Reveal, REVEAL_VIEWPORT } from '../common/Reveal';
 import {
@@ -19,8 +21,10 @@ export const BeforeAfterSection: React.FC = () => {
   const [activeCaseId, setActiveCaseId] = useState(beforeAfterData[0].id);
   const [fullscreenOpen, setFullscreenOpen] = useState(false);
   const { openBooking } = useBooking();
+  const t = useStrings(beforeAfterStrings);
 
-  const activeCase = beforeAfterData.find(c => c.id === activeCaseId) || beforeAfterData[0];
+  const activeIndex = Math.max(0, beforeAfterData.findIndex(c => c.id === activeCaseId));
+  const activeCase = { ...beforeAfterData[activeIndex], ...t.cases[activeIndex] };
 
   return (
     <section id="prima-dopo" className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200">
@@ -28,14 +32,13 @@ export const BeforeAfterSection: React.FC = () => {
         <Reveal className="text-center max-w-3xl mx-auto mb-10 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>I Nostri Risultati</span>
+            <span>{t.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            L&apos;Arte del Prima &amp; Dopo
+            {t.heading}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
-            Guarda i risultati reali eseguiti nel salone di Tony Musto: sfumature armocromatiche,
-            definizione ricci e tagli sartoriali. Trascina la maniglia per confrontare.
+            {t.intro}
           </p>
         </Reveal>
         <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
@@ -65,13 +68,13 @@ export const BeforeAfterSection: React.FC = () => {
                     transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                   />
                 )}
-                <span className="relative z-10">{item.title}</span>
+                <span className="relative z-10">{t.cases[i].title}</span>
                 <span
                   className={`relative z-10 text-[10px] px-2 py-0.5 rounded-full font-bold ${
                     isActive ? 'bg-white/20 text-white' : 'bg-white text-gold border border-neutral-200'
                   }`}
                 >
-                  {item.tag}
+                  {t.cases[i].tag}
                 </span>
               </motion.button>
             );
@@ -88,15 +91,15 @@ export const BeforeAfterSection: React.FC = () => {
             <BeforeAfterSlider
               beforeImage={activeCase.beforeImage}
               afterImage={activeCase.afterImage}
-              beforeLabel="PRIMA"
-              afterLabel="DOPO IL TRATTAMENTO"
+              beforeLabel={t.before}
+              afterLabel={t.afterTreatment}
             />
 
             <motion.button
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => setFullscreenOpen(true)}
-              aria-label="Ingrandisci a tutto schermo"
+              aria-label={t.fullscreen}
               className="absolute bottom-6 right-6 z-30 p-3 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-800 hover:text-gold transition-all shadow-md"
             >
               <Maximize2 className="w-4 h-4" />
@@ -113,15 +116,15 @@ export const BeforeAfterSection: React.FC = () => {
             <div className="p-6 sm:p-8 rounded-3xl bg-pearl-100 border border-neutral-200 shadow-xs space-y-5">
               <div>
                 <span className="text-xs uppercase tracking-widest text-gold font-mono font-bold">
-                  Caso Studio: {activeCase.tag}
+                  {t.caseStudy}: {activeCase.tag}
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-neutral-900 mt-1">
                   {activeCase.title}
                 </h3>
                 <p className="text-xs text-gold font-bold mt-1">
-                  Trattamento: {activeCase.treatmentName}
+                  {t.treatment}: {activeCase.treatmentName}
                 </p>
-                <p className="text-[11px] text-neutral-500 mt-0.5">Stylist: {activeCase.stylist}</p>
+                <p className="text-[11px] text-neutral-500 mt-0.5">{t.stylist}: {activeCase.stylist}</p>
               </div>
 
               <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-light">
@@ -130,10 +133,10 @@ export const BeforeAfterSection: React.FC = () => {
 
               <div className="space-y-3 pt-3 border-t border-neutral-200 text-xs">
                 {[
-                  { Icon: Layers, label: 'Condizione di Partenza:', value: activeCase.details.baseCondition },
-                  { Icon: Wand2, label: 'Tecnica Eseguita:', value: activeCase.details.technique },
-                  { Icon: CheckCircle2, label: 'Prodotti Utilizzati:', value: activeCase.details.productsUsed },
-                  { Icon: Clock, label: 'Tempo di Realizzazione:', value: activeCase.details.timeRequired },
+                  { Icon: Layers, label: t.startingPoint, value: activeCase.baseCondition },
+                  { Icon: Wand2, label: t.technique, value: activeCase.technique },
+                  { Icon: CheckCircle2, label: t.products, value: activeCase.productsUsed },
+                  { Icon: Clock, label: t.time, value: activeCase.timeRequired },
                 ].map(({ Icon, label, value }, i) => (
                   <motion.div
                     key={label}
@@ -159,7 +162,7 @@ export const BeforeAfterSection: React.FC = () => {
                   className="w-full py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest transition-colors rounded-md shadow-xs flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-4 h-4" />
-                  <span>Prenota Questo Risultato</span>
+                  <span>{t.book}</span>
                 </motion.button>
               </div>
             </div>
@@ -188,7 +191,7 @@ export const BeforeAfterSection: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setFullscreenOpen(false)}
-                  aria-label="Chiudi"
+                  aria-label={t.close}
                   className="p-2 rounded-full bg-pearl-100 border border-neutral-200 text-neutral-700 hover:text-gold transition-colors"
                 >
                   <X className="w-6 h-6" />

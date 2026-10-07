@@ -1,30 +1,17 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useCareers, careerRoles } from '../../context/CareersContext';
+import { useCareers } from '../../context/CareersContext';
 import { Reveal, useParallax, REVEAL_VIEWPORT } from '../common/Reveal';
 import { HorizontalScroller } from '../common/HorizontalScroller';
+import { useStrings } from '../../i18n/strings';
+import { careersStrings, careerRoleIds } from '../../i18n/careers';
 import { Sparkles, ArrowRight, GraduationCap, HeartHandshake, Users, Check } from 'lucide-react';
 
-const values = [
-  {
-    icon: Users,
-    title: 'Le persone prima di tutto',
-    desc: 'Le persone rappresentano l’identità di questo brand: cerchiamo talento e ambizione, non solo un curriculum.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Formazione continua',
-    desc: 'Corsi interni, affiancamento quotidiano e aggiornamento costante sulle tecniche di taglio e colore.',
-  },
-  {
-    icon: HeartHandshake,
-    title: 'Ambiente accogliente',
-    desc: 'Un salone dove ogni cliente merita il meglio — e dove lo stesso vale per chi ci lavora.',
-  },
-];
+const valueIcons = [Users, GraduationCap, HeartHandshake];
 
 export const CareersSection: React.FC = () => {
   const { openCareers } = useCareers();
+  const t = useStrings(careersStrings);
   const sectionRef = useRef<HTMLElement>(null);
   const bgY = useParallax(sectionRef, 60);
 
@@ -48,15 +35,15 @@ export const CareersSection: React.FC = () => {
         <Reveal className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Join Our Team Now</span>
+            <span>{t.badge}</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            Lavora con Noi
+            {t.title}
           </h2>
           <p className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed max-w-2xl mx-auto">
-            Nel nostro salone la tua esperienza è la nostra priorità. Cerchiamo risorse ambiziose e di
-            talento: <strong className="font-semibold text-neutral-900">l&apos;esperienza non è richiesta</strong>,
-            la passione sì.
+            {t.introBefore}
+            <strong className="font-semibold text-neutral-900">{t.introStrong}</strong>
+            {t.introAfter}
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -67,20 +54,20 @@ export const CareersSection: React.FC = () => {
               className="px-8 py-4 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-md transition-colors flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Candidati Ora</span>
+              <span>{t.applyNow}</span>
             </motion.button>
             <a
               href="#contatti"
               className="px-6 py-4 rounded-md border border-neutral-300 bg-white/90 hover:bg-white text-neutral-800 hover:text-gold text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-2"
             >
-              <span>Parlane con noi</span>
+              <span>{t.talk}</span>
               <ArrowRight className="w-4 h-4 text-gold" />
             </a>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
-          {values.map((v, i) => {
-            const Icon = v.icon;
+          {t.values.map((v, i) => {
+            const Icon = valueIcons[i];
             return (
               <motion.div
                 key={v.title}
@@ -103,23 +90,25 @@ export const CareersSection: React.FC = () => {
 
         <Reveal className="mb-6 text-center">
           <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-950">
-            Posizioni Aperte
+            {t.openPositions}
           </h3>
           <p className="text-xs text-neutral-500 mt-1 uppercase tracking-widest font-semibold">
-            Clicca una posizione per candidarti in un minuto
+            {t.openPositionsHint}
           </p>
         </Reveal>
       </div>
       <div className="relative z-10 w-full">
         <HorizontalScroller
-          ariaLabel="Posizioni aperte"
-          hint="Scorri tutte le posizioni aperte"
+          ariaLabel={t.scrollerLabel}
+          hint={t.scrollerHint}
           className="px-[max(1rem,calc((100vw-80rem)/2+1rem))] sm:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
           controlsClassName="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
-          {careerRoles.map((role, index) => (
+          {careerRoleIds.map((id, index) => {
+            const role = t.roles[id];
+            return (
             <motion.div
-              key={role.id}
+              key={id}
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={REVEAL_VIEWPORT}
@@ -161,14 +150,15 @@ export const CareersSection: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => openCareers(role.id)}
+                onClick={() => openCareers(id)}
                 className="w-full py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
               >
-                <span>Candidati</span>
+                <span>{t.apply}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
             </motion.div>
-          ))}
+            );
+          })}
         </HorizontalScroller>
       </div>
     </section>

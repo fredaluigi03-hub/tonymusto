@@ -1,5 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Sparkles, MoveHorizontal } from 'lucide-react';
+import { useStrings } from '../../i18n/strings';
+import { beforeAfterStrings } from '../../i18n/beforeAfter';
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -13,11 +15,14 @@ interface BeforeAfterSliderProps {
 export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   beforeImage,
   afterImage,
-  beforeLabel = 'PRIMA',
-  afterLabel = 'DOPO IL RITUALE',
+  beforeLabel,
+  afterLabel,
   title,
   className = '',
 }) => {
+  const t = useStrings(beforeAfterStrings);
+  const before = beforeLabel ?? t.before;
+  const after = afterLabel ?? t.afterRitual;
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,7 +74,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
       >
         <img
           src={afterImage}
-          alt={afterLabel}
+          alt={after}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
         <div
@@ -78,20 +83,20 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         >
           <img
             src={beforeImage}
-            alt={beforeLabel}
+            alt={before}
             className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none filter contrast-[0.95] brightness-90"
           />
         </div>
         <div className="absolute top-4 left-4 z-20 pointer-events-none">
           <span className="px-2.5 sm:px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-white/20 text-[10px] sm:text-xs font-mono uppercase tracking-widest text-white">
-            {beforeLabel}
+            {before}
           </span>
         </div>
 
         <div className="absolute top-4 right-4 z-20 pointer-events-none">
           <span className="px-2.5 sm:px-3 py-1 rounded bg-gold/90 backdrop-blur-md text-neutral-950 text-[10px] sm:text-xs font-mono uppercase tracking-widest font-bold shadow-md flex items-center gap-1">
             <Sparkles className="w-3 h-3" />
-            {afterLabel}
+            {after}
           </span>
         </div>
         <div
@@ -103,7 +108,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           </div>
         </div>
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-neutral-950/70 backdrop-blur-md px-3 py-1 rounded-full border border-gold/20 text-[10px] text-white/90 whitespace-nowrap opacity-80 group-hover:opacity-100 transition-opacity">
-          Trascina a destra o sinistra per confrontare
+          {t.dragHint}
         </div>
       </div>
 

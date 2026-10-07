@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import { ServiceItem, TeamMember, BookingState } from '../types';
-import { servicesData } from '../data/servicesData';
-import { teamData } from '../data/teamData';
+import { useLang, type Lang } from '../i18n/LanguageContext';
+import { localizeServices } from '../i18n/services';
+import { localizeTeam } from '../i18n/team';
 import confetti from 'canvas-confetti';
 
 interface BookingContextType {
@@ -19,36 +20,47 @@ interface BookingContextType {
   resetBooking: () => void;
 }
 
-const initialBookingState: BookingState = {
-  service: servicesData[0],
-  stylist: teamData[0],
+const initialBookingState = (lang: Lang): BookingState => ({
+  service: localizeServices(lang)[0],
+  stylist: localizeTeam(lang)[0],
   date: null,
   timeSlot: null,
   customerName: '',
   customerPhone: '',
   customerEmail: '',
   notes: '',
-  hairType: 'Riccio / Mosso Naturale',
-};
+  hairType: 'curly',
+});
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
 export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [bookingState, setBookingState] = useState<BookingState>(initialBookingState);
+  const { lang } = useLang();
+  const [state, setBookingState] = useState<BookingState>(() => initialBookingState(lang));
+
+  const bookingState = useMemo<BookingState>(() => {
+    const services = localizeServices(lang);
+    const team = localizeTeam(lang);
+    return {
+      ...state,
+      service: services.find(s => s.id === state.service?.id) ?? state.service,
+      stylist: team.find(t => t.id === state.stylist?.id) ?? state.stylist,
+    };
+  }, [state, lang]);
 
   const openBooking = (serviceId?: string, stylistId?: string) => {
     let initialService = bookingState.service;
     let initialStylist = bookingState.stylist;
 
     if (serviceId) {
-      const foundService = servicesData.find(s => s.id === serviceId);
+      const foundService = localizeServices(lang).find(s => s.id === serviceId);
       if (foundService) initialService = foundService;
     }
 
     if (stylistId) {
-      const foundStylist = teamData.find(t => t.id === stylistId);
+      const foundStylist = localizeTeam(lang).find(t => t.id === stylistId);
       if (foundStylist) initialStylist = foundStylist;
     }
 
@@ -105,7 +117,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const resetBooking = () => {
-    setBookingState(initialBookingState);
+    setBookingState(initialBookingState(lang));
     setCurrentStep(1);
   };
 
