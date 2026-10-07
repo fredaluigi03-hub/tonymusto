@@ -12,11 +12,8 @@ import { ContactSection } from '../components/contact/ContactSection';
 export const HomePage: React.FC = () => (
   <>
     <HeroSection />
-    <StackingBlock id="filosofia" className="flex items-center bg-neutral-950 text-white">
+    <StackingBlock id="filosofia" className="flex items-center bg-pearl-100">
       <PhilosophySection />
-    </StackingBlock>
-    <StackingBlock id="foto" className="flex items-center bg-white">
-      <GallerySection />
     </StackingBlock>
     <ServicesRail />
     <StackingBlock id="wedding" className="flex items-center bg-neutral-950">
@@ -25,7 +22,10 @@ export const HomePage: React.FC = () => (
     <StackingBlock id="shop" className="flex items-center bg-pearl-100">
       <ShopSection />
     </StackingBlock>
-    <StackingBlock id="awards" className="flex items-center bg-white">
+    <StackingBlock id="foto" className="flex items-center bg-white">
+      <GallerySection />
+    </StackingBlock>
+    <StackingBlock id="awards" className="flex items-center bg-pearl-100">
       <AwardsStrip />
     </StackingBlock>
     <StackingBlock id="contatti" className="flex items-center bg-neutral-950 text-white">

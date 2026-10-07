@@ -7,9 +7,7 @@ import { useStrings } from "../../i18n/strings";
 import { photosStrings } from "../../i18n/photos";
 import { ROUTES } from "../../routes";
 
-const FEATURED = [
-  0, 19, 3, 13, 9, 6, 16, 25, 12, 4, 1, 22, 17, 10, 21, 15, 24, 23,
-];
+const FEATURED = [0, 19, 3, 13, 9, 16, 25, 12, 21, 4];
 
 export const GallerySection: React.FC = () => {
   const t = useStrings(photosStrings);
@@ -17,8 +15,6 @@ export const GallerySection: React.FC = () => {
     url: shots[i].url,
     caption: t.captions[i],
   }));
-  const half = Math.ceil(featured.length / 2);
-  const rows = [featured.slice(0, half), featured.slice(half)];
 
   return (
     <section className="w-full py-24">
@@ -35,29 +31,25 @@ export const GallerySection: React.FC = () => {
         </a>
       </Reveal>
 
-      <div className="relative space-y-4">
-        {rows.map((row, r) => (
-          <InfiniteSlider
-            key={r}
-            gap={16}
-            duration={r === 0 ? 50 : 60}
-            durationOnHover={150}
-            reverse={r === 1}
-            className="[mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
-          >
-            {row.map((shot) => (
-              <img
-                key={shot.url}
-                src={shot.url}
-                alt={shot.caption}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-                className="aspect-[4/5] h-60 shrink-0 rounded-2xl object-cover sm:h-72 lg:h-80"
-              />
-            ))}
-          </InfiniteSlider>
-        ))}
+      <div className="relative">
+        <InfiniteSlider
+          gap={16}
+          duration={50}
+          durationOnHover={150}
+          className="[mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+        >
+          {featured.map((shot) => (
+            <img
+              key={shot.url}
+              src={shot.url}
+              alt={shot.caption}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="aspect-[4/5] h-60 shrink-0 rounded-2xl object-cover sm:h-72 lg:h-80"
+            />
+          ))}
+        </InfiniteSlider>
       </div>
     </section>
   );

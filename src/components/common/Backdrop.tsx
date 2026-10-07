@@ -8,21 +8,19 @@ interface BackdropProps {
 }
 
 /**
- * Fills its (relative) parent: an optional photo drifting slowly with the
- * scroll, plus an oversized script word that slides across behind the content.
+ * Fills its (relative) parent: an optional photo plus an oversized script word that slides across behind the content.
  */
 export const Backdrop: React.FC<BackdropProps> = ({ word, photo, dark = false }) => {
   const ref = useRef<HTMLDivElement>(null);
   const still = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const scale = useTransform(scrollYProgress, [0, 1], still ? [1.05, 1.05] : [1.18, 1.02]);
   const x = useTransform(scrollYProgress, [0, 1], still ? ['0%', '0%'] : ['12%', '-12%']);
 
   return (
     <div ref={ref} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
       {photo && (
         <>
-          <motion.img src={photo} alt="" loading="lazy" style={{ scale }} className="h-full w-full object-cover" />
+          <img src={photo} alt="" loading="lazy" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/85 via-neutral-950/55 to-neutral-950/20" />
         </>
       )}
