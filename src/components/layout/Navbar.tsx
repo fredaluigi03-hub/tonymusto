@@ -3,13 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { useBooking } from '../../context/BookingContext';
 import logo from '../../assets/logo.webp';
-import { ShoppingBag, Calendar, Phone, MapPin, Menu, X, Clock, Sparkles } from 'lucide-react';
+import { ShoppingBag, Calendar, Phone, MapPin, Menu, X, Clock, Sparkles, Globe } from 'lucide-react';
+import { LANGUAGES, useLang, type Lang } from '../../i18n/LanguageContext';
+import { useStrings } from '../../i18n/strings';
+import { navbarStrings } from '../../i18n/navbar';
 
 export const Navbar: React.FC = () => {
   const { totalItemsCount, setIsOpen: setCartOpen } = useCart();
   const { openBooking } = useBooking();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { lang, setLang } = useLang();
+  const t = useStrings(navbarStrings);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,14 +25,14 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Hair Boutique', href: '#servizi' },
-    { name: 'Shop Online', href: '#/prodotti' },
-    { name: 'Prima & Dopo', href: '#prima-dopo' },
+    { name: t.links.services, href: '#servizi' },
+    { name: t.links.shop, href: '#/prodotti' },
+    { name: t.links.beforeAfter, href: '#prima-dopo' },
     { name: 'My Wedding Page', href: '#spose' },
-    { name: 'Lavora con Noi', href: '#lavora-con-noi' },
+    { name: t.links.careers, href: '#lavora-con-noi' },
     { name: 'Awards', href: '#/premi' },
     { name: 'Photos', href: '#/foto' },
-    { name: 'Contatti', href: '#/contatti' },
+    { name: t.links.contact, href: '#/contatti' },
   ];
 
   return (
@@ -42,7 +47,7 @@ export const Navbar: React.FC = () => {
             <span className="hidden md:inline text-neutral-300">|</span>
             <span className="hidden md:flex items-center gap-1 text-neutral-500">
               <Clock className="w-3.5 h-3.5 text-gold" />
-              <span>Mar–Sab: 8:30 – 19:00</span>
+              <span>{t.hours}</span>
             </span>
           </div>
 
@@ -110,7 +115,7 @@ export const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setCartOpen(true)}
-              aria-label="Carrello della spesa"
+              aria-label={t.cart}
               className="relative p-2 rounded-full border border-neutral-200 bg-white hover:border-gold hover:bg-pearl-100 text-neutral-800 hover:text-gold transition-all duration-300 shadow-xs"
             >
               <ShoppingBag className="w-4 h-4" />
@@ -120,6 +125,21 @@ export const Navbar: React.FC = () => {
                 </span>
               )}
             </motion.button>
+            <label className="relative flex items-center">
+              <span className="sr-only">{t.language}</span>
+              <Globe className="pointer-events-none absolute left-2 w-3.5 h-3.5 text-gold" />
+              <select
+                value={lang}
+                onChange={e => setLang(e.target.value as Lang)}
+                className="appearance-none cursor-pointer rounded-md border border-neutral-200 bg-white py-2 pl-7 pr-2 text-[11px] font-semibold uppercase tracking-wider text-neutral-800 hover:border-gold focus:border-gold focus:outline-none transition-colors"
+              >
+                {LANGUAGES.map(l => (
+                  <option key={l.code} value={l.code}>
+                    {l.code.toUpperCase()} · {l.label}
+                  </option>
+                ))}
+              </select>
+            </label>
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -127,12 +147,12 @@ export const Navbar: React.FC = () => {
               className="relative group overflow-hidden px-3.5 sm:px-4 py-2 rounded-md bg-neutral-900 hover:bg-gold text-white hover:text-neutral-950 font-medium text-[11px] tracking-wider uppercase transition-all duration-300 shadow-sm flex items-center gap-2"
             >
               <Calendar className="w-3.5 h-3.5 text-gold group-hover:text-neutral-950 transition-colors" />
-              <span className="font-semibold">Prenota Online</span>
+              <span className="font-semibold">{t.book}</span>
             </motion.button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="xl:hidden p-2 rounded-md border border-neutral-200 text-neutral-800 hover:text-gold hover:border-gold transition-colors"
-              aria-label="Menu di navigazione"
+              aria-label={t.menu}
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -166,7 +186,7 @@ export const Navbar: React.FC = () => {
                     className="w-full py-3 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md rounded-md hover:bg-gold hover:text-neutral-950 transition-colors"
                   >
                     <Calendar className="w-4 h-4 text-gold" />
-                    Prenota Appuntamento in Salone
+                    {t.bookLong}
                   </button>
                   <div className="text-center text-xs text-neutral-500 pt-2">
                     <p>Via XXIV Maggio 13/14, Montemiletto (AV)</p>
