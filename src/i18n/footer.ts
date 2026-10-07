@@ -16,6 +16,7 @@ export const footerStrings = defineStrings({
     hours: 'Mar–Sab: 8:30–19:00 (Lun & Dom Chiuso)',
     rights: 'Tutti i diritti riservati.',
     vat: 'P.IVA',
+    legal: { privacy: 'Privacy', cookies: 'Cookie', terms: 'Condizioni di vendita' },
     backToTop: 'Torna su',
   },
   en: {
@@ -33,6 +34,7 @@ export const footerStrings = defineStrings({
     hours: 'Tue–Sat: 8:30am–7:00pm (Closed Mon & Sun)',
     rights: 'All rights reserved.',
     vat: 'VAT No.',
+    legal: { privacy: 'Privacy policy', cookies: 'Cookie policy', terms: 'Terms of sale' },
     backToTop: 'Back to top',
   },
   fr: {
@@ -50,6 +52,7 @@ export const footerStrings = defineStrings({
     hours: 'Mar–Sam : 8h30–19h00 (fermé lun. et dim.)',
     rights: 'Tous droits réservés.',
     vat: 'N° TVA',
+    legal: { privacy: 'Confidentialité', cookies: 'Cookies', terms: 'Conditions de vente' },
     backToTop: 'Haut de page',
   },
   es: {
@@ -67,6 +70,7 @@ export const footerStrings = defineStrings({
     hours: 'Mar–Sáb: 8:30–19:00 (cerrado lun. y dom.)',
     rights: 'Todos los derechos reservados.',
     vat: 'IVA',
+    legal: { privacy: 'Privacidad', cookies: 'Cookies', terms: 'Condiciones de venta' },
     backToTop: 'Volver arriba',
   },
   de: {
@@ -84,6 +88,7 @@ export const footerStrings = defineStrings({
     hours: 'Di–Sa: 8:30–19:00 Uhr (Mo & So geschlossen)',
     rights: 'Alle Rechte vorbehalten.',
     vat: 'USt-IdNr.',
+    legal: { privacy: 'Datenschutz', cookies: 'Cookies', terms: 'Verkaufsbedingungen' },
     backToTop: 'Nach oben',
   },
 });

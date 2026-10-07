@@ -7,7 +7,7 @@ import { shopStrings, useFormatPrice } from '../../i18n/shop';
 import { localizeProduct } from '../../i18n/products';
 import { useCart } from '../../context/CartContext';
 import { useTilt, IS_TOUCH, REVEAL_VIEWPORT } from '../common/Reveal';
-import { ShoppingBag, Sparkles, Star, HeartHandshake, Check, Info, RotateCcw } from 'lucide-react';
+import { ShoppingBag, Sparkles, HeartHandshake, Check, Info, RotateCcw } from 'lucide-react';
 
 interface ProductCardProps {
   product: ProductItem;
@@ -102,15 +102,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product: baseProduct, 
             </div>
           )}
 
-          <button
-            type="button"
-            onClick={() => setFlipped(!flipped)}
-            aria-label={flipped ? t.backToProduct : t.botanicDetails}
-            className="absolute top-3 right-3 z-30 p-2 rounded-full bg-white text-neutral-600 hover:text-gold border border-neutral-200 hover:border-gold transition-colors shadow-2xs"
-            style={{ transform: 'translateZ(50px)' }}
-          >
-            {flipped ? <RotateCcw className="w-4 h-4" /> : <Info className="w-4 h-4" />}
-          </button>
+          {product.keyIngredients && (
+            <button
+              type="button"
+              onClick={() => setFlipped(!flipped)}
+              aria-label={flipped ? t.backToProduct : t.botanicDetails}
+              className="absolute top-3 right-3 z-30 p-2 rounded-full bg-white text-neutral-600 hover:text-gold border border-neutral-200 hover:border-gold transition-colors shadow-2xs"
+              style={{ transform: 'translateZ(50px)' }}
+            >
+              {flipped ? <RotateCcw className="w-4 h-4" /> : <Info className="w-4 h-4" />}
+            </button>
+          )}
           <motion.div
             style={{ x: shadowX, z: 4 }}
             className="absolute bottom-7 left-1/2 -translate-x-1/2 w-[55%] h-5 rounded-[50%] bg-neutral-900/20 blur-xl"
@@ -129,7 +131,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product: baseProduct, 
 
           {/* Flip face: ingredients */}
           <AnimatePresence>
-            {flipped && (
+            {flipped && product.keyIngredients && (
               <motion.div
                 initial={{ opacity: 0, rotateY: -90 }}
                 animate={{ opacity: 1, rotateY: 0 }}
@@ -169,12 +171,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product: baseProduct, 
         </div>
         <div className="p-6 flex-1 flex flex-col justify-between space-y-4" style={{ transform: 'translateZ(30px)' }}>
           <div>
-            <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">
-              <div className="flex items-center gap-1.5 text-gold">
-                <Star className="w-3.5 h-3.5 fill-gold text-gold" />
-                <span className="font-mono text-neutral-900 text-xs font-bold">{product.rating}</span>
-                <span className="text-[10px] text-neutral-400">({product.reviewsCount})</span>
-              </div>
+            <div className="flex items-center justify-end text-xs text-neutral-500 mb-1.5">
               <span className="text-[11px] text-neutral-600 font-mono font-medium">{product.volume}</span>
             </div>
 

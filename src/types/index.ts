@@ -18,11 +18,9 @@ export interface ProductItem {
   name: string;
   volume: string;
   price: number;
-  rating: number;
-  reviewsCount: number;
   description: string;
   benefits: string[];
-  keyIngredients: string[];
+  keyIngredients?: string[];
   ecoAction?: string;
   image: string;
   badge?: string;

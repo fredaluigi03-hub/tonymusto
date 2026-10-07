@@ -9,34 +9,29 @@ export const productsData: ProductItem[] = [
     name: 'Curl Me — Crema Definizione Ricci',
     volume: '200 ml',
     price: 20.00,
-    rating: 5.0,
-    reviewsCount: 48,
-    description: 'Crema professionale per la definizione dei capelli ricci e mossi. Elimina il crespo, dona elasticità duratura e protegge la struttura naturale del boccolo senza appesantire.',
+    description: 'Crema definizione per ricci, ondulati e capelli fini. La formula leggera esalta i ricci donando morbidezza e lucentezza grazie agli ingredienti naturali, per un look definito e senza crespo.',
     benefits: [
-      'Definizione elastica del riccio a memoria di forma',
-      'Azione anticrespo e anti-umidità professionale',
-      'Lucentezza naturale senza residui o rigidità'
+      'Ricci definiti e naturali',
+      'Effetto anti-crespo, capelli morbidi',
+      'Volume e lucentezza',
+      'Ideale per l’uso quotidiano, per tutti i tipi di ricci'
     ],
-    keyIngredients: ['Estratti Botanici Naturali', 'Oli Emollienti Puri', 'Proteine Modellanti'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/08/curl-me_tony-musto.jpg',
-    badge: 'Curly Bestseller'
+    badge: 'Curly'
   },
   {
     id: 'shampoo-bee-it-250ml',
     collection: 'bee-it',
-    name: 'Shampoo Bee It — Nutriente Salva-Api',
+    name: 'Shampoo Bee It — Nutriente',
     volume: '250 ml',
     price: 11.90,
-    rating: 5.0,
-    reviewsCount: 56,
-    description: 'Shampoo biologico ad alta tollerabilità cutanea per capelli morbidi e lucenti. La linea BEE IT sostiene attivamente la salvaguardia delle api attraverso la piantumazione di oasi fiorite.',
+    description: 'Shampoo nutriente per cute e capelli danneggiati. Deterge con cura mantenendo la struttura originaria del capello; la texture cremosa crea una schiuma leggera per capelli morbidi e vitali.',
     benefits: [
-      'Detersione delicata e nutriente per cute e fibra',
-      'Formula eco-compatibile senza siliconi pesanti',
-      'Contribuisce alla tutela della biodiversità'
+      'Alto potere pulente, ma delicato',
+      'Restituisce elasticità e splendore anche ai capelli più aridi',
+      'Capelli più morbidi dalle radici alle punte'
     ],
-    keyIngredients: ['Miele e Propoli Biologici', 'Estratto di Camomilla', 'Base Lavante Vegetale'],
-    ecoAction: 'Finanzia la creazione di oasi nettarifere per salvare le api',
+    ecoAction: 'Packaging in busta con il 70% di plastica in meno rispetto a un normale flacone',
     image: 'https://tonymusto.it/wp-content/uploads/2022/10/giallo-250.jpeg',
     badge: 'Save the Bees'
   },
@@ -46,16 +41,13 @@ export const productsData: ProductItem[] = [
     name: 'Maschera Ristrutturante Bee It',
     volume: '250 ml',
     price: 13.50,
-    rating: 4.9,
-    reviewsCount: 42,
-    description: 'Trattamento ristrutturante profondo per capelli crespi, secchi o sfibrati. Ripara la fibra capillare donando setosità straordinaria e pettinabilità immediata.',
+    description: 'Maschera post shampoo riparatrice concentrata, di immediata efficacia. Dona forza ed elasticità, idratando e nutrendo in profondità per un capello sano, luminoso e rimpolpato.',
     benefits: [
-      'Ricostruzione intensiva delle cuticole danneggiate',
-      'Nutrimento profondo e morbidezza vellutata',
-      'Lucentezza specchio e protezione dal calore'
+      'Migliora la pettinabilità senza appesantire',
+      'Non occlude né irrita il cuoio capelluto',
+      'Protegge il colore, naturale o trattato'
     ],
-    keyIngredients: ['Pappa Reale e Cera d’Api', 'Burro di Karité Bio', 'Amminoacidi Rigeneranti'],
-    ecoAction: 'Packaging riciclabile e supporto all’apicoltura etica',
+    ecoAction: 'Packaging in busta con il 70% di plastica in meno rispetto a un normale flacone',
     image: 'https://tonymusto.it/wp-content/uploads/2022/10/rosso-250.jpeg',
     badge: 'Eco Repair'
   },
@@ -65,34 +57,30 @@ export const productsData: ProductItem[] = [
     name: 'Bagnodoccia Bee It Sensoriale',
     volume: '250 ml',
     price: 8.50,
-    rating: 4.9,
-    reviewsCount: 35,
-    description: 'Detergente corpo delicato ed emolliente. Trasforma la doccia quotidiana in un rituale aromaterapico rilassante, rispettando il naturale film idrolipidico della pelle.',
+    description: 'Bagnodoccia sensoriale per il corpo con attivi naturali biologici ad azione rigenerante. Favorisce il naturale benessere grazie alle proprietà benefiche di propoli e miele biologico.',
     benefits: [
-      'Pelle morbida, vellutata e idratata a lungo',
-      'Profumazione calda e avvolgente',
-      'Formula ecologica rispettosa dell’ambiente'
+      'Dona idratazione, elasticità e morbidezza alla cute',
+      'Proprietà calmanti in caso di prurito'
     ],
-    keyIngredients: ['Miele Millefiori Bio', 'Estratto di Malva', 'Oli Essenziali Puri'],
-    ecoAction: 'Ogni flacone contribuisce alla salvaguardia delle api',
+    keyIngredients: ['Propoli biologico', 'Miele biologico'],
+    ecoAction: 'Packaging in busta con il 70% di plastica in meno rispetto a un normale flacone',
     image: 'https://tonymusto.it/wp-content/uploads/2022/10/blu-250.jpeg',
     badge: 'Body Spa'
   },
   {
     id: 'argan-me-olio-dargan',
     collection: 'restorative',
-    name: 'Argan Me — Olio d’Argan Puro',
+    name: 'Argan Me — Olio d’Argan Fluido Disciplinante',
     volume: '100 ml',
     price: 20.00,
-    rating: 5.0,
-    reviewsCount: 39,
-    description: 'Fluido disciplinante e illuminante all’Olio d’Argan puro. Nutre in profondità, sigilla le doppie punte e protegge da piastra e phon regalando una lucentezza istantanea.',
+    description: 'Olio d’Argan fluido disciplinante istantaneo, leggero e non appiccicoso. Doma i capelli ribelli, riduce il crespo e migliora la brillantezza, lasciandoli setosi e facili da gestire.',
     benefits: [
-      'Nutrimento concentrato e tocco setoso',
-      'Azione anti-crespo e termo-protettiva',
-      'Assorbimento rapido senza ungere'
+      'Lucentezza istantanea',
+      'Riduzione del crespo',
+      'Nutrimento e idratazione in profondità',
+      'Leggero e non appiccicoso, senza residui',
+      'Senza solfati e parabeni, cruelty-free'
     ],
-    keyIngredients: ['Olio di Argan Puro Certificato', 'Vitamina E Naturale', 'Filtri UV Protettivi'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/08/argan-me-tony-musto.jpg',
     badge: 'Luxury Oil'
   },
@@ -102,15 +90,15 @@ export const productsData: ProductItem[] = [
     name: 'Don’t Frizz Me — Lacca Spray Anti-Frizz',
     volume: '300 ml',
     price: 15.00,
-    rating: 4.8,
-    reviewsCount: 31,
-    description: 'Lacca spray professionale anti-crespo a base d’acqua. Fissa l’acconciatura con tenuta leggera e flessibile, preservando la morbidezza e la naturale luminosità della chioma.',
+    description: 'Lacca spray anti-frizz per capelli lisci e luminosi, con tenuta flessibile e lucentezza straordinaria. Combatte il crespo lasciando i capelli lisci, morbidi e setosi, con un aspetto naturale e senza residui.',
     benefits: [
-      'Tenuta invisibile e flessibile senza residui',
-      'Formula anti-umidità ad asciugatura rapida',
-      'Si elimina con un semplice colpo di spazzola'
+      'Tenuta flessibile che non appesantisce',
+      'Anti-crespo: capelli morbidi e setosi',
+      'Lucentezza sana e naturale',
+      'Formula leggera, non appiccica',
+      'Senza solfati e parabeni, cruelty-free'
     ],
-    keyIngredients: ['Polimeri Idrosolubili', 'Pantenolo B5', 'Filtro Anti-Umidità'],
+    keyIngredients: ['Olio di Semi di Carota', 'Estratto di Hibiscus, Cardo Mariano e Lavanda di Mare'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/08/1.jpg',
     badge: 'Pro Styling'
   },
@@ -120,15 +108,14 @@ export const productsData: ProductItem[] = [
     name: 'Texture Me — Spray Sea Salt',
     volume: '200 ml',
     price: 20.00,
-    rating: 4.9,
-    reviewsCount: 28,
-    description: 'Spray texturizzante al sale marino per onde naturali stile "beach waves". Regala corpo, volume e una texture opaca naturale perfetta per look disinvolti e contemporanei.',
+    description: 'Spray sea salt per un look beachy, con onde naturali e una texture leggera e voluminosa. Dona una finitura morbida e un aspetto spettinato ma curato, ideale per un look casual.',
     benefits: [
-      'Effetto onde da spiaggia voluminose',
-      'Texture definita a tenuta media naturale',
-      'Non secca il capello grazie agli attivi idratanti'
+      'Texture naturale, look spettinato',
+      'Volume e corpo',
+      'Formula leggera che non appesantisce',
+      'Aiuta a proteggere i capelli dai fattori di stress ambientale',
+      'Senza solfati e parabeni, cruelty-free'
     ],
-    keyIngredients: ['Sale Marino Minerale', 'Estratto di Alghe Brune', 'Glicerina Vegetale'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/08/texture-me_tony-musto.jpg',
     badge: 'Beach Waves'
   },
@@ -138,15 +125,14 @@ export const productsData: ProductItem[] = [
     name: 'Style Me — Cera Opaca Texturizzante',
     volume: '100 ml',
     price: 16.00,
-    rating: 4.9,
-    reviewsCount: 25,
-    description: 'Cera opaca modellante a tenuta forte per tagli corti e medi. Permette di scolpire e ridefinire la forma in qualsiasi momento della giornata con finish totalmente matt.',
+    description: 'Cera opaca texturizzante a tenuta forte, ideale per look audaci e ben definiti su capelli corti e mossi. Mantiene la forma desiderata e aiuta a trattenere l’idratazione, prevenendo la rottura del capello.',
     benefits: [
-      'Tenuta forte e duratura',
-      'Finish opaco naturale zero lucido',
-      'Facile da lavorare e rimodellabile'
+      'Tenuta forte per tutto il giorno',
+      'Texture opaca e irregolare',
+      'Migliora la lucentezza, per un aspetto sano',
+      'Trattiene l’umidità e previene la rottura',
+      'Senza solfati e parabeni, cruelty-free'
     ],
-    keyIngredients: ['Argilla Naturale', 'Cera Carnauba', 'Oli Essenziali'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/08/style-me_tony-musto.jpg',
     badge: 'Matt Finish'
   },
@@ -156,15 +142,14 @@ export const productsData: ProductItem[] = [
     name: 'Control Me — Cera Lucida a Base d’Acqua',
     volume: '100 ml',
     price: 16.00,
-    rating: 4.8,
-    reviewsCount: 22,
-    description: 'Cera lucida a tenuta flessibile a base d’acqua. Dona brillantezza impeccabile, ordine e controllo senza appesantire né lasciare residui bianchi.',
+    description: 'Cera lucida a base d’acqua per un look strutturato e brillante con tenuta flessibile. Il gel modellante dona una finitura lucida e naturale, per scolpire e definire senza appesantire.',
     benefits: [
-      'Brillantezza e controllo istantaneo',
-      'Base d’acqua ultra-lavabile',
-      'Tenuta elastica e naturale'
+      'Tenuta flessibile',
+      'Finitura lucida con brillantezza naturale',
+      'Facile da applicare e da risciacquare, senza residui',
+      'Adatto a tutti i tipi di capelli',
+      'Senza solfati e parabeni, cruelty-free'
     ],
-    keyIngredients: ['Base Idrosolubile Pura', 'Pantenolo Lucidante'],
     image: 'https://tonymusto.it/wp-content/uploads/2024/12/control-me_tony-musto.jpg',
     badge: 'Gloss Control'
   }

@@ -4,6 +4,13 @@ import { HeartHandshake, MapPin, Phone, Mail, Clock, ArrowUp } from 'lucide-reac
 import { useStrings } from '../../i18n/strings';
 import { footerStrings } from '../../i18n/footer';
 
+// The legal documents stay on the official site, where they are maintained.
+const LEGAL_LINKS = [
+  { key: 'privacy', href: 'https://tonymusto.it/informativa-sulla-privacy/' },
+  { key: 'cookies', href: 'https://tonymusto.it/cookie-policy/' },
+  { key: 'terms', href: 'https://tonymusto.it/condizioni-generali-di-vendita/' },
+] as const;
+
 export const Footer: React.FC = () => {
   const t = useStrings(footerStrings);
 
@@ -118,12 +125,24 @@ export const Footer: React.FC = () => {
 
         </div>
         <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <div>
-            <p>© {new Date().getFullYear()} Tony Musto Parrucchieri. {t.rights}</p>
+          <div className="space-y-1 text-center sm:text-left">
+            <p>© {new Date().getFullYear()} Tony Musto srls. {t.rights}</p>
+            <p>
+              {t.vat} 09331041211 · PEC{' '}
+              <a href="mailto:tonymustoparrucchieri@pec.it" className="hover:text-gold transition-colors">
+                tonymustoparrucchieri@pec.it
+              </a>
+            </p>
+            <p className="flex flex-wrap justify-center sm:justify-start gap-x-4">
+              {LEGAL_LINKS.map(({ key, href }) => (
+                <a key={key} href={href} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                  {t.legal[key]}
+                </a>
+              ))}
+            </p>
           </div>
 
           <div className="flex items-center gap-6">
-            <span>{t.vat} 02996910649</span>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1.5 py-2 text-neutral-700 hover:text-gold font-bold transition-colors"

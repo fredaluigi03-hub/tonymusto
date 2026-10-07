@@ -85,7 +85,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const totalItemsCount = items.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-  const freeShippingThreshold = 65.0;
+  const freeShippingThreshold = 59;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
 
   return (
