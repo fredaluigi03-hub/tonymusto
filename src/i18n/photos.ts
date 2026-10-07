@@ -3,7 +3,6 @@ import { defineStrings } from './strings';
 /** captions follow the order of `shots` in data/photosData.ts */
 export const photosStrings = defineStrings({
   it: {
-    galleryTitle: 'Dal salone e dal set',
     seeAll: 'Tutte le foto',
     badge: 'Photos & Shooting',
     galleryIntro:
@@ -40,7 +39,6 @@ export const photosStrings = defineStrings({
     ],
   },
   en: {
-    galleryTitle: 'From the salon and the set',
     seeAll: 'All photos',
     badge: 'Photos & Shooting',
     galleryIntro:
@@ -77,7 +75,6 @@ export const photosStrings = defineStrings({
     ],
   },
   fr: {
-    galleryTitle: 'Du salon au plateau',
     seeAll: 'Toutes les photos',
     badge: 'Photos & Shooting',
     galleryIntro:
@@ -114,7 +111,6 @@ export const photosStrings = defineStrings({
     ],
   },
   es: {
-    galleryTitle: 'Del salón al set',
     seeAll: 'Todas las fotos',
     badge: 'Fotos & Shooting',
     galleryIntro:
@@ -151,7 +147,6 @@ export const photosStrings = defineStrings({
     ],
   },
   de: {
-    galleryTitle: 'Aus dem Salon und vom Set',
     seeAll: 'Alle Fotos',
     badge: 'Photos & Shooting',
     galleryIntro:

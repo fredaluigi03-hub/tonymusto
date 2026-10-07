@@ -1,56 +1,64 @@
 import React from "react";
 import { Reveal } from "../common/Reveal";
-import { Backdrop } from "../common/Backdrop";
 import { InfiniteSlider } from "../common/InfiniteSlider";
 import { shots } from "../../data/photosData";
 import { useStrings } from "../../i18n/strings";
 import { photosStrings } from "../../i18n/photos";
+import { philosophyStrings } from "../../i18n/philosophy";
 import { ROUTES } from "../../routes";
 
-const FEATURED = [0, 19, 3, 13, 9, 16, 25, 12, 21, 4];
+const ROWS = [
+  [0, 19, 3, 13, 9, 6, 16, 25],
+  [12, 4, 1, 22, 17, 10, 21, 15],
+];
 
 export const GallerySection: React.FC = () => {
-  const t = useStrings(photosStrings);
-  const featured = FEATURED.map((i) => ({
-    url: shots[i].url,
-    caption: t.captions[i],
-  }));
+  const photos = useStrings(photosStrings);
+  const t = useStrings(philosophyStrings);
+
+  const ribbon = (row: number[], reverse: boolean) => (
+    <InfiniteSlider
+      gap={16}
+      duration={reverse ? 58 : 50}
+      durationOnHover={150}
+      reverse={reverse}
+      className="[mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+    >
+      {row.map((i) => (
+        <img
+          key={shots[i].url}
+          src={shots[i].url}
+          alt={photos.captions[i]}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="aspect-[4/5] h-44 shrink-0 rounded-2xl object-cover sm:h-52 lg:h-60"
+        />
+      ))}
+    </InfiniteSlider>
+  );
 
   return (
-    <section className="w-full py-24">
-      <Backdrop word="Photos" />
-      <Reveal className="relative mx-auto mb-12 flex max-w-7xl flex-col justify-between gap-6 px-6 md:flex-row md:items-end lg:px-8">
-        <h2 className="font-serif text-5xl font-normal leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl">
-          {t.galleryTitle}
+    <section className="flex w-full flex-col justify-center gap-12 py-16">
+      {ribbon(ROWS[0], false)}
+      <Reveal className="mx-auto max-w-4xl px-6 text-center">
+        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
+          {t.kicker}
+        </p>
+        <h2 className="mt-5 font-serif text-4xl font-normal leading-[1.05] tracking-tight text-neutral-950 sm:text-6xl">
+          {t.statement}
         </h2>
+        <p className="mt-6 text-xs font-medium uppercase tracking-[0.3em] text-neutral-500">
+          {t.pillars.map((pillar) => pillar.title).join(" · ")}
+        </p>
         <a
           href={ROUTES.photos}
-          className="inline-flex min-h-11 cursor-pointer items-center self-start rounded-full border border-neutral-300 px-8 text-xs font-medium uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold md:self-auto"
+          className="mt-8 inline-flex min-h-11 cursor-pointer items-center rounded-full border border-neutral-300 px-8 text-xs font-medium uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold"
         >
-          {t.seeAll}
+          {photos.seeAll}
         </a>
       </Reveal>
-
-      <div className="relative">
-        <InfiniteSlider
-          gap={16}
-          duration={50}
-          durationOnHover={150}
-          className="[mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
-        >
-          {featured.map((shot) => (
-            <img
-              key={shot.url}
-              src={shot.url}
-              alt={shot.caption}
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-              className="aspect-[4/5] h-60 shrink-0 rounded-2xl object-cover sm:h-72 lg:h-80"
-            />
-          ))}
-        </InfiniteSlider>
-      </div>
+      {ribbon(ROWS[1], true)}
     </section>
   );
 };
