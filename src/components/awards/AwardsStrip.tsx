@@ -1,65 +1,57 @@
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
 import { InfiniteSlider } from '../common/InfiniteSlider';
+import { Reveal } from '../common/Reveal';
 import { awardPhotos } from '../../data/awardsData';
 import { useStrings } from '../../i18n/strings';
 import { awardsStrings } from '../../i18n/awards';
-import { Trophy, ArrowRight } from 'lucide-react';
+import { homeStrings } from '../../i18n/home';
+import { ROUTES } from '../../routes';
 
-/** Striscia bassa: un assaggio degli attestati, il resto sta su #/premi.
- *  Solo i primi scatti: la home non deve scaricare tutti e 49. */
-const stripPhotos = awardPhotos.slice(0, 16);
+/** Only the first shots: the home must not download all of them. */
+const stripPhotos = awardPhotos.slice(0, 12);
+
 export const AwardsStrip: React.FC = () => {
-  const t = useStrings(awardsStrings);
+  const awards = useStrings(awardsStrings);
+  const t = useStrings(homeStrings).awards;
 
   return (
-    <section id="awards" className="py-10 bg-pearl-100/89 relative overflow-hidden border-b border-neutral-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-full bg-white border border-gold/40 flex items-center justify-center text-gold shadow-2xs shrink-0">
-            <Trophy className="w-4 h-4" />
-          </span>
-          <div>
-            <span className="block text-[11px] uppercase tracking-[0.2em] text-gold font-bold">
-              {t.stripBadge}
-            </span>
-            <p className="text-sm text-neutral-700 font-light">
-              {t.stripCount(awardPhotos.length)}
-            </p>
-          </div>
-        </div>
-
-        <a
-          href="#/premi"
-          className="shrink-0 self-start sm:self-auto px-5 py-2.5 rounded-md border border-neutral-300 bg-white hover:border-gold hover:text-gold text-neutral-800 text-xs uppercase tracking-wider font-bold transition-colors shadow-2xs flex items-center gap-2"
-        >
-          <span>{t.stripLink}</span>
-          <ArrowRight className="w-4 h-4 text-gold" />
-        </a>
-      </div>
-
+    <div className="w-full py-24 sm:py-32">
+      <Reveal className="mx-auto max-w-7xl px-6 lg:px-8">
+        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
+        <h2 className="mt-4 max-w-2xl font-serif text-3xl font-normal leading-tight tracking-tight text-neutral-950 sm:text-5xl">
+          {t.title}
+        </h2>
+        <p className="mt-4 text-base font-light text-neutral-600">{awards.stripCount(awardPhotos.length)}</p>
+      </Reveal>
       <InfiniteSlider
         gap={16}
         duration={52}
         durationOnHover={220}
-        className="relative z-10 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+        className="mt-12 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
       >
         {stripPhotos.map(photo => (
-          <a
+          <img
             key={photo.url}
-            href="#/premi"
-            className="block h-24 sm:h-28 shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-2xs hover:border-gold/60 transition-colors"
-          >
-            <img
-              src={photo.url}
-              alt=""
-              aria-hidden
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-              className="h-full w-auto object-cover"
-            />
-          </a>
+            src={photo.url}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            className="h-32 w-auto shrink-0 rounded-lg border border-neutral-200 object-cover sm:h-40"
+          />
         ))}
       </InfiniteSlider>
-    </section>  );
+      <div className="mx-auto mt-10 max-w-7xl px-6 lg:px-8">
+        <a
+          href={ROUTES.awards}
+          className="inline-flex min-h-11 cursor-pointer items-center gap-2 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.2em] text-neutral-950 transition-colors hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+        >
+          {awards.stripLink}
+          <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  );
 };

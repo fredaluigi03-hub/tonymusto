@@ -6,32 +6,25 @@ import { useLang } from '../../i18n/LanguageContext';
 import { useStrings } from '../../i18n/strings';
 import { shopStrings, useFormatPrice } from '../../i18n/shop';
 import { localizeProduct } from '../../i18n/products';
-import { 
-  X, 
-  Trash2, 
-  Plus, 
-  Minus, 
-  ShoppingBag, 
-  ArrowRight, 
-  ShieldCheck, 
-  Sparkles,
-  HeartHandshake
-} from 'lucide-react';
+import { X, Trash2, Plus, Minus } from 'lucide-react';
+
+const iconButton =
+  'flex h-11 w-11 cursor-pointer items-center justify-center text-neutral-600 transition-colors hover:text-gold focus-visible:outline-2 focus-visible:outline-gold';
 
 export const CartDrawer: React.FC = () => {
   const { lang } = useLang();
   const t = useStrings(shopStrings).cart;
   const formatPrice = useFormatPrice();
-  const { 
-    isOpen, 
-    setIsOpen, 
-    items, 
-    removeFromCart, 
-    updateQuantity, 
-    subtotal, 
-    freeShippingThreshold, 
+  const {
+    isOpen,
+    setIsOpen,
+    items,
+    removeFromCart,
+    updateQuantity,
+    subtotal,
+    freeShippingThreshold,
     remainingForFreeShipping,
-    setIsCheckoutOpen
+    setIsCheckoutOpen,
   } = useCart();
 
   useBodyScrollLock(isOpen);
@@ -47,176 +40,122 @@ export const CartDrawer: React.FC = () => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
+            className="absolute inset-0 bg-black/50"
           />
 
-          <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <motion.div 
+          <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label={t.title}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="w-screen max-w-md bg-white border-l border-neutral-200 shadow-2xl flex flex-col justify-between text-neutral-900 relative"
+              className="relative flex w-screen max-w-md flex-col bg-pearl-100 text-neutral-950 shadow-2xl"
             >
-              <div className="p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-full border border-gold/40 bg-white text-gold shadow-xs">
-                    <ShoppingBag className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-bold tracking-wide text-neutral-950">{t.title}</h3>
-                    <p className="text-xs text-neutral-500 font-sans font-semibold">
-                      {t.shopName}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  aria-label={t.close}
-                  className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
-                >
-                  <X className="w-5 h-5" />
+              <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4">
+                <h3 className="font-serif text-2xl font-normal tracking-tight">{t.title}</h3>
+                <button onClick={() => setIsOpen(false)} aria-label={t.close} className={`-mr-3 ${iconButton}`}>
+                  <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="px-6 py-3 bg-pearl-100/60 border-b border-neutral-200">
-                <div className="flex items-center justify-between text-xs mb-1.5">
-                  <span className="text-neutral-700 flex items-center gap-1.5 font-medium">
-                    <Sparkles className="w-4 h-4 text-gold" />
-                    {remainingForFreeShipping > 0 ? (
-                      <>{t.addBefore}<strong className="text-gold">{formatPrice(remainingForFreeShipping)}</strong>{t.addAfter}</>
-                    ) : (
-                      <span className="text-emerald-700 font-bold">{t.unlocked}</span>
-                    )}
-                  </span>
-                  <span className="text-[10px] text-neutral-500 font-mono font-bold">{Math.round(freeShippingPercentage)}%</span>
-                </div>
-                <div className="w-full h-1.5 bg-neutral-200 rounded-full overflow-hidden">
-                  <motion.div 
+
+              <div className="border-b border-neutral-200 px-6 py-4">
+                <p className="text-xs text-neutral-600">
+                  {remainingForFreeShipping > 0 ? (
+                    <>{t.addBefore}<strong className="font-medium text-neutral-950">{formatPrice(remainingForFreeShipping)}</strong>{t.addAfter}</>
+                  ) : (
+                    t.unlocked
+                  )}
+                </p>
+                <div className="mt-2 h-px w-full bg-neutral-300">
+                  <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${freeShippingPercentage}%` }}
                     transition={{ duration: 0.4 }}
-                    className="h-full bg-gold rounded-full"
+                    className="h-px bg-gold"
                   />
                 </div>
               </div>
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+
+              <div className="flex-1 overflow-y-auto px-6">
                 {items.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center p-8 text-neutral-400">
-                    <div className="w-16 h-16 rounded-full border border-neutral-200 bg-pearl-100 flex items-center justify-center mb-4 text-gold shadow-xs">
-                      <ShoppingBag className="w-8 h-8" />
-                    </div>
-                    <h4 className="font-serif text-lg font-bold text-neutral-900 mb-1">{t.emptyTitle}</h4>
-                    <p className="text-xs text-neutral-500 max-w-xs mb-6">
-                      {t.emptyText}
-                    </p>
+                  <div className="flex h-full flex-col items-center justify-center py-12 text-center">
+                    <h4 className="font-serif text-xl font-normal tracking-tight">{t.emptyTitle}</h4>
+                    <p className="mt-2 max-w-xs text-sm font-light leading-relaxed text-neutral-600">{t.emptyText}</p>
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="px-6 py-2.5 bg-neutral-950 text-white text-xs uppercase tracking-wider hover:bg-gold hover:text-neutral-950 transition-colors font-bold rounded-md shadow-xs"
+                      className="mt-6 min-h-11 cursor-pointer rounded-full bg-neutral-950 px-6 text-sm text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                     >
                       {t.explore}
                     </button>
                   </div>
                 ) : (
-                  items.map(({ product: baseProduct, quantity }) => {
-                    const product = localizeProduct(baseProduct, lang);
-                    return (
-                    <div 
-                      key={product.id}
-                      className="flex gap-4 p-4 rounded-2xl bg-pearl-100/50 border border-neutral-200 hover:border-gold/50 transition-all duration-200"
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-18 h-18 object-contain rounded-xl border border-neutral-200 bg-white p-1 flex-shrink-0"
-                      />
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
-                              {product.name}
-                            </h4>
-                            <button
-                              onClick={() => removeFromCart(product.id)}
-                              aria-label={t.remove}
-                              className="text-neutral-400 hover:text-red-500 transition-colors p-2 -m-1"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
+                  <ul className="divide-y divide-neutral-200">
+                    {items.map(({ product: baseProduct, quantity }) => {
+                      const product = localizeProduct(baseProduct, lang);
+                      return (
+                        <li key={product.id} className="flex gap-4 py-5">
+                          <img src={product.image} alt={product.name} className="h-20 w-20 shrink-0 rounded-lg bg-white object-contain p-1" />
+                          <div className="flex flex-1 flex-col justify-between">
+                            <div className="flex items-start justify-between gap-2">
+                              <div>
+                                <h4 className="font-serif text-base leading-tight text-neutral-950">{product.name}</h4>
+                                <p className="mt-0.5 text-xs text-neutral-600">{product.volume}</p>
+                              </div>
+                              <button onClick={() => removeFromCart(product.id)} aria-label={t.remove} className={`-mr-3 -mt-3 ${iconButton}`}>
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <button onClick={() => updateQuantity(product.id, quantity - 1)} aria-label={t.decrease} className={`-ml-3 ${iconButton}`}>
+                                  <Minus className="h-3.5 w-3.5" />
+                                </button>
+                                <span className="w-6 text-center text-sm">{quantity}</span>
+                                <button onClick={() => updateQuantity(product.id, quantity + 1)} aria-label={t.increase} className={iconButton}>
+                                  <Plus className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                              <span className="font-serif text-lg text-neutral-950">{formatPrice(product.price * quantity)}</span>
+                            </div>
                           </div>
-                          <p className="text-[11px] text-neutral-500 mt-0.5">{product.volume}</p>
-                        </div>
-
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center border border-neutral-300 rounded-lg bg-white px-2 py-0.5 shadow-2xs">
-                            <button
-                              onClick={() => updateQuantity(product.id, quantity - 1)}
-                              aria-label={t.decrease}
-                              className="p-2 text-neutral-600 hover:text-gold transition-colors"
-                            >
-                              <Minus className="w-3 h-3" />
-                            </button>
-                            <span className="text-xs font-mono px-2 text-neutral-900 font-bold">{quantity}</span>
-                            <button
-                              onClick={() => updateQuantity(product.id, quantity + 1)}
-                              aria-label={t.increase}
-                              className="p-2 text-neutral-600 hover:text-gold transition-colors"
-                            >
-                              <Plus className="w-3 h-3" />
-                            </button>
-                          </div>
-
-                          <div className="text-right">
-                            <span className="text-base text-neutral-950 font-bold font-serif">
-                              {formatPrice(product.price * quantity)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    );
-                  })
+                        </li>
+                      );
+                    })}
+                  </ul>
                 )}
               </div>
+
               {items.length > 0 && (
-                <div className="p-6 bg-pearl-100 border-t border-neutral-200 space-y-3.5">
-                  <div className="space-y-1.5 text-xs text-neutral-700">
+                <div className="space-y-4 border-t border-neutral-200 px-6 py-6">
+                  <div className="space-y-1.5 text-sm text-neutral-600">
                     <div className="flex justify-between">
                       <span>{t.subtotal}</span>
-                      <span className="font-mono text-neutral-950 font-bold">{formatPrice(subtotal)}</span>
+                      <span>{formatPrice(subtotal)}</span>
                     </div>
-                    <div className="flex justify-between text-neutral-500">
+                    <div className="flex justify-between">
                       <span>{t.shipping}</span>
-                      <span>{remainingForFreeShipping === 0 ? <strong className="text-emerald-700">{t.free}</strong> : t.shippingLater}</span>
+                      <span>{remainingForFreeShipping === 0 ? t.free : t.shippingLater}</span>
                     </div>
-                    <div className="pt-2 border-t border-neutral-200 flex justify-between text-base font-serif text-neutral-950">
-                      <span className="font-bold">{t.total}</span>
-                      <span className="text-neutral-950 font-mono font-bold text-xl">{formatPrice(subtotal)}</span>
+                    <div className="flex justify-between border-t border-neutral-200 pt-3 font-serif text-xl text-neutral-950">
+                      <span>{t.total}</span>
+                      <span>{formatPrice(subtotal)}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-gold/30 text-[11px] text-neutral-700">
-                    <HeartHandshake className="w-4 h-4 text-gold flex-shrink-0" />
-                    <span>{t.beeNote}</span>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     onClick={handleProceedCheckout}
-                    className="w-full py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-wider rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
+                    className="min-h-12 w-full cursor-pointer rounded-full bg-neutral-950 text-sm text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                   >
-                    <span>{t.checkout}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] text-neutral-500 text-center">
-                    <ShieldCheck className="w-3.5 h-3.5 text-gold" />
-                    <span>{t.delivery}</span>
-                  </div>
+                    {t.checkout}
+                  </button>
+                  <p className="text-center text-xs text-neutral-600">{t.delivery}</p>
                 </div>
               )}
             </motion.div>

@@ -3,54 +3,32 @@ import { ModalOverlay } from '../common/ModalOverlay';
 import { useCart } from '../../context/CartContext';
 import { useStrings } from '../../i18n/strings';
 import { shopStrings, useFormatPrice } from '../../i18n/shop';
-import { X, CheckCircle2, ShoppingBag, Truck, Store } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { X, Truck, Store } from 'lucide-react';
+
+const DELIVERY_FEE = 6.5;
+
+const input =
+  'w-full rounded-lg border border-neutral-300 bg-white px-3 py-3 text-base text-neutral-950 outline-none focus:border-gold focus:ring-2 focus:ring-gold/25 sm:text-sm';
 
 export const CheckoutSummaryModal: React.FC = () => {
   const t = useStrings(shopStrings).checkout;
   const formatPrice = useFormatPrice();
-  const { 
-    isCheckoutOpen, 
-    setIsCheckoutOpen, 
-    items, 
-    subtotal, 
-    clearCart 
-  } = useCart();
+  const { isCheckoutOpen, setIsCheckoutOpen, items, subtotal, freeShippingThreshold, clearCart } = useCart();
 
   const [fulfillmentType, setFulfillmentType] = useState<'delivery' | 'pickup'>('pickup');
-  const [formData, setFormData] = useState({
-    name: 'Chiara Esposito',
-    email: 'chiara.esposito@email.it',
-    phone: '333 1234567',
-    address: 'Corso Vittorio Emanuele 45',
-    city: 'Avellino',
-    notes: 'Lasciare al portiere se assente',
-  });
-
+  const [formData, setFormData] = useState({ name: '', phone: '', address: '', city: '' });
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderCode, setOrderCode] = useState('');
 
   if (!isCheckoutOpen) return null;
 
-  const shippingCost = fulfillmentType === 'delivery' ? (subtotal >= 65 ? 0 : 6.50) : 0;
+  const shippingCost = fulfillmentType === 'delivery' && subtotal < freeShippingThreshold ? DELIVERY_FEE : 0;
   const finalTotal = subtotal + shippingCost;
 
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    const code = `ORD-TM-${Math.floor(10000 + Math.random() * 90000)}`;
-    setOrderCode(code);
+    setOrderCode(`ORD-TM-${Math.floor(10000 + Math.random() * 90000)}`);
     setOrderConfirmed(true);
-
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.5 },
-        colors: ['#D4AF37', '#FFF2B2', '#EAD7A1']
-      });
-    } catch {
-    }
-
     clearCart();
   };
 
@@ -59,192 +37,135 @@ export const CheckoutSummaryModal: React.FC = () => {
     setOrderConfirmed(false);
   };
 
+  const option = (type: 'pickup' | 'delivery') =>
+    `flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border p-4 text-left transition-colors focus-visible:outline-2 focus-visible:outline-gold ${
+      fulfillmentType === type ? 'border-gold bg-pearl-100' : 'border-neutral-300 bg-white hover:border-gold'
+    }`;
+
   return (
-    <ModalOverlay onClose={handleClose} className="bg-black/60 backdrop-blur-xs" label={t.label}>
-      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
-        <div className="sticky top-0 z-30 rounded-t-3xl p-5 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-full border border-gold/40 bg-white text-gold shadow-xs">
-              <ShoppingBag className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-serif text-xl font-bold text-neutral-950">
-                {orderConfirmed ? t.confirmedTitle : t.summaryTitle}
-              </h3>
-              <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
-                {t.shopName}
-              </p>
-            </div>
-          </div>
+    <ModalOverlay onClose={handleClose} className="bg-black/60" label={t.label}>
+      <div className="relative w-full max-w-2xl rounded-2xl bg-white text-neutral-950 shadow-2xl">
+        <div className="sticky top-0 z-30 flex items-center justify-between gap-3 rounded-t-2xl border-b border-neutral-200 bg-white px-6 py-4">
+          <h3 className="font-serif text-2xl font-normal tracking-tight">
+            {orderConfirmed ? t.confirmedTitle : t.summaryTitle}
+          </h3>
           <button
             onClick={handleClose}
             aria-label={t.close}
-            className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-200/60 rounded-full transition-colors"
+            className="-mr-3 flex h-11 w-11 cursor-pointer items-center justify-center text-neutral-600 transition-colors hover:text-gold focus-visible:outline-2 focus-visible:outline-gold"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {orderConfirmed ? (
-          <div className="p-8 text-center space-y-6">
-            <div className="w-20 h-20 mx-auto rounded-full bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-600 shadow-xs">
-              <CheckCircle2 className="w-10 h-10" />
-            </div>
-
+          <div className="space-y-6 p-8 text-center">
             <div className="space-y-2">
-              <span className="text-xs font-mono tracking-widest text-gold uppercase px-3 py-1 rounded-full bg-pearl-100 border border-gold/30 font-bold">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-gold">
                 {t.orderCode} {orderCode}
-              </span>
-              <h3 className="font-serif text-2xl font-bold text-neutral-950 pt-2">
-                {t.thanks}
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto leading-relaxed">
-                {t.thanksText}
               </p>
+              <h3 className="pt-2 font-serif text-3xl font-normal tracking-tight">{t.thanks}</h3>
+              <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-neutral-600">{t.thanksText}</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-pearl-100 border border-neutral-200 max-w-md mx-auto text-left text-xs space-y-2">
+            <div className="mx-auto max-w-md space-y-2 rounded-xl bg-pearl-100 p-5 text-left text-sm">
               <div className="flex justify-between">
-                <span className="text-neutral-500">{t.recipient}</span>
-                <strong className="text-neutral-900">{formData.name}</strong>
+                <span className="text-neutral-600">{t.recipient}</span>
+                <span>{formData.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">{t.method}</span>
-                <span className="text-gold font-semibold">
-                  {fulfillmentType === 'pickup' ? t.pickupConfirmed : t.deliveryConfirmed}
-                </span>
+                <span className="text-neutral-600">{t.method}</span>
+                <span>{fulfillmentType === 'pickup' ? t.pickupConfirmed : t.deliveryConfirmed}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-neutral-200 font-serif font-bold text-sm">
+              <div className="flex justify-between border-t border-neutral-200 pt-2 font-serif text-lg">
                 <span>{t.total}</span>
-                <span className="text-neutral-950">{formatPrice(finalTotal)}</span>
+                <span>{formatPrice(finalTotal)}</span>
               </div>
             </div>
 
             <button
               onClick={handleClose}
-              className="px-8 py-3 bg-neutral-950 text-white font-bold text-xs uppercase tracking-widest rounded-md hover:bg-gold hover:text-neutral-950 transition-colors shadow-xs"
+              className="min-h-11 cursor-pointer rounded-full bg-neutral-950 px-8 text-sm text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             >
               {t.backToShop}
             </button>
           </div>
         ) : (
-          <form onSubmit={handlePlaceOrder} className="p-6 space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                onClick={() => setFulfillmentType('pickup')}
-                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all ${
-                  fulfillmentType === 'pickup'
-                    ? 'border-gold bg-pearl-100 ring-1 ring-gold shadow-xs'
-                    : 'border-neutral-200 bg-white hover:border-gold/40'
-                }`}
-              >
-                <Store className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-xs font-bold text-neutral-900">{t.pickup}</strong>
-                  <span className="text-[11px] text-neutral-500">{t.pickupNote}</span>
-                </div>
+          <form onSubmit={handlePlaceOrder} className="space-y-6 p-6">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <button type="button" onClick={() => setFulfillmentType('pickup')} aria-pressed={fulfillmentType === 'pickup'} className={option('pickup')}>
+                <Store className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+                <span>
+                  <strong className="block text-sm font-medium">{t.pickup}</strong>
+                  <span className="text-xs text-neutral-600">{t.pickupNote}</span>
+                </span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => setFulfillmentType('delivery')}
-                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all ${
-                  fulfillmentType === 'delivery'
-                    ? 'border-gold bg-pearl-100 ring-1 ring-gold shadow-xs'
-                    : 'border-neutral-200 bg-white hover:border-gold/40'
-                }`}
-              >
-                <Truck className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-xs font-bold text-neutral-900">{t.delivery}</strong>
-                  <span className="text-[11px] text-neutral-500">
-                    {subtotal >= 65 ? t.freeOver : t.deliveryFee(formatPrice(6.5))}
+              <button type="button" onClick={() => setFulfillmentType('delivery')} aria-pressed={fulfillmentType === 'delivery'} className={option('delivery')}>
+                <Truck className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+                <span>
+                  <strong className="block text-sm font-medium">{t.delivery}</strong>
+                  <span className="text-xs text-neutral-600">
+                    {subtotal >= freeShippingThreshold ? t.freeOver : t.deliveryFee(formatPrice(DELIVERY_FEE))}
                   </span>
-                </div>
+                </span>
               </button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div>
-                <label className="block text-neutral-700 mb-1 font-semibold">{t.name}</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
-                />
-              </div>
 
-              <div>
-                <label className="block text-neutral-700 mb-1 font-semibold">{t.phone}</label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
-                />
-              </div>
-
+            <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1 block text-neutral-600">{t.name}</span>
+                <input type="text" required autoComplete="name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className={input} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-neutral-600">{t.phone}</span>
+                <input type="tel" required autoComplete="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className={input} />
+              </label>
               {fulfillmentType === 'delivery' && (
                 <>
-                  <div className="sm:col-span-2">
-                    <label className="block text-neutral-700 mb-1 font-semibold">{t.address}</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-700 mb-1 font-semibold">{t.city}</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-lg px-3 py-2.5 text-base sm:text-xs text-neutral-900 focus:outline-none focus:border-gold"
-                    />
-                  </div>
+                  <label className="block sm:col-span-2">
+                    <span className="mb-1 block text-neutral-600">{t.address}</span>
+                    <input type="text" required autoComplete="street-address" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className={input} />
+                  </label>
+                  <label className="block">
+                    <span className="mb-1 block text-neutral-600">{t.city}</span>
+                    <input type="text" required autoComplete="address-level2" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className={input} />
+                  </label>
                 </>
               )}
             </div>
-            <div className="p-4 rounded-2xl bg-pearl-100 border border-neutral-200 space-y-1.5 text-xs">
-              <div className="flex justify-between text-neutral-600">
+
+            <div className="space-y-1.5 rounded-xl bg-pearl-100 p-4 text-sm text-neutral-600">
+              <div className="flex justify-between">
                 <span>{t.subtotal(items.length)}</span>
-                <span className="font-mono font-bold text-neutral-900">{formatPrice(subtotal)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-neutral-600">
+              <div className="flex justify-between">
                 <span>{t.shipping}</span>
-                <span className="font-mono">{shippingCost === 0 ? <strong className="text-emerald-700 font-bold">{t.free}</strong> : formatPrice(shippingCost)}</span>
+                <span>{shippingCost === 0 ? t.free : formatPrice(shippingCost)}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-neutral-200 text-sm font-serif font-bold text-neutral-950">
+              <div className="flex justify-between border-t border-neutral-200 pt-2 font-serif text-lg text-neutral-950">
                 <span>{t.orderTotal}</span>
-                <span className="text-base text-neutral-950 font-mono">{formatPrice(finalTotal)}</span>
+                <span>{formatPrice(finalTotal)}</span>
               </div>
             </div>
-            <div className="flex justify-end gap-3 pt-2">
+
+            <div className="flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-5 py-2.5 text-xs uppercase tracking-wider text-neutral-600 hover:text-neutral-900 font-bold"
+                className="min-h-11 cursor-pointer px-5 text-sm text-neutral-600 transition-colors hover:text-neutral-950 focus-visible:outline-2 focus-visible:outline-gold"
               >
                 {t.cancel}
               </button>
               <button
                 type="submit"
-                className="px-7 py-3 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors"
+                className="min-h-11 cursor-pointer rounded-full bg-neutral-950 px-8 text-sm text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
               >
                 {t.submit}
               </button>
             </div>
-
           </form>
         )}
-
       </div>
     </ModalOverlay>
   );

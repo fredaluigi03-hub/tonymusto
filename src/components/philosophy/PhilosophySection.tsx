@@ -1,211 +1,27 @@
-import React, { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Reveal, useParallax, useTilt, REVEAL_VIEWPORT } from '../common/Reveal';
+import React from 'react';
+import { Reveal, stagger } from '../common/Reveal';
 import { useStrings } from '../../i18n/strings';
 import { philosophyStrings } from '../../i18n/philosophy';
-import {
-  Scissors,
-  Palette,
-  Sparkles,
-  Award,
-  Plus,
-  Minus,
-} from 'lucide-react';
-
-interface Pillar {
-  id: string;
-  icon: React.ElementType;
-  title: string;
-  image: string;
-  statValue: string;
-}
-
-const pillars: Pillar[] = [
-  {
-    id: 'haircut',
-    icon: Scissors,
-    title: 'HAIRCUT',
-    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6535-1-768x768.jpg',
-    statValue: '25+',
-  },
-  {
-    id: 'colour',
-    icon: Palette,
-    title: 'COLOUR',
-    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_8897-768x768.jpeg',
-    statValue: '100%',
-  },
-  {
-    id: 'treatments',
-    icon: Sparkles,
-    title: 'TREATMENTS',
-    image: 'https://tonymusto.it/wp-content/uploads/2022/06/IMG_6247-768x768.jpeg',
-    statValue: '4',
-  },
-];
-
-const PillarCard: React.FC<{
-  pillar: Pillar;
-  index: number;
-  isOpen: boolean;
-  onToggle: () => void;
-}> = ({ pillar, index, isOpen, onToggle }) => {
-  const Icon = pillar.icon;
-  const tilt = useTilt(9);
-  const t = useStrings(philosophyStrings);
-  const text = t.pillars[index];
-
-  return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      viewport={REVEAL_VIEWPORT}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      onMouseMove={tilt.onMouseMove}
-      onMouseLeave={tilt.onMouseLeave}
-      style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: 'preserve-3d' }}
-      className={`group relative [perspective:1200px] rounded-3xl overflow-hidden border bg-white transition-colors duration-300 ${
-        isOpen
-          ? 'border-gold shadow-luxury-card'
-          : 'border-neutral-200 shadow-luxury-white hover:border-gold/50'
-      }`}
-    >
-      <div className="relative h-48 overflow-hidden bg-pearl-200">
-        <img
-          src={pillar.image}
-          alt={pillar.title}
-          draggable={false}
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-100 transition-all duration-[900ms] ease-out"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/25 to-transparent" />
-
-        <motion.div
-          style={{ z: 60 }}
-          animate={{ rotate: isOpen ? 0 : -45, scale: isOpen ? 1.08 : 1 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className="absolute bottom-4 left-6 w-14 h-14 rounded-2xl bg-white border border-gold/50 flex items-center justify-center text-gold shadow-md"
-        >
-          <Icon className="w-7 h-7" />
-        </motion.div>
-
-        <span className="absolute top-4 right-5 font-mono text-4xl font-bold text-neutral-900/10 group-hover:text-gold/25 transition-colors">
-          0{index + 1}
-        </span>
-      </div>
-
-      <div className="p-6 space-y-4">
-        <div>
-          <span className="text-[11px] font-mono font-bold tracking-widest text-gold uppercase">
-            {text.subtitle}
-          </span>
-          <h3 className="font-serif text-2xl font-bold text-neutral-900 mt-1 tracking-wide">
-            {pillar.title}
-          </h3>
-        </div>
-
-        <p className="text-sm text-neutral-600 leading-relaxed font-light">{text.description}</p>
-
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={isOpen}
-          className="w-full flex items-center justify-between gap-3 pt-4 border-t border-neutral-200/70 text-xs font-bold uppercase tracking-wider text-neutral-800 hover:text-gold transition-colors"
-        >
-          <span>{isOpen ? t.close : t.open}</span>
-          <span className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center text-gold">
-            {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-          </span>
-        </button>
-
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div
-              key="detail"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="overflow-hidden"
-            >
-              <ul className="space-y-2.5 pt-1 pb-3">
-                {text.points.map((p, i) => (
-                  <motion.li
-                    key={p}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.06 * i }}
-                    className="flex items-start gap-2.5 text-xs text-neutral-600"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
-                    <span>{p}</span>
-                  </motion.li>
-                ))}
-              </ul>
-
-              <div className="flex items-baseline gap-2 p-3.5 rounded-2xl bg-pearl-100 border border-gold/30">
-                <span className="font-serif text-2xl font-bold text-gold">{pillar.statValue}</span>
-                <span className="text-[11px] uppercase tracking-wider text-neutral-600 font-semibold">
-                  {text.statLabel}
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.article>
-  );
-};
 
 export const PhilosophySection: React.FC = () => {
-  const [openId, setOpenId] = useState<string | null>('haircut');
-  const decorRef = useRef<HTMLElement>(null);
-  const parallaxY = useParallax(decorRef, 40);
   const t = useStrings(philosophyStrings);
 
   return (
-    <section
-      id="filosofia"
-      ref={decorRef}
-      className="py-24 bg-white/91 relative overflow-hidden border-b border-neutral-200"
-    >
-      <motion.div
-        style={{ y: parallaxY }}
-        className="absolute top-1/3 -left-20 w-80 h-80 bg-amber-100/40 rounded-full blur-3xl pointer-events-none"
-      />
-      <motion.div
-        style={{ y: parallaxY }}
-        className="absolute bottom-10 -right-24 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none"
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <Reveal className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pearl-100 border border-gold/30 text-gold text-xs uppercase tracking-[0.2em] font-bold">
-            <Award className="w-3.5 h-3.5" />
-            <span>{t.badge}</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            {t.heading}
-          </h2>
-          <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto">
-            {t.intro}
-          </p>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mb-16 items-start">
-          {pillars.map((pillar, index) => (
-            <PillarCard
-              key={pillar.id}
-              pillar={pillar}
-              index={index}
-              isOpen={openId === pillar.id}
-              onToggle={() => setOpenId(openId === pillar.id ? null : pillar.id)}
-            />
-          ))}
-        </div>
-
+    <div className="mx-auto w-full max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+      <Reveal className="max-w-3xl">
+        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
+        <h2 className="mt-4 font-serif text-3xl font-normal leading-tight tracking-tight text-neutral-950 sm:text-5xl">
+          {t.statement}
+        </h2>
+      </Reveal>
+      <div className="mt-16 grid gap-10 border-t border-neutral-200 pt-12 md:grid-cols-3">
+        {t.pillars.map((pillar, i) => (
+          <Reveal key={pillar.title} delay={stagger(i)}>
+            <h3 className="font-serif text-2xl font-normal tracking-tight text-neutral-950">{pillar.title}</h3>
+            <p className="mt-3 text-base font-light leading-relaxed text-neutral-600">{pillar.description}</p>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </div>
   );
 };

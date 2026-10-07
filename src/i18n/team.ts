@@ -9,7 +9,6 @@ export const teamStrings = defineStrings({
     badge: 'Gli Specialisti del Salone',
     title: 'I Maestri dello Stile',
     intro: "Guidati dall'esperienza e dalla passione di Tony Musto, un team dedicato alla valorizzazione della tua personalità.",
-    specialty: 'Specializzazione:',
     bookWith: (name: string) => `Prenota con ${name}`,
     members: {
       'tony-musto': {
@@ -36,7 +35,6 @@ export const teamStrings = defineStrings({
     badge: 'The Salon Specialists',
     title: 'The Masters of Style',
     intro: 'Led by the experience and passion of Tony Musto, a team devoted to bringing out your personality.',
-    specialty: 'Specialty:',
     bookWith: (name: string) => `Book with ${name}`,
     members: {
       'tony-musto': {
@@ -63,7 +61,6 @@ export const teamStrings = defineStrings({
     badge: 'Les Spécialistes du Salon',
     title: 'Les Maîtres du Style',
     intro: 'Guidée par l’expérience et la passion de Tony Musto, une équipe dédiée à la mise en valeur de votre personnalité.',
-    specialty: 'Spécialité :',
     bookWith: (name: string) => `Réserver avec ${name}`,
     members: {
       'tony-musto': {
@@ -90,7 +87,6 @@ export const teamStrings = defineStrings({
     badge: 'Los Especialistas del Salón',
     title: 'Los Maestros del Estilo',
     intro: 'Guiados por la experiencia y la pasión de Tony Musto, un equipo dedicado a realzar tu personalidad.',
-    specialty: 'Especialidad:',
     bookWith: (name: string) => `Reservar con ${name}`,
     members: {
       'tony-musto': {
@@ -117,7 +113,6 @@ export const teamStrings = defineStrings({
     badge: 'Die Spezialisten des Salons',
     title: 'Die Meister des Stils',
     intro: 'Unter der Leitung von Tony Musto, mit seiner Erfahrung und Leidenschaft, widmet sich ein Team ganz der Betonung Ihrer Persönlichkeit.',
-    specialty: 'Spezialgebiet:',
     bookWith: (name: string) => `Bei ${name} buchen`,
     members: {
       'tony-musto': {

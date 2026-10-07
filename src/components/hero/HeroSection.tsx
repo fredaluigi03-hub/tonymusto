@@ -1,132 +1,51 @@
 import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useBooking } from '../../context/BookingContext';
 import { useStrings } from '../../i18n/strings';
 import { heroStrings } from '../../i18n/hero';
+import { ROUTES } from '../../routes';
 import heroPhoto from '../../assets/hero-photo.webp';
-import {
-  Sparkles,
-  Calendar,
-  ShoppingBag,
-  Clock,
-  MapPin,
-  ChevronDown
-} from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   const { openBooking } = useBooking();
   const t = useStrings(heroStrings);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: "easeOut" }
-    }
-  };
-
   return (
-    <section id="hero" className="relative border-b border-neutral-200">
-      <div className="relative flex min-h-svh items-start lg:items-center justify-center overflow-hidden bg-pearl-100 lg:bg-transparent pt-[38vh] pb-12 lg:pt-24 lg:pb-24">
+    <section id="hero" className="relative flex min-h-svh items-end overflow-hidden bg-neutral-950">
+      <img
+        src={heroPhoto}
+        alt={t.photoAlt}
+        className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/45 to-neutral-950/10" />
 
-      {/* Su desktop la foto arriva dal layer fisso in App */}
-      <div className="absolute inset-x-0 top-0 h-[46vh] bg-pearl-100 lg:hidden">
-        <img
-          src={heroPhoto}
-          alt={t.photoAlt}
-          className="h-full w-full object-cover object-[center_30%]"
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12">
-
-          {/* Il testo vive in un pannello vetro: la foto intorno resta intatta */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="lg:col-start-7 lg:col-span-6 space-y-6 text-left rounded-3xl bg-white/85 backdrop-blur-xl border border-white/70 shadow-luxury-card p-6 sm:p-8"
-          >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gold/40 shadow-xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-gold" />
-                {t.badge}
-              </span>
-            </motion.div>
-            <motion.div variants={itemVariants} className="space-y-2">
-              <span className="block font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-neutral-500 font-semibold">
-                {t.brand}
-              </span>
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-neutral-950 font-normal leading-[1.08] tracking-tight">
-                Hair Stylist <br />
-                <span className="italic font-light gold-gradient-text">for Passion.</span>
-              </h1>
-              <p className="font-serif text-lg sm:text-xl text-neutral-700 font-light italic pt-1">
-                {t.tagline}
-              </p>
-            </motion.div>
-            <motion.p variants={itemVariants} className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed border-l-2 border-gold pl-4 py-1">
-              {t.quote}
-            </motion.p>
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-1">
-              <motion.button
-                whileHover={{ scale: 1.03, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)" }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => openBooking()}
-                className="px-7 py-4 rounded-md bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs sm:text-sm uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-3 shadow-md"
-              >
-                <Calendar className="w-4 h-4" />
-                <span>{t.book}</span>
-              </motion.button>
-
-              <motion.a
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                href="#shop"
-                className="px-7 py-4 rounded-md border-2 border-neutral-900 bg-white hover:bg-pearl-200 text-neutral-900 text-xs sm:text-sm uppercase tracking-[0.18em] font-bold transition-all duration-300 flex items-center justify-center gap-3 text-center shadow-xs"
-              >
-                <ShoppingBag className="w-4 h-4 text-gold" />
-                <span>{t.shop}</span>
-              </motion.a>
-            </motion.div>
-            <motion.div variants={itemVariants} className="pt-5 flex items-center gap-3 flex-wrap text-xs text-neutral-600 border-t border-neutral-200">
-              <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-md border border-neutral-200 shadow-2xs">
-                <Clock className="w-4 h-4 text-gold" />
-                <span className="font-medium">{t.hours}</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-md border border-neutral-200 shadow-2xs">
-                <MapPin className="w-4 h-4 text-gold" />
-                <span className="font-medium">{t.address}</span>
-              </div>
-            </motion.div>
-
-          </motion.div>
-
-        </div>
-      </div>
       <motion.div
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-1 px-3 py-2 rounded-full bg-white/85 backdrop-blur-md border border-white/70 text-xs text-neutral-600 shadow-md"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative mx-auto w-full max-w-7xl px-6 pb-32 pt-40 text-white sm:pb-24 lg:px-8"
       >
-        <span className="text-[10px] uppercase tracking-widest text-gold font-mono font-bold">{t.scroll}</span>
-        <ChevronDown className="w-4 h-4 text-gold" />
+        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
+        <h1 className="mt-4 max-w-3xl font-serif text-5xl font-normal leading-[1.05] tracking-tight sm:text-7xl">
+          Hair Stylist for Passion.
+        </h1>
+        <p className="mt-6 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg">{t.tagline}</p>
+        <div className="mt-10 flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={() => openBooking()}
+            className="min-h-11 cursor-pointer rounded-full bg-white px-8 text-xs font-medium uppercase tracking-[0.2em] text-neutral-950 transition-colors hover:bg-gold hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            {t.book}
+          </button>
+          <a
+            href={ROUTES.boutique}
+            className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-white/50 px-8 text-xs font-medium uppercase tracking-[0.2em] text-white transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            {t.boutique}
+          </a>
+        </div>
       </motion.div>
-      </div>
     </section>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../assets/logo.webp';
-import { HeartHandshake, MapPin, Phone, Mail, Clock, ArrowUp } from 'lucide-react';
+import { useBooking } from '../../context/BookingContext';
+import { ROUTES } from '../../routes';
 import { useStrings } from '../../i18n/strings';
 import { footerStrings } from '../../i18n/footer';
 
@@ -11,148 +12,85 @@ const LEGAL_LINKS = [
   { key: 'terms', href: 'https://tonymusto.it/condizioni-generali-di-vendita/' },
 ] as const;
 
+const link =
+  'inline-flex min-h-11 items-center text-neutral-600 transition-colors hover:text-gold focus-visible:outline-2 focus-visible:outline-gold';
+
 export const Footer: React.FC = () => {
   const t = useStrings(footerStrings);
+  const { openBooking } = useBooking();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const pages = [
+    { name: t.links.services, href: ROUTES.boutique },
+    { name: t.links.shop, href: ROUTES.shop },
+    { name: t.links.wedding, href: ROUTES.wedding },
+    { name: t.links.photos, href: ROUTES.photos },
+    { name: t.links.awards, href: ROUTES.awards },
+    { name: t.links.careers, href: ROUTES.careers },
+    { name: t.links.contact, href: ROUTES.contact },
+  ];
 
   return (
-    <footer className="bg-white/91 text-neutral-700 border-t border-neutral-200 pt-16 pb-12 relative overflow-hidden">
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-          
-          <div className="lg:col-span-4 space-y-4">
-            <img
-              src={logo}
-              alt={t.logoAlt}
-              width={1400}
-              height={681}
-              className="h-16 w-auto"
-            />
-
-            <p className="text-xs text-neutral-600 font-light leading-relaxed">
-              {t.about}
-            </p>
-
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://www.instagram.com/tonymustoparrucchieri/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-neutral-200 bg-pearl-100 text-neutral-700 hover:text-gold hover:border-gold flex items-center justify-center transition-colors shadow-2xs"
-                aria-label="Instagram"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.79-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
-              <a
-                href="https://www.facebook.com/tony.mustoparrucchieri"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-neutral-200 bg-pearl-100 text-neutral-700 hover:text-gold hover:border-gold flex items-center justify-center transition-colors shadow-2xs"
-                aria-label="Facebook"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.5 5H18V0h-3.808C10.592 0 9 1.592 9 4.615V8z"/>
-                </svg>
-              </a>
-              <a
-                href="https://www.youtube.com/results?search_query=tony+musto+parrucchieri"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-neutral-200 bg-pearl-100 text-neutral-700 hover:text-gold hover:border-gold flex items-center justify-center transition-colors shadow-2xs"
-                aria-label="YouTube"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div className="lg:col-span-2 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.navigation}</h4>
-            <ul className="space-y-2 text-xs">
-              <li><a href="#servizi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.services}</a></li>
-              <li><a href="#shop" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.shop}</a></li>
-              <li><a href="#prima-dopo" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.beforeAfter}</a></li>
-              <li><a href="#spose" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.wedding}</a></li>
-              <li><a href="#lavora-con-noi" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.careers}</a></li>
-              <li><a href="#photos" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.photos}</a></li>
-              <li><a href="#/contatti" className="block py-1.5 text-neutral-600 hover:text-gold transition-colors">{t.links.contact}</a></li>
-            </ul>
-          </div>
-
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.lines}</h4>
-            <ul className="space-y-2 text-xs">
-              <li className="flex items-center gap-1.5 text-gold font-medium">
-                <HeartHandshake className="w-3.5 h-3.5 text-gold flex-shrink-0" />
-                <span>{t.beeIt}</span>
-              </li>
-              <li><span className="text-neutral-600">{t.curl}</span></li>
-              <li><span className="text-neutral-600">{t.argan}</span></li>
-              <li><span className="text-neutral-600">{t.frizz}</span></li>
-              <li><span className="text-neutral-600">{t.shower}</span></li>
-            </ul>
-          </div>
-
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="font-serif text-sm font-bold text-neutral-950 uppercase tracking-wider">{t.salonHours}</h4>
-            <div className="space-y-2 text-xs text-neutral-600">
-              <p className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-                <span>Via XXIV Maggio 13/14, 83038 Montemiletto (AV)</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-gold flex-shrink-0" />
-                <a href="tel:0825968391" className="inline-block py-1 hover:text-gold font-semibold">0825 968391</a> · <a href="tel:3770293092" className="inline-block py-1 hover:text-gold">377 0293092</a>
-              </p>
-              <p className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-gold flex-shrink-0" />
-                <a href="mailto:mustohairdresser@gmail.com" className="inline-block py-1 hover:text-gold break-all">mustohairdresser@gmail.com</a>
-              </p>
-              <p className="flex items-start gap-2 pt-1">
-                <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-                <span>{t.hours}</span>
-              </p>
-            </div>
-          </div>
-
-        </div>
-        <div className="pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <div className="space-y-1 text-center sm:text-left">
-            <p>© {new Date().getFullYear()} Tony Musto srls. {t.rights}</p>
-            <p>
-              {t.vat} 09331041211 · PEC{' '}
-              <a href="mailto:tonymustoparrucchieri@pec.it" className="hover:text-gold transition-colors">
-                tonymustoparrucchieri@pec.it
-              </a>
-            </p>
-            <p className="flex flex-wrap justify-center sm:justify-start gap-x-4">
-              {LEGAL_LINKS.map(({ key, href }) => (
-                <a key={key} href={href} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
-                  {t.legal[key]}
-                </a>
-              ))}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-6">
+    <footer className="border-t border-neutral-200 bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <img src={logo} alt={t.logoAlt} width={1400} height={681} className="h-16 w-auto" />
+            <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-neutral-600">{t.about}</p>
             <button
-              onClick={scrollToTop}
-              className="flex items-center gap-1.5 py-2 text-neutral-700 hover:text-gold font-bold transition-colors"
+              type="button"
+              onClick={() => openBooking()}
+              className="mt-8 min-h-11 cursor-pointer rounded-full bg-neutral-950 px-8 text-sm text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             >
-              <span>{t.backToTop}</span>
-              <ArrowUp className="w-3.5 h-3.5" />
+              {t.book}
             </button>
           </div>
+
+          <nav aria-label={t.navigation} className="lg:col-span-3 lg:col-start-7">
+            <h4 className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.navigation}</h4>
+            <ul className="mt-4 text-sm">
+              {pages.map(page => (
+                <li key={page.href}>
+                  <a href={page.href} className={link}>{page.name}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="lg:col-span-3">
+            <h4 className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.salonHours}</h4>
+            <address className="mt-4 text-sm not-italic leading-relaxed text-neutral-600">
+              <p>Via XXIV Maggio 13/14<br />83038 Montemiletto (AV)</p>
+              <p className="mt-3">{t.hours}</p>
+              <ul className="mt-3">
+                <li><a href="tel:+393770293092" className={link}>+39 377 0293092</a></li>
+                <li><a href="tel:+390825968391" className={link}>0825 968391</a></li>
+                <li><a href="mailto:info@tonymusto.it" className={link}>info@tonymusto.it</a></li>
+                <li>
+                  <a href="https://www.instagram.com/tonymustoparrucchieri/" target="_blank" rel="noopener noreferrer" className={link}>
+                    Instagram
+                  </a>
+                </li>
+              </ul>
+            </address>
+          </div>
         </div>
 
+        <div className="mt-16 space-y-1 border-t border-neutral-200 pt-8 text-xs text-neutral-600">
+          <p>© {new Date().getFullYear()} Tony Musto srls. {t.rights}</p>
+          <p>
+            {t.vat} 09331041211 · PEC{' '}
+            <a href="mailto:tonymustoparrucchieri@pec.it" className="transition-colors hover:text-gold">
+              tonymustoparrucchieri@pec.it
+            </a>
+          </p>
+          <p className="flex flex-wrap gap-x-4">
+            {LEGAL_LINKS.map(({ key, href }) => (
+              <a key={key} href={href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-8 items-center transition-colors hover:text-gold">
+                {t.legal[key]}
+              </a>
+            ))}
+          </p>
+        </div>
       </div>
     </footer>
   );

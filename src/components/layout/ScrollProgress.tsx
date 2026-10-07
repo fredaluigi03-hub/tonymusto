@@ -4,7 +4,7 @@ import { ArrowUp } from 'lucide-react';
 import { useStrings } from '../../i18n/strings';
 import { footerStrings } from '../../i18n/footer';
 
-/** Gold reading-progress rail pinned to the top + a back-to-top button. */
+/** Thin gold reading-progress rail pinned to the top, plus a back-to-top button. */
 export const ScrollProgress: React.FC = () => {
   const t = useStrings(footerStrings);
   const { scrollYProgress } = useScroll();
@@ -22,22 +22,20 @@ export const ScrollProgress: React.FC = () => {
     <>
       <motion.div
         style={{ scaleX }}
-        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold-muted via-gold-bright to-gold origin-left z-[60] pointer-events-none"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-gold"
       />
 
       <AnimatePresence>
         {showTop && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.6, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.6, y: 20 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label={t.backToTop}
-            className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-neutral-950 text-gold border border-gold/40 shadow-lg hover:bg-gold hover:text-neutral-950 transition-colors"
+            className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-4 z-40 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-950 transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:bottom-6 sm:right-6"
           >
-            <ArrowUp className="w-5 h-5" />
+            <ArrowUp className="h-4 w-4" />
           </motion.button>
         )}
       </AnimatePresence>

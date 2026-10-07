@@ -4,12 +4,8 @@ import { defineStrings } from './strings';
 export const photosStrings = defineStrings({
   it: {
     badge: 'Photos & Shooting',
-    galleryTitle: "Un po' di noi...",
     galleryIntro:
       'Alcuni dei nostri lavori uniti alle nostre esperienze quotidiane in salone e durante i set fotografici.',
-    seeAll: (count: number) => `Vedi tutte le foto (${count})`,
-    hoverHint: 'Passa il mouse per rallentare il nastro',
-    back: 'Torna alla home',
     pageTitle: 'Tutte le nostre foto',
     pageIntro: (count: number) => `${count} scatti fra lavori in salone, set fotografici e acconciature sposa.`,
     captions: [
@@ -43,12 +39,8 @@ export const photosStrings = defineStrings({
   },
   en: {
     badge: 'Photos & Shooting',
-    galleryTitle: 'A little about us...',
     galleryIntro:
       'A selection of our work alongside our everyday life in the salon and on photo sets.',
-    seeAll: (count: number) => `View all photos (${count})`,
-    hoverHint: 'Hover to slow the ribbon down',
-    back: 'Back to home',
     pageTitle: 'All our photos',
     pageIntro: (count: number) => `${count} shots of salon work, photo sets and bridal hairstyles.`,
     captions: [
@@ -82,12 +74,8 @@ export const photosStrings = defineStrings({
   },
   fr: {
     badge: 'Photos & Shooting',
-    galleryTitle: 'Un peu de nous...',
     galleryIntro:
       'Quelques-unes de nos réalisations, mêlées à notre quotidien au salon et sur les plateaux photo.',
-    seeAll: (count: number) => `Voir toutes les photos (${count})`,
-    hoverHint: 'Survolez pour ralentir le défilement',
-    back: 'Retour à l’accueil',
     pageTitle: 'Toutes nos photos',
     pageIntro: (count: number) => `${count} clichés entre travaux au salon, plateaux photo et coiffures de mariée.`,
     captions: [
@@ -121,12 +109,8 @@ export const photosStrings = defineStrings({
   },
   es: {
     badge: 'Fotos & Shooting',
-    galleryTitle: 'Un poco de nosotros...',
     galleryIntro:
       'Algunos de nuestros trabajos, junto a nuestro día a día en el salón y en las sesiones fotográficas.',
-    seeAll: (count: number) => `Ver todas las fotos (${count})`,
-    hoverHint: 'Pasa el ratón para ralentizar la cinta',
-    back: 'Volver al inicio',
     pageTitle: 'Todas nuestras fotos',
     pageIntro: (count: number) => `${count} imágenes de trabajos en el salón, sesiones fotográficas y peinados de novia.`,
     captions: [
@@ -160,12 +144,8 @@ export const photosStrings = defineStrings({
   },
   de: {
     badge: 'Photos & Shooting',
-    galleryTitle: 'Ein wenig über uns...',
     galleryIntro:
       'Eine Auswahl unserer Arbeiten, dazu unser Alltag im Salon und bei Fotoshootings.',
-    seeAll: (count: number) => `Alle Fotos ansehen (${count})`,
-    hoverHint: 'Mit der Maus darüberfahren, um das Band zu verlangsamen',
-    back: 'Zurück zur Startseite',
     pageTitle: 'Alle unsere Fotos',
     pageIntro: (count: number) => `${count} Aufnahmen von Salonarbeiten, Fotoshootings und Brautfrisuren.`,
     captions: [

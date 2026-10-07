@@ -13,7 +13,6 @@ import {
 } from '../../i18n/careers';
 import {
   X,
-  Sparkles,
   ArrowRight,
   ArrowLeft,
   Upload,
@@ -126,21 +125,16 @@ export const CareersModal: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
           transition={{ duration: 0.3 }}
-          className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900"
+          className="relative w-full max-w-3xl bg-white border border-neutral-200 rounded-2xl shadow-2xl text-neutral-900"
         >
-          <div className="sticky top-0 z-30 rounded-t-3xl p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl border border-gold/40 flex items-center justify-center bg-white text-gold shadow-xs">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
-                  {t.title}
-                </h2>
-                <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
-                  Tony Musto · Montemiletto (AV)
-                </p>
-              </div>
+          <div className="sticky top-0 z-30 rounded-t-2xl p-4 sm:p-6 border-b border-neutral-200 bg-pearl-100 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="font-serif text-lg sm:text-2xl text-neutral-950 font-bold tracking-wide leading-tight">
+                {t.title}
+              </h2>
+              <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">
+                Tony Musto · Montemiletto (AV)
+              </p>
             </div>
             <button
               onClick={closeCareers}
@@ -439,7 +433,7 @@ export const CareersModal: React.FC = () => {
                             : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
                         }`}
                       >
-                        {t.submit} <Sparkles className="w-3.5 h-3.5" />
+                        {t.submit}
                       </motion.button>
                     </div>
                   </div>
@@ -498,10 +492,10 @@ export const CareersModal: React.FC = () => {
                           {t.hurry}
                         </span>
                         <a
-                          href="mailto:mustohairdresser@gmail.com"
+                          href="mailto:info@tonymusto.it"
                           className="flex items-center gap-2 text-neutral-700 hover:text-gold"
                         >
-                          <Mail className="w-3.5 h-3.5 text-gold" /> mustohairdresser@gmail.com
+                          <Mail className="w-3.5 h-3.5 text-gold" /> info@tonymusto.it
                         </a>
                         <a
                           href="https://api.whatsapp.com/send?phone=393770293092"

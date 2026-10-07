@@ -1,18 +1,3 @@
-export const awardsData: { id: string; year: string }[] = [
-  {
-    id: 'award-top-hairstylists',
-    year: '2023 - 2024'
-  },
-  {
-    id: 'award-green-salon',
-    year: '2022 - 2023'
-  },
-  {
-    id: 'award-wedding-excellence',
-    year: '2021 - 2022'
-  }
-];
-
 /** Le 49 foto dei riconoscimenti, prese da tonymusto.it/awards.
  *  w/h servono al layout a masonry: gli scatti sono misti verticali e orizzontali. */
 export const awardPhotos: { url: string; w: number; h: number }[] = [

@@ -27,8 +27,6 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => setMenuOpen(false), [route]);
-
   const links = [
     { name: t.links.services, href: ROUTES.boutique },
     { name: 'My Wedding Page', href: ROUTES.wedding },
@@ -131,6 +129,7 @@ export const Navbar: React.FC = () => {
                     key={link.href}
                     href={link.href}
                     aria-current={route === link.href ? 'page' : undefined}
+                    onClick={() => setMenuOpen(false)}
                     className="border-b border-neutral-100 py-3.5 font-serif text-xl text-neutral-800 transition-colors last:border-0 hover:text-gold aria-[current=page]:text-gold"
                   >
                     {link.name}

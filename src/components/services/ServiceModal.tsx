@@ -4,14 +4,7 @@ import { ServiceItem } from '../../types';
 import { useBooking } from '../../context/BookingContext';
 import { useStrings } from '../../i18n/strings';
 import { servicesStrings } from '../../i18n/services';
-import { 
-  X, 
-  Clock, 
-  Sparkles, 
-  Check, 
-  Calendar, 
-  Leaf 
-} from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ServiceModalProps {
   service: ServiceItem | null;
@@ -30,99 +23,70 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ service, onClose }) 
   };
 
   return (
-    <ModalOverlay onClose={onClose} className="bg-black/60 backdrop-blur-xs" label={service.name}>
-      <div className="relative w-full max-w-2xl bg-white border border-neutral-200 rounded-3xl shadow-2xl text-neutral-900">
-
+    <ModalOverlay onClose={onClose} className="bg-black/60" label={service.name}>
+      <div className="relative w-full max-w-2xl rounded-2xl bg-white text-neutral-950 shadow-2xl">
         {/* Close stays pinned while the panel scrolls: on a phone the panel is
             taller than the screen and no backdrop is left to tap. */}
         <div className="sticky top-0 z-40 h-0">
           <button
             onClick={onClose}
             aria-label={t.close}
-            className="absolute right-4 top-4 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-800 hover:text-gold transition-colors shadow-lg"
+            className="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white text-neutral-950 shadow-md transition-colors hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
-        <div className="relative h-60 sm:h-72 w-full overflow-hidden rounded-t-3xl bg-neutral-100">
-          <img
-            src={service.image}
-            alt={service.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent" />
-          
-
-          <div className="absolute bottom-4 left-6 right-6">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-gold bg-neutral-950/80 px-2.5 py-1 rounded-md font-bold">
-              {service.subtitle}
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl text-white font-bold mt-1.5">
-              {service.name}
-            </h2>
-          </div>
-        </div>
-        <div className="p-5 sm:p-8 space-y-6">
-          
-          <p className="text-sm text-neutral-600 font-light leading-relaxed">
-            {service.description}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {service.sensoryNotes && (
-              <div className="p-3.5 rounded-xl bg-pearl-100 border border-neutral-200 space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-gold font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> {t.notes}
-                </span>
-                <p className="text-xs text-neutral-700 italic">{service.sensoryNotes}</p>
-              </div>
-            )}
-
-            {service.botanicalHighlight && (
-              <div className="p-3.5 rounded-xl bg-pearl-100 border border-neutral-200 space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-gold font-bold flex items-center gap-1.5">
-                  <Leaf className="w-3.5 h-3.5" /> {t.botanical}
-                </span>
-                <p className="text-xs text-neutral-700">{service.botanicalHighlight}</p>
-              </div>
-            )}
-          </div>
+        <img src={service.image} alt={service.name} className="h-60 w-full rounded-t-2xl object-cover sm:h-72" />
+        <div className="space-y-8 p-6 sm:p-10">
           <div>
-            <h4 className="font-serif text-sm text-neutral-900 font-bold uppercase tracking-wider mb-3">
-              {t.includes}
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              {service.features.map((feat, i) => (
-                <div key={i} className="flex items-center gap-2 text-neutral-700">
-                  <span className="w-4 h-4 rounded-full bg-gold/15 text-gold flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 stroke-[3]" />
-                  </span>
-                  <span>{feat}</span>
-                </div>
-              ))}
-            </div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{service.subtitle}</p>
+            <h2 className="mt-3 font-serif text-3xl font-normal tracking-tight sm:text-4xl">{service.name}</h2>
+            <p className="mt-4 font-light leading-relaxed text-neutral-600">{service.description}</p>
           </div>
-          <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-1 text-xs text-neutral-500 font-medium">
-                <Clock className="w-3.5 h-3.5 text-gold" />
-                <span>{t.duration} {service.duration}</span>
-              </div>
-              <span className="font-serif text-2xl font-bold text-neutral-950 mt-0.5 block">
-                {service.price}
-              </span>
-            </div>
 
+          {(service.sensoryNotes || service.botanicalHighlight) && (
+            <dl className="space-y-4 border-t border-neutral-200 pt-6 text-sm">
+              {service.sensoryNotes && (
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.3em] text-gold">{t.notes}</dt>
+                  <dd className="mt-1 font-light text-neutral-600">{service.sensoryNotes}</dd>
+                </div>
+              )}
+              {service.botanicalHighlight && (
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.3em] text-gold">{t.botanical}</dt>
+                  <dd className="mt-1 font-light text-neutral-600">{service.botanicalHighlight}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+
+          <div className="border-t border-neutral-200 pt-6">
+            <h3 className="text-[11px] uppercase tracking-[0.3em] text-gold">{t.includes}</h3>
+            <ul className="mt-4 space-y-2 text-sm font-light text-neutral-600">
+              {service.features.map(feature => (
+                <li key={feature} className="border-l border-gold pl-3">
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-5 border-t border-neutral-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-serif text-2xl">{service.price}</p>
+              <p className="mt-1 text-sm font-light text-neutral-600">
+                {t.duration} {service.duration}
+              </p>
+            </div>
             <button
               onClick={handleBook}
-              className="w-full sm:w-auto px-7 py-3.5 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest rounded-md shadow-xs transition-colors flex items-center justify-center gap-2"
+              className="min-h-11 cursor-pointer rounded-full bg-neutral-950 px-8 text-sm font-medium text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             >
-              <Calendar className="w-4 h-4 text-gold group-hover:text-neutral-950" />
-              <span>{t.book}</span>
+              {t.book}
             </button>
           </div>
-
         </div>
-
       </div>
     </ModalOverlay>
   );

@@ -1,193 +1,96 @@
-import React, { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { Reveal } from '../common/Reveal';
+import { StackingBlock } from '../common/StackingBlock';
 import { useBooking } from '../../context/BookingContext';
-import { Reveal, useParallax, REVEAL_VIEWPORT } from '../common/Reveal';
-import { Calendar, Crown, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { useStrings } from '../../i18n/strings';
 import { bridalStrings } from '../../i18n/bridal';
 
-/** Real bride photos from tonymusto.it/my-wedding-page/ */
-const bridePhotos = [
-  {
-    src: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_1243-2-768x1024.jpeg',
-  },
-  {
-    src: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2596-1-scaled.jpeg',
-  },
-  {
-    src: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_2736-1-scaled.jpeg',
-  },
-  {
-    src: 'https://tonymusto.it/wp-content/uploads/2024/03/IMG_7563-2-scaled.jpg',
-  },
-];
+const uploads = 'https://tonymusto.it/wp-content/uploads/2024/03';
 
-const bridalSteps = ['01', '02', '03', '04'];
+const stepPhotos = [
+  `${uploads}/IMG_0874-2-1-1024x1024.jpeg`,
+  `${uploads}/IMG_1243-2-768x1024.jpeg`,
+  `${uploads}/IMG_2054-1024x1024.jpeg`,
+];
+const bigDayPhoto = `${uploads}/IMG_2525-2-1024x1024.jpeg`;
+const galleryPhotos = [
+  `${uploads}/IMG_2596-1-1024x1024.jpeg`,
+  `${uploads}/IMG_2736-1-1024x1024.jpeg`,
+  `${uploads}/IMG_7563-2-1024x1024.jpg`,
+];
 
 export const BridalSection: React.FC = () => {
   const { openBooking } = useBooking();
-  const [photoIndex, setPhotoIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const bgY = useParallax(sectionRef, 70);
   const t = useStrings(bridalStrings);
 
-  const go = (dir: 1 | -1) =>
-    setPhotoIndex(i => (i + dir + bridePhotos.length) % bridePhotos.length);
-
-  const photo = bridePhotos[photoIndex];
-  const caption = t.captions[photoIndex];
-
   return (
-    <section
-      id="spose"
-      ref={sectionRef}
-      className="py-24 relative overflow-hidden border-b border-neutral-200 isolate"
-    >
-      {/* Blurred resort backdrop: pool + lawn, drifting on scroll */}
-      <motion.div style={{ y: bgY }} className="absolute -inset-y-24 inset-x-0 -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1920&q=70"
-          alt=""
-          aria-hidden="true"
-          className="w-full h-full object-cover blur-[7px] scale-110"
-        />
-      </motion.div>
-      {/* Wash so the white cards stay readable over the photo */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-pearl-100/92 via-white/86 to-pearl-100/94" />
-      <div className="absolute inset-0 -z-10 bg-gold/5" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <Reveal className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gold/40 text-gold text-xs uppercase tracking-[0.2em] font-bold shadow-2xs">
-            <Crown className="w-3.5 h-3.5" />
-            <span>My Wedding Page</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-950 tracking-tight">
-            {t.heading}
-          </h2>
-          <p className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed max-w-2xl mx-auto">
-            {t.intro}
-          </p>
-        </Reveal>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <Reveal direction="right" className="lg:col-span-6">
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-white/70 shadow-luxury-card relative bg-white/80 backdrop-blur-sm group p-2 sm:p-2.5">
-              <div className="w-full h-full rounded-2xl overflow-hidden relative bg-pearl-200">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={photo.src}
-                    src={photo.src}
-                    alt={caption}
-                    draggable={false}
-                    initial={{ opacity: 0, scale: 1.06 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute inset-0 w-full h-full object-cover object-top"
-                  />
-                </AnimatePresence>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  aria-label={t.previous}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-opacity shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  aria-label={t.next}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-neutral-800 hover:text-gold transition-opacity shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3.5 sm:p-5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 shadow-md space-y-1">
-                  <span className="text-[11px] uppercase font-mono tracking-widest text-gold font-bold">
-                    {t.brides} · {photoIndex + 1}/{bridePhotos.length}
-                  </span>
-                  <AnimatePresence mode="wait">
-                    <motion.h3
-                      key={caption}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.3 }}
-                      className="font-serif text-base sm:text-lg font-bold text-neutral-950"
-                    >
-                      {caption}
-                    </motion.h3>
-                  </AnimatePresence>
-                  <p className="text-xs text-neutral-600">
-                    {t.availability}
-                  </p>
-
-                  <div className="flex items-center gap-1.5 pt-2">
-                    {bridePhotos.map((p, i) => (
-                      <button
-                        key={p.src}
-                        type="button"
-                        onClick={() => setPhotoIndex(i)}
-                        aria-label={t.goTo(i + 1)}
-                        className="py-2.5 -my-2.5 px-2.5 -mx-1 flex items-center group/dot"
-                      >
-                        <span
-                          className={`block h-1.5 rounded-full transition-all duration-300 ${
-                            i === photoIndex
-                              ? 'w-7 bg-gold'
-                              : 'w-1.5 bg-neutral-300 group-hover/dot:bg-gold/50'
-                          }`}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+    <>
+      <StackingBlock className="bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+          <Reveal>
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.servicesKicker}</p>
           </Reveal>
-          <Reveal direction="left" className="lg:col-span-6 space-y-5">
-            <h3 className="font-serif text-2xl font-bold text-neutral-900 tracking-wide pb-2 border-b border-neutral-300/70 flex items-center gap-2">
-              <Heart className="w-5 h-5 text-gold" />
-              {t.journey}
-            </h3>
+          <ol className="mt-12 space-y-20 sm:space-y-28">
+            {t.steps.map((step, index) => (
+              <Reveal as="li" key={step.title} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+                <img
+                  src={stepPhotos[index]}
+                  alt={step.alt}
+                  loading="lazy"
+                  className={`aspect-[4/5] w-full rounded-2xl object-cover ${index % 2 ? 'lg:order-2' : ''}`}
+                />
+                <div>
+                  <p className="font-serif text-5xl font-normal text-gold">{`0${index + 1}`}</p>
+                  <h2 className="mt-4 font-serif text-3xl font-normal tracking-tight text-neutral-950 sm:text-4xl">
+                    {step.title}
+                  </h2>
+                  <p className="mt-4 max-w-lg font-light leading-relaxed text-neutral-600">{step.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </StackingBlock>
 
-            <div className="space-y-3.5">
-              {bridalSteps.map((step, idx) => (
-                <motion.div
-                  key={step}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={REVEAL_VIEWPORT}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  whileHover={{ x: 8 }}
-                  className="p-5 rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 hover:border-gold/60 transition-colors flex items-start gap-4 shadow-2xs"
-                >
-                  <span className="font-mono text-2xl font-bold text-gold shrink-0">{step}</span>
-                  <div>
-                    <h4 className="font-serif text-base font-bold text-neutral-950">{t.steps[idx].title}</h4>
-                    <p className="text-xs text-neutral-600 font-light mt-1 leading-relaxed">{t.steps[idx].desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="pt-2">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => openBooking('bridal-atelier-experience')}
-                className="w-full sm:w-auto px-8 py-4 bg-neutral-950 hover:bg-gold text-white hover:text-neutral-950 font-bold text-xs uppercase tracking-widest transition-colors rounded-md shadow-md flex items-center justify-center gap-2"
-              >
-                <Calendar className="w-4 h-4" />
-                <span>{t.cta}</span>
-              </motion.button>
-            </div>
+      <StackingBlock className="bg-neutral-950 text-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 sm:py-32 lg:grid-cols-2 lg:gap-16 lg:px-8">
+          <Reveal>
+            <h2 className="font-serif text-4xl font-normal tracking-tight sm:text-5xl">{t.bigDayTitle}</h2>
+            <p className="mt-6 max-w-lg font-light leading-relaxed text-neutral-300">{t.bigDayText}</p>
+          </Reveal>
+          <Reveal>
+            <img
+              src={bigDayPhoto}
+              alt={t.bigDayAlt}
+              loading="lazy"
+              className="aspect-[4/5] w-full rounded-2xl object-cover"
+            />
           </Reveal>
         </div>
-      </div>
-    </section>
+      </StackingBlock>
+
+      <StackingBlock className="bg-pearl-100">
+        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {galleryPhotos.map(src => (
+              <Reveal key={src}>
+                <img src={src} alt={t.galleryAlt} loading="lazy" className="aspect-[4/5] w-full rounded-2xl object-cover" />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mx-auto mt-20 max-w-2xl text-center">
+            <p className="font-serif text-2xl font-normal leading-snug tracking-tight text-neutral-950 sm:text-3xl">
+              {t.closing}
+            </p>
+            <button
+              onClick={() => openBooking('bridal-atelier-experience')}
+              className="mt-10 min-h-11 cursor-pointer rounded-full bg-neutral-950 px-8 text-sm font-medium text-white transition-colors hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              {t.cta}
+            </button>
+          </Reveal>
+        </div>
+      </StackingBlock>
+    </>
   );
 };

@@ -8,7 +8,6 @@ export const navbarStrings = defineStrings({
     cart: 'Carrello',
     language: 'Lingua',
     book: 'Prenota Online',
-    bookLong: 'Prenota Appuntamento in Salone',
     menu: 'Menu di navigazione',
   },
   en: {
@@ -18,7 +17,6 @@ export const navbarStrings = defineStrings({
     cart: 'Shopping bag',
     language: 'Language',
     book: 'Book Online',
-    bookLong: 'Book an Appointment',
     menu: 'Navigation menu',
   },
   fr: {
@@ -28,7 +26,6 @@ export const navbarStrings = defineStrings({
     cart: 'Panier',
     language: 'Langue',
     book: 'Réserver',
-    bookLong: 'Prendre rendez-vous au salon',
     menu: 'Menu de navigation',
   },
   es: {
@@ -38,7 +35,6 @@ export const navbarStrings = defineStrings({
     cart: 'Carrito',
     language: 'Idioma',
     book: 'Reservar',
-    bookLong: 'Reservar cita en el salón',
     menu: 'Menú de navegación',
   },
   de: {
@@ -48,7 +44,6 @@ export const navbarStrings = defineStrings({
     cart: 'Warenkorb',
     language: 'Sprache',
     book: 'Online buchen',
-    bookLong: 'Termin im Salon buchen',
     menu: 'Navigationsmenü',
   },
 });
