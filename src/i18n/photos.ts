@@ -3,6 +3,8 @@ import { defineStrings } from './strings';
 /** captions follow the order of `shots` in data/photosData.ts */
 export const photosStrings = defineStrings({
   it: {
+    galleryTitle: 'Dal salone e dal set',
+    seeAll: 'Tutte le foto',
     badge: 'Photos & Shooting',
     galleryIntro:
       'Alcuni dei nostri lavori uniti alle nostre esperienze quotidiane in salone e durante i set fotografici.',
@@ -38,6 +40,8 @@ export const photosStrings = defineStrings({
     ],
   },
   en: {
+    galleryTitle: 'From the salon and the set',
+    seeAll: 'All photos',
     badge: 'Photos & Shooting',
     galleryIntro:
       'A selection of our work alongside our everyday life in the salon and on photo sets.',
@@ -73,6 +77,8 @@ export const photosStrings = defineStrings({
     ],
   },
   fr: {
+    galleryTitle: 'Du salon au plateau',
+    seeAll: 'Toutes les photos',
     badge: 'Photos & Shooting',
     galleryIntro:
       'Quelques-unes de nos réalisations, mêlées à notre quotidien au salon et sur les plateaux photo.',
@@ -108,6 +114,8 @@ export const photosStrings = defineStrings({
     ],
   },
   es: {
+    galleryTitle: 'Del salón al set',
+    seeAll: 'Todas las fotos',
     badge: 'Fotos & Shooting',
     galleryIntro:
       'Algunos de nuestros trabajos, junto a nuestro día a día en el salón y en las sesiones fotográficas.',
@@ -143,6 +151,8 @@ export const photosStrings = defineStrings({
     ],
   },
   de: {
+    galleryTitle: 'Aus dem Salon und vom Set',
+    seeAll: 'Alle Fotos',
     badge: 'Photos & Shooting',
     galleryIntro:
       'Eine Auswahl unserer Arbeiten, dazu unser Alltag im Salon und bei Fotoshootings.',
