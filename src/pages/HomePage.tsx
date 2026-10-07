@@ -25,7 +25,7 @@ export const HomePage: React.FC = () => (
     <StackingBlock id="shop" className="flex items-center bg-pearl-100">
       <ShopSection />
     </StackingBlock>
-    <StackingBlock id="awards" className="flex items-center bg-pearl-100">
+    <StackingBlock id="awards" className="flex items-center bg-white">
       <AwardsStrip />
     </StackingBlock>
     <StackingBlock id="contatti" className="flex items-center bg-neutral-950 text-white">
