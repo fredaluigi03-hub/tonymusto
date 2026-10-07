@@ -21,7 +21,8 @@
 
   --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
   --font-display: "Cormorant Garamond", "Playfair Display", serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-script: "Qwitcher Grypen", cursive;
+  --font-sans: "Roboto", system-ui, -apple-system, sans-serif;
 }
 
 /* In @layer base cosi le utility Tailwind (es. text-white) vincono sui default */

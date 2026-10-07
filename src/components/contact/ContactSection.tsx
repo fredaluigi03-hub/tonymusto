@@ -20,7 +20,7 @@ export const ContactSection: React.FC = () => {
     <div className="mx-auto w-full max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
       <Reveal className="max-w-2xl">
         <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold">{t.kicker}</p>
-        <h2 className="mt-4 font-serif text-3xl font-normal leading-tight tracking-tight sm:text-5xl">
+        <h2 className="mt-6 font-serif text-5xl font-normal leading-[1.02] tracking-tight sm:text-7xl">
           {contact.section.title}
         </h2>
       </Reveal>

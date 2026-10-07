@@ -55,7 +55,7 @@ export const ServicesRail: React.FC = () => {
         <div className="mx-auto mb-10 flex w-full max-w-7xl items-end justify-between gap-6 px-6 lg:px-8">
           <div>
             <p className="text-[11px] uppercase tracking-[0.3em] text-gold-bright">{t.kicker}</p>
-            <h2 className="mt-3 text-white font-serif text-4xl font-normal tracking-tight sm:text-5xl">{t.title}</h2>
+            <h2 className="mt-3 text-white font-serif text-5xl font-normal leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl">{t.title}</h2>
           </div>
           <div className="hidden text-right sm:block">
             <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-400">{t.hint}</span>
